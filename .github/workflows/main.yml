@@ -36,5 +36,5 @@ jobs:
 
       - name: Sync files to S3
         run: |
-          aws s3 sync build s3://stocklens-ui \
+          aws s3 sync ./dist/stock-lens-ui/browser s3://stocklens-ui \
             --delete

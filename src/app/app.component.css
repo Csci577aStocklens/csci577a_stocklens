@@ -1,0 +1,38 @@
+.nav navbar-nav #ac{
+    border-color: black;
+    border-radius: 15px;
+    color: transparent;
+    border-top: 8px;
+    border:thick solid #0000FF
+}
+.active-button {
+    border: 1px solid white;
+    border-radius: 10px;
+    background-color: dark;
+}
+ 
+.st{
+    text-align: center;
+}
+.navbar-nav {
+    gap:15px;
+    flex-direction: row;
+    margin-bottom: 8px;
+    margin-top: 8px;
+}
+.sbar{
+    position: absolute;
+    left: 39%;
+    top:20%;
+    outline: none;
+    padding-top: 0.05in;
+    text-align: center;
+    border-color: #131273;
+    border-width: 3px;
+    border-radius: 35px;
+    border-style: solid;
+    width: fit-content;
+    padding-left: 0.2in;
+    padding-right: 0.2in;
+    height: 40px;
+}

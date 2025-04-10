@@ -1,0 +1,117 @@
+.nav navbar-nav #ac{
+    border-color: black;
+    border-radius: 15px;
+    color: transparent;
+    border-top: 8px;
+    border:thick solid #0000FF
+}
+.st{
+    text-align: center;
+}
+.sbar{
+    position: absolute;
+    left: 39%;
+    top:20%;
+    outline: none;
+    padding-top: 0.05in;
+    text-align: center;
+    border-color: #131273;
+    border-width: 3px;
+    border-radius: 35px;
+    border-style: solid;
+    width: fit-content;
+    padding-left: 0.2in;
+    padding-right: 0.2in;
+    height: 40px;
+}
+
+::ng-deep .cdk-overlay-pane{
+    position: absolute;
+    left: 39%;
+    top:20%;
+}
+::ng-deep mat-spinner{
+    position: absolute;
+    left: 40%;
+    top:20%;
+    width:45px;
+    height:45px;
+}
+.log{
+    position: absolute;
+    left: 48%;
+    top:30%;
+    width:100px;
+    height:100px; 
+}
+.lg{
+    width:100px;
+    height:100px; 
+}
+.leftP{
+    text-align: center;
+    position: absolute;
+    left: 25%;
+    top:30%;
+    width:240px;
+    height:240px; 
+}
+.rightP{
+    text-align: center;
+    position: absolute;
+    left: 64%;
+    top:30%;
+    width:240px;
+    height:240px; 
+}
+
+.mrk{
+    position: absolute;
+    left: 48%;
+    top:45%;   
+}
+
+.tabs{
+    background-color: transparent;
+         
+}
+
+
+.tabs button{
+    font-size: 18px;
+    background-color: transparent;
+    border-width: 0;
+    }
+.tabs button:hover {
+        color:#dddddd;
+        transition: 0.2s;
+
+    }
+.tabs button:focus {
+        background-color:transparent;
+        transition: 0.1s;
+        color: #0000FF;
+        border-bottom-width: 1px;
+        border-bottom-color: #0000FF;
+}
+    
+
+.tbl{
+    width: 38%;
+    position:absolute;
+    top:63%;
+    left:38%;
+    border-collapse: collapse;
+    font-family: sans-serif;
+    text-align: center;
+}
+
+.tbl tr {
+    border-bottom: 1px solid; 
+    border-color: #cccccc;
+    padding: 4px;
+}
+.tbl td{
+    border: none; /* or border: 0; */
+    padding: 4px;
+}

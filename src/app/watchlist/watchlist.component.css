@@ -1,0 +1,10 @@
+.heading{
+    position: absolute;
+    left: 22%;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.modal {
+    z-index: 1050; /* Adjust the value accordingly */
+  }

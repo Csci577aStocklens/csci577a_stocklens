@@ -18,6 +18,7 @@ import { PortfolioComponent } from './portfolio/portfolio.component';
 //import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ShareddataService } from './shareddata.service';
+import { ChatComponent } from './chat/chat.component';
 
 
 const appRoutes: Routes = [
@@ -37,7 +38,8 @@ const appRoutes: Routes = [
     SearchComponent,
     DetailsComponent,
     WatchlistComponent,
-    PortfolioComponent
+    PortfolioComponent,
+    ChatComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

@@ -1,3 +1,16 @@
+body {
+  background-color: #F8F9FA;
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-container {
+  margin-top: 2rem;
+  flex: 1;
+}
+
 .nav navbar-nav #ac{
     border-color: black;
     border-radius: 15px;
@@ -6,9 +19,7 @@
     border:thick solid #0000FF
 }
 .active-button {
-    border: 1px solid white;
-    border-radius: 10px;
-    background-color: dark;
+    color: #60a5fa !important;
 }
  
 .st{
@@ -36,3 +47,4 @@
     padding-right: 0.2in;
     height: 40px;
 }
+

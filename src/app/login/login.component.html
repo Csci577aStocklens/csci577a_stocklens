@@ -1,0 +1,68 @@
+<div class="login-container">
+    <div class="login-header">
+      <h1>StockLens</h1>
+      <div class="header-links">
+        <a href="#">Search</a>
+        <a href="#">Contact</a>
+        <div class="user-icon">
+          <div class="circle"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="login-form-container">
+      <h2>{{ isSignUp ? 'Sign Up' : 'Login' }}</h2>
+      
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input type="text" id="username" formControlName="username">
+          <div *ngIf="usernameInvalid" class="error-message">
+            Username is required
+          </div>
+        </div>
+        
+        <div class="form-group" *ngIf="isSignUp">
+          <label for="email">Email:</label>
+          <input type="email" id="email" formControlName="email">
+          <div *ngIf="emailInvalid" class="error-message">
+            Please enter a valid email address
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" formControlName="password">
+          <div *ngIf="passwordInvalid" class="error-message">
+            Password must be at least 6 characters
+          </div>
+        </div>
+        
+        <div class="form-group" *ngIf="isSignUp">
+          <label for="confirmPassword">Confirm Password:</label>
+          <input type="password" id="confirmPassword" formControlName="confirmPassword">
+          <div *ngIf="confirmPasswordInvalid" class="error-message">
+            Passwords do not match
+          </div>
+        </div>
+        
+        <div *ngIf="errorMessage" class="alert-error">
+          {{ errorMessage }}
+        </div>
+        
+        <button type="submit" class="login-button" [disabled]="isLoading">
+          <span *ngIf="!isLoading">{{ isSignUp ? 'Sign Up' : 'Login' }}</span>
+          <span *ngIf="isLoading">Please wait...</span>
+        </button>
+      </form>
+      
+      <div class="form-toggle">
+        <p>
+          {{ isSignUp ? 'Already have an account?' : 'Don\'t have an account?' }}
+          <a href="javascript:void(0)" (click)="toggleForm()">
+            {{ isSignUp ? 'Login' : 'Sign Up' }}
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>

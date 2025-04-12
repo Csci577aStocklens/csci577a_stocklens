@@ -74,13 +74,12 @@ export class LoginComponent {
           next: () => {
             this.isLoading = false;
             // Redirect to dashboard after successful login
-            window.location.href = `/app/search?username=${encodeURIComponent(username)}`;
-            //this.router.navigate(['/dashboard']);
+            this.router.navigate(['/search']);
           },
           error: (error) => {
             this.isLoading = false;
             this.errorMessage = error.error.message || 'Login failed';
-          } 
+          }
         });
       }
     } else {

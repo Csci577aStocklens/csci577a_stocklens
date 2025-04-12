@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">   -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./app.component.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+ <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>-->
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  </head>
+  <body>
+
+  <!--Source : https://getbootstrap.com/docs/4.0/components/navbar/#nav-->
+  <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #2324aa;padding-left:0.5in;padding-right:0.5in;font-size:15px;width:100%"> <!--style="background-color: #2324aa;padding-left:0.5in;padding-right:0.5in;font-size:15px;width:100%"-->
+   
+    <div class="container-fluid">
+      <a  class="navbar-brand ps-4" href="">Stock Search</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="mynavbar"> <!--Source : https://getbootstrap.com/docs/4.0/components/navbar/#supported-content-->
+        <ul class="navbar-nav ms-auto pe-4 gap-3 flex-column flex-sm-row" > <!--Source : https://stackoverflow.com/questions/63948287/bootstrap-5-navbar-align-items-right-->
+          <li class="nav-item " style="width: 100%; text-align:left"><!--Source : https://stackoverflow.com/questions/44165102/angular-toggling-the-active-class-on-only-the-currently-clicked-button-->
+            <button style="width: 100%;text-align:left" class="nav-link ps-1"  id="search" (click)="button('srch')" [ngClass]="{'active-button': clickedbutton === 'srch'}">Search</button>
+          </li>
+          <li class="nav-item " style="width: 100%;text-align:left"><!--Source : https://stackoverflow.com/questions/44165102/angular-toggling-the-active-class-on-only-the-currently-clicked-button-->
+            <button style="width: 100%;text-align:left" class="nav-link ps-1" id="watchlist" (click)="button('wchlst')" [ngClass]="{'active-button': clickedbutton === 'wchlst'}">Watchlist</button>
+          </li>
+          <li class="nav-item " style="width: 100%;text-align:left"><!--Source : https://stackoverflow.com/questions/44165102/angular-toggling-the-active-class-on-only-the-currently-clicked-button-->
+            <button style="width: 100%;text-align:left" class="nav-link ps-1" id="portfolio" (click)="button('prtfl')" [ngClass]="{'active-button': clickedbutton === 'prtfl'}">Portfolio</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container" > <!--Source : https://stackoverflow.com/questions/49669654/angular-5-nghide-ngshow-hidden-not-working-->
+    <app-search [hidden]="showwhatcomp!=1"></app-search>
+    <app-watchlist [hidden]="showwhatcomp!=2" (wtchlstcall)="wtchlstcall($event)"></app-watchlist><!--  // Source : https://angular.io/api/core/EventEmitter
+      // Source : https://stackoverflow.com/questions/46489081/emit-search-input-value-to-child-components-in-angular-2
+      // Source : https://github.com/angular/angular/issues/9717
+      // Source : https://ultimatecourses.com/blog/component-events-event-emitter-output-angular-2-->
+    <app-portfolio [hidden]="showwhatcomp!=3" (wtchlstcall)="wtchlstcall($event)"></app-portfolio>
+  </div>
+
+<!-- <app-search></app-search>
+ <div class= "container">
+  <router-outlet></router-outlet>
+</div>-->
+
+
+<br/>
+<br/><br/><br/>
+
+
+ <footer class="bg-light" style="position: fixed; bottom:0;width: 100%;">
+  
+  <div class="container text-center" style="padding:1%">
+    <b>Powered by </b><a href="https://finnhub.io/" target="_blank">Finnhub.io</a>
+  </div>
+</footer>
+
+  </body>
+
+</html>
+
+-->

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - StockLens</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .toggle-form {
+            text-align: center;
+            color: #666;
+        }
+        .toggle-form a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .error-message {
+            color: red;
+            margin-bottom: 1rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="loginForm">
+            <h2>Login to StockLens</h2>
+            <div class="error-message" id="loginError"></div>
+            <div class="form-group">
+                <label for="loginEmail">Email</label>
+                <input type="email" id="loginEmail" required>
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" required>
+            </div>
+            <button onclick="login()">Login</button>
+            <div class="toggle-form">
+                Don't have an account? <a href="#" onclick="toggleForms()">Sign up</a>
+            </div>
+        </div>
+
+        <div id="signupForm" style="display: none;">
+            <h2>Create Account</h2>
+            <div class="error-message" id="signupError"></div>
+            <div class="form-group">
+                <label for="signupName">Name</label>
+                <input type="text" id="signupName" required>
+            </div>
+            <div class="form-group">
+                <label for="signupEmail">Email</label>
+                <input type="email" id="signupEmail" required>
+            </div>
+            <div class="form-group">
+                <label for="signupPassword">Password</label>
+                <input type="password" id="signupPassword" required>
+            </div>
+            <button onclick="signup()">Sign Up</button>
+            <div class="toggle-form">
+                Already have an account? <a href="#" onclick="toggleForms()">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to get user data from cookie
+        function getUserData() {
+            const userDataCookie = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('userData='));
+            if (userDataCookie) {
+                return JSON.parse(decodeURIComponent(userDataCookie.split('=')[1]));
+            }
+            return null;
+        }
+
+        // Function to check if user is already logged in
+        function checkLoggedIn() {
+            const userData = getUserData();
+            if (userData) {
+                // User is logged in, redirect to home page
+                window.location.href = '/';
+            }
+        }
+
+        // Check login status when page loads
+        checkLoggedIn();
+
+        function toggleForms() {
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            if (loginForm.style.display === 'none') {
+                loginForm.style.display = 'block';
+                signupForm.style.display = 'none';
+            } else {
+                loginForm.style.display = 'none';
+                signupForm.style.display = 'block';
+            }
+            // Clear error messages
+            document.getElementById('loginError').style.display = 'none';
+            document.getElementById('signupError').style.display = 'none';
+        }
+
+        async function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                const errorDiv = document.getElementById('loginError');
+                errorDiv.textContent = 'Email and password are required';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    // Redirect to home page after successful login
+                    window.location.href = '/';
+                } else {
+                    const errorDiv = document.getElementById('loginError');
+                    errorDiv.textContent = data.message || 'Login failed';
+                    errorDiv.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                const errorDiv = document.getElementById('loginError');
+                errorDiv.textContent = 'An error occurred. Please try again.';
+                errorDiv.style.display = 'block';
+            }
+        }
+
+        async function signup() {
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            
+            if (!email || !password) {
+                const errorDiv = document.getElementById('signupError');
+                errorDiv.textContent = 'Email and password are required';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, email, password })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    // Switch to login form after successful signup
+                    toggleForms();
+                    const loginError = document.getElementById('loginError');
+                    loginError.textContent = 'Account created successfully. Please login.';
+                    loginError.style.display = 'block';
+                    loginError.style.color = 'green';
+                } else {
+                    const errorDiv = document.getElementById('signupError');
+                    errorDiv.textContent = data.message || 'Signup failed';
+                    errorDiv.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Signup error:', error);
+                const errorDiv = document.getElementById('signupError');
+                errorDiv.textContent = 'An error occurred. Please try again.';
+                errorDiv.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html> 

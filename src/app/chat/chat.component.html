@@ -3,10 +3,19 @@
     <h2>AI Chat Assistant</h2>
   </div>
   <div class="chat-messages">
-    <!-- Messages will go here -->
+    <!-- Loop through chatMessages to display each message -->
+    <div *ngFor="let message of chatMessages" [ngClass]="{'user-message': message.role === 'user', 'assistant-message': message.role === 'assistant'}">
+      <p>{{ message.content }}</p>
+    </div>
   </div>
   <div class="chat-input">
-    <input type="text" placeholder="Type your message..." class="message-input">
-    <button class="send-button">Send</button>
+    <input 
+      type="text" 
+      placeholder="Type your message..." 
+      class="message-input" 
+      [(ngModel)]="userMessage" 
+      (keyup.enter)="sendMessage()"
+    >
+    <button class="send-button" (click)="sendMessage()">Send</button>
   </div>
 </div>

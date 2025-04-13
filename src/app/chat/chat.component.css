@@ -1,56 +1,82 @@
+/* General Chat Container Styling */
 .chat-container {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 150px);
-  background-color: #ffffff;
+  height: 75vh; /* Further reduced height */
+  width: 100%; /* Full screen width */
+  max-width: 100%; /* Prevents unnecessary shrinking */
+  margin: 0 auto;
+  border: 1px solid #ccc;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
 .chat-header {
-  padding: 16px;
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #e9ecef;
-  border-radius: 8px 8px 0 0;
-}
-
-.chat-header h2 {
-  margin: 0;
-  color: #27303b;
-  font-size: 1.25rem;
+  background-color: #131273;
+  color: white;
+  padding: 10px;
+  text-align: center;
 }
 
 .chat-messages {
   flex: 1;
-  padding: 16px;
+  padding: 10px;
   overflow-y: auto;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Adds spacing between messages */
 }
 
+/* User Message Styling (Right Side) */
+.user-message {
+  align-self: flex-end; /* Aligns the message to the right */
+  background-color: #d1e7dd;
+  color: #000;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 15px;
+  max-width: 60%; /* Limits the width of the message */
+  text-align: right;
+}
+
+/* Assistant Message Styling (Left Side) */
+.assistant-message {
+  align-self: flex-start; /* Aligns the message to the left */
+  background-color: #f8d7da;
+  color: #000;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 15px;
+  max-width: 60%; /* Limits the width of the message */
+  text-align: left;
+}
+
+/* Chat Input Styling */
 .chat-input {
   display: flex;
-  padding: 16px;
-  border-top: 1px solid #e9ecef;
-  gap: 8px;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  background-color: #fff;
 }
 
 .message-input {
   flex: 1;
-  padding: 8px 12px;
-  border: 1px solid #ced4da;
+  padding: 10px;
+  border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 1rem;
 }
 
 .send-button {
-  padding: 8px 16px;
-  background-color: #27303b;
+  margin-left: 10px;
+  padding: 10px 20px;
+  background-color: #131273;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-weight: 500;
 }
 
 .send-button:hover {
-  background-color: #1a1f25;
+  background-color: #0f0f5c;
 }

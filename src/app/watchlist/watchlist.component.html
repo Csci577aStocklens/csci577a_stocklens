@@ -1,49 +1,64 @@
-  
+<!-- Spinner shown while loading -->
+<div *ngIf="!watch">
+  <div class="d-flex justify-content-center align-items-center vh-100">
+    <mat-spinner diameter="38"></mat-spinner>
+  </div>
+</div>
 
+<!-- Watchlist container -->
 <div *ngIf="watch">
-
-<div *ngIf="empty==1">
-  <div class="alert alert-warning" role="alert" style="position:absolute;left:25%;top: 40%;width: 50%;text-align:center">
-   Currently you don't have any stocks.
-  </div>
-  
+  <!-- Empty message -->
+  <div *ngIf="empty === 1" class="alert alert-warning text-center mx-auto mt-5" style="max-width: 500px;">
+    You don’t have any stocks in your watchlist.
   </div>
 
-<!--source : https://getbootstrap.com/docs/4.0/components/card/ -->  
-<div class="container">
-<div style="position:absolute;left:22%;width:70%;padding-bottom:100px;">
-  <p class="ms-2" style="font-size: 25px;font-weight: bold;">My Watchlist</p>
-  <div class="container pt-1 mt-1">
-  <div class="card mt-3 " *ngFor="let item of watch;let i = index"> <!--source : https://getbootstrap.com/docs/4.3/layout/grid/ -->  
-    <div class="card-body pt-1 pb-0" ><!--source : https://getbootstrap.com/docs/4.0/components/card/ -->  
-      <button type="button" style="height: 15px;width:15px;background-color:transparent;border: none;" (click)="delete(item.ticker)">
-        <span >&times;</span> <!--Source : https://stackoverflow.com/questions/16834320/using-times-word-in-html-changes-to-%C3%97-->
-      </button>
-      <div class="row mt-2" (click)="setStock(item.ticker)">
-        <div class="col-sm-6" > <!--source : https://getbootstrap.com/docs/4.3/layout/grid/ -->  
-          <h5 class="card-title">{{ item.ticker }}</h5>
-          <p class="card-text" >{{ item.c_name }}</p><!--source : https://getbootstrap.com/docs/4.0/components/card/ -->  
+  <!-- Watchlist grid -->
+  <div class="container mt-5">
+    <h3 class="text-center mb-4 fw-bold">📈 My Watchlist</h3>
+    <div class="d-flex flex-column align-items-center gap-4">
+      <div 
+        class="card watchlist-card shadow-sm border-0 px-4 py-3 w-100" 
+        *ngFor="let item of watch"
+        style="max-width: 800px;"
+        (click)="setStock(item.ticker)"
+      >
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
+          <!-- Left: Ticker + Company -->
+          <div class="me-3">
+            <h4 class="mb-1 fw-bold">{{ item.ticker }}</h4>
+            <p class="text-muted mb-0">{{ item.c_name }}</p>
+          </div>
+
+          <!-- Middle: Current Price -->
+          <div class="text-center mx-3">
+            <p class="mb-1 fw-semibold text-uppercase text-secondary small">Price</p>
+            <h5 class="mb-0">${{ item.c.toFixed(2) }}</h5>
+          </div>
+
+          <!-- Right: Change -->
+          <div 
+            [ngClass]="{ 'text-success': item.d > 0, 'text-danger': item.d < 0 }"
+            class="text-end"
+          >
+            <p class="mb-1 fw-semibold text-uppercase text-secondary small">Change</p>
+            <h6 class="mb-0">
+              <i *ngIf="item.dp < 0" class="bi bi-caret-down-fill"></i>
+              <i *ngIf="item.dp > 0" class="bi bi-caret-up-fill"></i>
+              {{ item.d.toFixed(2) }} ({{ item.dp.toFixed(2) }}%)
+            </h6>
+          </div>
         </div>
-        <div [style.color]="item.d>0?'green':'red'" class="col-sm-6">
-          <h5>{{ item.c.toFixed(2) }}</h5>
-          <p [style.color]="item.d>0?'green':'red'">
-            <i *ngIf="item.dp <0 " class="bi bi-caret-down-fill"></i>
-            <i  *ngIf="item.dp >0 " class="bi bi-caret-up-fill"></i>
-            {{item.d.toFixed(2)}}( {{ item.dp.toFixed(2) }}%)
-          </p>
+
+        <!-- Bottom row: Remove -->
+        <div class="text-end mt-1">
+          <button 
+            class="btn btn-outline-danger btn-remove"
+            (click)="delete(item.ticker); $event.stopPropagation();"
+          >
+            Remove
+          </button>
         </div>
       </div>
     </div>
-  </div>
-</div>
-  
-</div>
-</div>
-
-</div>
-
-<div *ngIf="!watch;">
-  <div class="text-center d-flex justify-content-center mt-5"style="position:absolute;left:50%">
-      <mat-spinner diameter="38"></mat-spinner>
   </div>
 </div>

@@ -10,6 +10,7 @@ const bcrypt = require('bcryptjs');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const cors = require('cors');
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 mongoose.connect("mongodb+srv://mihirsr10:mongodbatlas@cluster0.gstbdyf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {

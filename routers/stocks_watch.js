@@ -1,61 +1,51 @@
-const express=require("express");
-const { default: mongoose } = require("mongoose");
-const router=express.Router();
+const express = require("express");
+const router = express.Router();
+const StocksWatch = require("../models/stocks_watch");
+const config = require("../config");
 
-const watchschema=require("../models/stocks_watch");
-const { json } = require("body-parser");
+// Get all watchlist items for the current user
+router.get("/", async (req, res) => {
+    try {
+        const watchlist = await StocksWatch.find({ userId: config.currentUserId });
+        res.json(watchlist);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
 
-
-router.get("/",async(req,res)=>{
-    try{
-        const response=await watchschema.find();
-        res.json(response);
-        }
-        catch(err){
-            console.log("err",err);
-        }
+// Add a stock to watchlist for the current user
+router.post("/", async (req, res) => {
+    const watchlistItem = new StocksWatch({
+        userId: config.currentUserId,
+        ticker: req.body.ticker,
+        c_name: req.body.c_name
     });
 
-router.post("/",async(req,res)=>{
-        console.log(req.body);
-//        console.log("req",req);
-        const u=new watchschema({
-            ticker:req.body.ticker,
-            c_name:req.body.c_name
-        })
-        try{
-            const response1=await watchschema.find();
-            const isPresent = response1.some(obj => obj.ticker == req.body.ticker);
-            console.log(isPresent,"isPresent",response1);
-            if (!isPresent){
-                const response=await u.save();
-                res.json(response);
-            }
-            
-        }catch(err){
-        res.send(err);
-        }
+    try {
+        const newWatchlistItem = await watchlistItem.save();
+        res.status(201).json(newWatchlistItem);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+
+// Delete a stock from watchlist for the current user
+router.delete("/:ticker", async (req, res) => {
+    try {
+        const watchlistItem = await StocksWatch.findOneAndDelete({ 
+            userId: config.currentUserId,
+            ticker: req.params.ticker 
         });
- 
-
-router.delete("/:id",async (req, res) =>{
-        try {
-            console.log(req.params.id);
-            const user = await watchschema.findOneAndDelete( {"ticker":req.params.id})   //, function (err, doc) {                      //findByIdAndRemove(req.params.id, function (err, doc) {
-               // if (err) console.log(err);
-               // res.status(200).json({message: "deleted succesfully"})
-               // });
-               if (!user) {
-                return res.status(400).send('Item not found');
-              }
-              return res.status(200).send("Id " + req.params.id + " has been deleted");
-          
-           // res.status(200).json({message: "deleted succesfully"})
-        } catch (error) {
-            res.status(500).json({message: error.message})
+        if (watchlistItem) {
+            res.json({ message: "Stock removed from watchlist" });
+        } else {
+            res.status(404).json({ message: "Stock not found in watchlist" });
         }
-    });
-    
-    module.exports=router
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+module.exports = router;
     
 

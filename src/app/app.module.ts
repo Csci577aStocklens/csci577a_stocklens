@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,21 +16,16 @@ import {Routes, RouterModule} from '@angular/router';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { WatchlistComponent } from './watchlist/watchlist.component';
 import { PortfolioComponent } from './portfolio/portfolio.component';
-import { LoginComponent } from './login/login.component';
-import { authGuard } from './guards/auth.guard';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
-import { AuthInterceptor } from './interceptors/auth.interceptor';
 //import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ShareddataService } from './shareddata.service';
+import { ChatComponent } from './chat/chat.component';
 
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: SearchComponent, canActivate: [authGuard] },
-    {path:'search', component: SearchComponent},
+
+  {path: '', component: SearchComponent}, 
+  {path:'search', component: SearchComponent},
   {path:'search/:id', component: SearchComponent},
   {path:'Watchlist', component: WatchlistComponent},
   {path:'Portfolio', component: PortfolioComponent},
@@ -44,7 +40,7 @@ const appRoutes: Routes = [
     DetailsComponent,
     WatchlistComponent,
     PortfolioComponent,
-    LoginComponent
+    ChatComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -57,14 +53,13 @@ const appRoutes: Routes = [
     MatProgressSpinnerModule,
     ReactiveFormsModule,
     HighchartsChartModule,
-    NgbModule ,
+    NgbModule,
     HttpClientModule
   ],
   providers: [    
     //provideClientHydration(),
     provideAnimationsAsync(),
-    ShareddataService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    ShareddataService
   ],
   bootstrap: [AppComponent]
 })

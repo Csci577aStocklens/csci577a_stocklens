@@ -6,8 +6,6 @@ import IndicatorsAll from "highcharts/indicators/indicators-all";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ShareddataService } from '../shareddata.service';
 import { AppComponent } from '../app.component';
-import { ActivatedRoute } from '@angular/router';
-
 IndicatorsAll(Highcharts);
 
 
@@ -47,9 +45,14 @@ IndicatorsAll(Highcharts);
 })
 export class SearchComponent implements OnInit  {
   //@ViewChild('btn1') btn1!: ElementRef;
-  username: string = '';
-
-
+  ngOnInit() {
+    // Initial call to set the time immediately
+    // Schedule updates every 15 seconds
+    console.log(this.shareddataService.ticker,"this.shareddataService.ticker",this.shareddataService.get(),"get");
+    setInterval(() => {
+      this.updateTime();
+    }, 15001); // 15 seconds
+  }
 
   ticker="";
   dt:any;
@@ -118,27 +121,13 @@ export class SearchComponent implements OnInit  {
   added_bk=0;
   clsalert=1;
   sold_bk=0;
-constructor(private modalService: NgbModal, private shareddataService:ShareddataService, private appComponent: AppComponent,private route: ActivatedRoute  ){
+constructor(private modalService: NgbModal, private shareddataService:ShareddataService, private appComponent: AppComponent ){
   if(this.shareddataService.ticker!=""){
     this.ticker=this.shareddataService.ticker;  
   }
   console.log("this.ticker",this.ticker,this.shareddataService.ticker,this.shareddataService.get(),"get",this.appComponent.ticker_app);
 
 }
-ngOnInit() {
-  this.route.queryParams.subscribe(params => {
-    if (params['username']) {
-      this.username = params['username'];
-      console.log(this.username);
-      // You can now use the username in your component
-    }
-    console.log(this.shareddataService.ticker,"this.shareddataService.ticker",this.shareddataService.get(),"get");
-    setInterval(() => {
-      this.updateTime();
-    }, 15001); // 15 seconds
-  });
-}
-
 close_err(){
   this.clsalert=1;
 
@@ -206,7 +195,7 @@ Add_portfolio(p:any){
   }, 5001);
   console.log(this.quantity);
   axios.post("http://localhost:5001/balance/",{
-    "balance": this.quantity*p
+    "balance": -1 * this.quantity*p
   }).then((res)=>{
 
     console.log('bllsls',this.balance);
@@ -229,7 +218,7 @@ Add_portfolio(p:any){
         axios.get("http://localhost:5001/summary_info?name="+tckr.ticker).then(response => {
             this.info_pnt=1;
             axios.get("http://localhost:5001/balance/").then(response=>{
-              this.balance=response.data[0].balance;
+              this.balance=response.data.balance;
               console.log("success lower",this.balance);
               this.quantity=0;
               this.total=0.00;
@@ -277,7 +266,7 @@ sell_portfolio(p:any){
   if (this.stocks_having>0){
     // increase the sold 
     axios.post("http://localhost:5001/balance/",{
-        "balance": -1 * this.quantity_s*p
+        "balance": this.quantity_s*p
       }).then((res)=>{
   
         console.log('bllsls',this.balance);
@@ -290,7 +279,7 @@ sell_portfolio(p:any){
         }).then((res)=>{
         console.log("success");
         axios.get("http://localhost:5001/balance/").then(response=>{
-        this.balance=response.data[0].balance;
+        this.balance=response.data.balance;
                   console.log("success lower",this.balance);
                   this.quantity_s=0;
                   this.total_s=0.00;
@@ -314,7 +303,7 @@ sell_portfolio(p:any){
     }
     else{
       axios.post("http://localhost:5001/balance/",{
-        "balance": -1 * this.quantity_s*p
+        "balance": this.quantity_s*p
       }).then((res)=>{
     
         console.log('bllsls',this.balance);
@@ -322,7 +311,7 @@ sell_portfolio(p:any){
           console.log("deleted",this.ticker);
   
           axios.get("http://localhost:5001/balance/").then(response=>{
-                    this.balance=response.data[0].balance;
+                    this.balance=response.data.balance;
                     console.log("success lower",this.balance);
                     this.quantity_s=0;
                     this.total_s=0.00;
@@ -886,8 +875,11 @@ this.appComponent.ticker_app=this.ticker;
     
 
     axios.get("http://localhost:5001/balance/").then(response=>{
-      this.balance=response.data[0].balance;
-      console.log("success",this.balance);
+      this.balance=response.data.balance;
+      console.log("success lower",this.balance);
+      this.quantity=0;
+      this.total=0.00;
+      console.log("bala",this.balance);
       axios.get("http://localhost:5001/portfolio/").then(response=>{
       this.portf=response.data;
       const isPresent = this.portf.some((obj:any) => obj.ticker == this.ticker);

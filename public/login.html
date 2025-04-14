@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - StockLens</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #fff;
+    }
+    .right-half-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 50vw;
+        height: 100vh;
+        background-image: url('./stck.jpg'); /* adjust path if needed */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: 0;
+        opacity: 0.05; /* Optional: for a more subtle look */
+        }
+    
+    .wrapper {
+      display: flex;
+      width: 90%;
+      max-width: 1000px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .side {
+      flex: 1;
+      padding: 3rem;
+      background: #1e293b;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .side h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .side p {
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      color: #cbd5e1;
+    }
+
+    .side button {
+      padding: 0.75rem;
+      font-size: 1rem;
+      background: #3b82f6;
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .side button:hover {
+      background: #2563eb;
+    }
+
+    .form-section {
+      flex: 1;
+      background: #0f172a;
+      padding: 3rem;
+    }
+
+    .form-section h2 {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      background: #1e293b;
+      color: #fff;
+    }
+
+    .form-group input:focus {
+      border-color: #3b82f6;
+      outline: none;
+    }
+
+    .form-actions {
+      margin-top: 1.5rem;
+    }
+
+    .form-actions button {
+      width: 100%;
+      padding: 0.75rem;
+      background: #3b82f6;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .form-actions button:hover {
+      background: #2563eb;
+    }
+
+    .switch-link {
+      text-align: center;
+      margin-top: 1rem;
+      color: #94a3b8;
+      cursor: pointer;
+    }
+
+    .switch-link a {
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+    <div class="right-half-bg"></div>
+
+  <div class="wrapper">
+    <div class="side">
+      <h2>Welcome to StockLens</h2>
+      <p>Track your stocks, make smarter decisions. Join us today and start trading confidently.</p>
+      
+    </div>
+
+    <div class="form-section" id="loginForm">
+      <h2>Sign In</h2>
+      <div class="error-message" id="loginError"></div>
+      <div class="form-group">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" placeholder="Enter your email" />
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" placeholder="Enter your password" />
+      </div>
+      <div class="form-actions">
+        <button onclick="login()">Sign In</button>
+      </div>
+      <div class="switch-link">
+        Don't have an account? <a onclick="toggleForms()">Sign Up</a>
+      </div>
+    </div>
+
+    <div class="form-section" id="signupForm" style="display: none;">
+      <h2>Sign Up</h2>
+      <div class="error-message" id="signupError"></div>
+      <div class="form-group">
+        <label for="signupName">Name</label>
+        <input type="text" id="signupName" placeholder="Enter your name" />
+      </div>
+      <div class="form-group">
+        <label for="signupEmail">Email</label>
+        <input type="email" id="signupEmail" placeholder="Enter your email" />
+      </div>
+      <div class="form-group">
+        <label for="signupPhone">Phone Number</label>
+        <input type="text" id="signupPhone" placeholder="Enter your phone number" />
+      </div>
+      <div class="form-group">
+        <label for="signupPassword">Password</label>
+        <input type="password" id="signupPassword" placeholder="Create a password" />
+      </div>
+      <div class="form-actions">
+        <button onclick="signup()">Sign Up</button>
+      </div>
+      <div class="switch-link">
+        Already have an account? <a onclick="toggleForms()">Sign In</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Function to get user data from cookie
+    function getUserData() {
+            const userDataCookie = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('userData='));
+            if (userDataCookie) {
+                return JSON.parse(decodeURIComponent(userDataCookie.split('=')[1]));
+            }
+            return null;
+        }
+
+        // Function to check if user is already logged in
+        function checkLoggedIn() {
+            const userData = getUserData();
+            if (userData) {
+                // User is logged in, redirect to home page
+                window.location.href = '/';
+            }
+        }
+
+        // Check login status when page loads
+        checkLoggedIn();
+
+        function toggleForms() {
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            if (loginForm.style.display === 'none') {
+                loginForm.style.display = 'block';
+                signupForm.style.display = 'none';
+            } else {
+                loginForm.style.display = 'none';
+                signupForm.style.display = 'block';
+            }
+            // Clear error messages
+            document.getElementById('loginError').style.display = 'none';
+            document.getElementById('signupError').style.display = 'none';
+        }
+
+        async function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                const errorDiv = document.getElementById('loginError');
+                errorDiv.textContent = 'Email and password are required';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    // Redirect to home page after successful login
+                    window.location.href = '/';
+                } else {
+                    const errorDiv = document.getElementById('loginError');
+                    errorDiv.textContent = data.message || 'Login failed';
+                    errorDiv.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                const errorDiv = document.getElementById('loginError');
+                errorDiv.textContent = 'An error occurred. Please try again.';
+                errorDiv.style.display = 'block';
+            }
+        }
+
+        async function signup() {
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            
+            if (!email || !password) {
+                const errorDiv = document.getElementById('signupError');
+                errorDiv.textContent = 'Email and password are required';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, email, password })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    // Switch to login form after successful signup
+                    toggleForms();
+                    const loginError = document.getElementById('loginError');
+                    loginError.textContent = 'Account created successfully. Please login.';
+                    loginError.style.display = 'block';
+                    loginError.style.color = 'green';
+                } else {
+                    const errorDiv = document.getElementById('signupError');
+                    errorDiv.textContent = data.message || 'Signup failed';
+                    errorDiv.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Signup error:', error);
+                const errorDiv = document.getElementById('signupError');
+                errorDiv.textContent = 'An error occurred. Please try again.';
+                errorDiv.style.display = 'block';
+            }
+        }
+  </script>
+</body>
+</html>

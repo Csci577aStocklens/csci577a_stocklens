@@ -1,16 +1,19 @@
-import { Component,ViewChild } from '@angular/core';
+import { Component,ViewChild, OnInit } from '@angular/core';
 import { SearchComponent } from './search/search.component';
 import { WatchlistComponent } from './watchlist/watchlist.component';
 import { PortfolioComponent } from './portfolio/portfolio.component';
+import { HttpClient } from '@angular/common/http';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'stck';
   ticker_app="F";
+  currentUser: any = null;
 
   // Source : https://blog.angular-university.io/angular-viewchild/
   @ViewChild(SearchComponent) searchComponent!: SearchComponent;
@@ -18,26 +21,52 @@ export class AppComponent {
 	@ViewChild(PortfolioComponent) portfolioComponent: PortfolioComponent | undefined;
 
 	clickedbutton: string = "";
+  isUserMenuOpen: boolean = false;
 	static buttonId: any;
   showwhatcomp: Number=1;
-  constructor(){
+  constructor(private http: HttpClient, private userService: UserService) {
 		this.button('srch');
 	}
 
-  button(buttonId: string) {
-		this.clickedbutton = buttonId;
-    this.showwhatcomp=1;
-		if (buttonId === 'srch') {
-      this.showwhatcomp=1;
-		} else if (buttonId === 'wchlst') {
-      this.showwhatcomp=2;
-      this.watchComponent?.ngOnInit();
-		} else if (buttonId === 'prtfl') {
-      this.showwhatcomp=3;
-      this.portfolioComponent?.ngOnInit();
-      //this.portfolioComponent?.constructor();
-		}
-	}
+  ngOnInit() {
+    this.userService.getCurrentUser().subscribe(
+      (response) => {
+        if (response.success) {
+          this.currentUser = response.user;
+          console.log('Current user:', response.user);
+        } else {
+          console.error('Error fetching current user:', response.message);
+        }
+      },
+      (error) => {
+        console.error('Error fetching current user:', error);
+      }
+    );
+
+    this.userService.currentUser$.subscribe(
+      user => {
+        if (user && user.success) {
+          this.currentUser = user.user;
+        }
+      }
+    );
+  }
+
+  button(str: string) {
+    this.clickedbutton = str;
+    if (str === 'srch') {
+      this.showwhatcomp = 1;
+    }
+    else if (str === 'wchlst') {
+      this.showwhatcomp = 2;
+    }
+    else if (str === 'prtfl') {
+      this.showwhatcomp = 3;
+    }
+    else if (str === 'chat') {
+      this.showwhatcomp = 4;
+    }
+  }
 
   // Source : https://angular.io/api/core/EventEmitter
   // Source : https://stackoverflow.com/questions/46489081/emit-search-input-value-to-child-components-in-angular-2
@@ -48,5 +77,9 @@ export class AppComponent {
     this.searchComponent.setStock(tkr);
 		this.button('srch');
 	}
+
+  toggleUserMenu() {
+    this.isUserMenuOpen = !this.isUserMenuOpen;
+  }
 
 }

@@ -195,7 +195,7 @@ Add_portfolio(p:any){
   }, 5001);
   console.log(this.quantity);
   axios.post("http://localhost:5001/balance/",{
-    "balance": this.quantity*p
+    "balance": -1 * this.quantity*p
   }).then((res)=>{
 
     console.log('bllsls',this.balance);
@@ -218,7 +218,7 @@ Add_portfolio(p:any){
         axios.get("http://localhost:5001/summary_info?name="+tckr.ticker).then(response => {
             this.info_pnt=1;
             axios.get("http://localhost:5001/balance/").then(response=>{
-              this.balance=response.data[0].balance;
+              this.balance=response.data.balance;
               console.log("success lower",this.balance);
               this.quantity=0;
               this.total=0.00;
@@ -266,7 +266,7 @@ sell_portfolio(p:any){
   if (this.stocks_having>0){
     // increase the sold 
     axios.post("http://localhost:5001/balance/",{
-        "balance": -1 * this.quantity_s*p
+        "balance": this.quantity_s*p
       }).then((res)=>{
   
         console.log('bllsls',this.balance);
@@ -279,7 +279,7 @@ sell_portfolio(p:any){
         }).then((res)=>{
         console.log("success");
         axios.get("http://localhost:5001/balance/").then(response=>{
-        this.balance=response.data[0].balance;
+        this.balance=response.data.balance;
                   console.log("success lower",this.balance);
                   this.quantity_s=0;
                   this.total_s=0.00;
@@ -303,7 +303,7 @@ sell_portfolio(p:any){
     }
     else{
       axios.post("http://localhost:5001/balance/",{
-        "balance": -1 * this.quantity_s*p
+        "balance": this.quantity_s*p
       }).then((res)=>{
     
         console.log('bllsls',this.balance);
@@ -311,7 +311,7 @@ sell_portfolio(p:any){
           console.log("deleted",this.ticker);
   
           axios.get("http://localhost:5001/balance/").then(response=>{
-                    this.balance=response.data[0].balance;
+                    this.balance=response.data.balance;
                     console.log("success lower",this.balance);
                     this.quantity_s=0;
                     this.total_s=0.00;
@@ -875,8 +875,11 @@ this.appComponent.ticker_app=this.ticker;
     
 
     axios.get("http://localhost:5001/balance/").then(response=>{
-      this.balance=response.data[0].balance;
-      console.log("success",this.balance);
+      this.balance=response.data.balance;
+      console.log("success lower",this.balance);
+      this.quantity=0;
+      this.total=0.00;
+      console.log("bala",this.balance);
       axios.get("http://localhost:5001/portfolio/").then(response=>{
       this.portf=response.data;
       const isPresent = this.portf.some((obj:any) => obj.ticker == this.ticker);

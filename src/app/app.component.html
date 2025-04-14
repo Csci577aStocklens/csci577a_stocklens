@@ -69,7 +69,16 @@
               <i class="bi bi-person-circle fw-bolder" style="font-size: 24px; color: #27303b;"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" style="background-color: #ffffff; border: 1px solid #e5e7eb;">
-              <li><span class="dropdown-item text-uppercase fw-bolder" style="color: #27303b; background-color: transparent; cursor: pointer;" onmouseover="this.style.color='#60a5fa'" onmouseout="this.style.color='#27303b'">John Doe</span></li>
+              <li *ngIf="currentUser">
+                <span class="dropdown-item text-uppercase fw-bolder" style="color: #27303b; background-color: transparent;">
+                  {{currentUser.email}}
+                </span>
+              </li>
+              <li *ngIf="!currentUser">
+                <span class="dropdown-item text-uppercase fw-bolder" style="color: #27303b; background-color: transparent;">
+                  Not logged in
+                </span>
+              </li>
             </ul>
           </li>
         </ul>

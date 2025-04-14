@@ -11,8 +11,8 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 const cors = require('cors');
 
-// Connect to MongoDB
-mongoose.connect("mongodb+srv://hello:stocklens@cluster0.41cb5v1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
+
+mongoose.connect("mongodb+srv://mihirsr10:mongodbatlas@cluster0.gstbdyf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
     useNewUrlParser: true,
 });
 
@@ -35,8 +35,11 @@ app.use("/stocks_watch",stock_watch);
 const balance=require("./routers/balance");
 app.use("/balance",balance);
 
-const portfolio=require("./routers/portfolio");
-app.use("/portfolio",portfolio);
+const portfolioRouter = require('./routers/portfolio');
+app.use("/portfolio",portfolioRouter);
+
+const usersRouter = require('./routers/users');
+app.use('/api', usersRouter);
 
 app.get("/hrs_stk",(req,res)=>{
 console.log(req.query.dt2+"/"+req.query.dt1)
@@ -387,6 +390,38 @@ app.post('/api/logout', async (req, res) => {
     res.clearCookie('authToken');
     res.clearCookie('userData');
     res.redirect('/login.html');
+});
+
+// API endpoint to get current user from cookie
+app.get('/api/current-user', (req, res) => {
+    const userDataCookie = req.cookies?.userData;
+    if (!userDataCookie) {
+        return res.status(401).json({ message: 'No user data found' });
+    }
+    
+    try {
+        const userData = JSON.parse(userDataCookie);
+        // Update the config file with the current user's email
+        const fs = require('fs');
+        const configPath = path.resolve(__dirname, 'config.js');
+        const configContent = `// Configuration file for the application
+const config = {
+    // Current user ID - change this to switch users
+    currentUserId: "${userData.email}"
+};
+
+module.exports = config;`;
+        
+        fs.writeFileSync(configPath, configContent);
+        
+        res.json({ 
+            success: true, 
+            user: userData 
+        });
+    } catch (error) {
+        console.error('Error parsing user data:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
 });
 
 app.listen(port, () => {

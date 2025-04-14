@@ -1,6 +1,10 @@
 const mongoose=require("mongoose");
 
 const watchschema= new mongoose.Schema({
+    userId: {
+        type: String,
+        required: true
+    },
     ticker:{
         type:String,
         required:true

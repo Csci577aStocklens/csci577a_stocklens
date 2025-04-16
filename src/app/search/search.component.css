@@ -806,3 +806,63 @@ div[style*="display: flex; flex-direction: column; align-items: center;"] > * {
   padding: 0;
 }
 
+.insights-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.insights-table {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.insights-table .table {
+  margin-bottom: 0;
+  width: 100%;
+}
+
+.insights-table th {
+  color: #6b7280;
+  font-weight: 500;
+  padding: 12px;
+  text-align: center;
+}
+
+.insights-table td {
+  color: #111827;
+  padding: 12px;
+  text-align: center;
+}
+
+.insights-charts {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.insights-charts ::ng-deep .highcharts-background {
+  fill: #f8fafc !important;
+}
+
+.insights-charts ::ng-deep .highcharts-container {
+  background-color: #f8fafc !important;
+}
+
+.insights-charts ::ng-deep .highcharts-plot-background {
+  fill: #f8fafc !important;
+}
+
+.insights-charts ::ng-deep .highcharts-plot-border {
+  stroke: #e5e7eb !important;
+}
+
+.insights-charts .row {
+  margin: 0;
+}
+
+.insights-charts .col-md-6 {
+  padding: 0 12px;
+}
+

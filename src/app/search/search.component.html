@@ -445,6 +445,59 @@
           </div>
         </div>
       </div>
+
+      <!-- Insights Section in Summary Tab -->
+      <div class="row mt-4">
+        <div class="col-12">
+          <div class="stock-summary-container">
+            <h2 class="info-title">Insider Sentiments</h2>
+            <div class="insights-content">
+              <div class="insights-table">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>{{ comp_d.name }}</th>
+                      <th>MSPR</th>
+                      <th>Change</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><b>Total</b></td>
+                      <td>{{ins_tot.toFixed(2)}}</td>
+                      <td>{{ins_ch_tot}}</td>
+                    </tr>
+                    <tr>
+                      <td><b>Positive</b></td>
+                      <td>{{ins_pos.toFixed(2)}}</td>
+                      <td>{{ins_ch_pos}}</td>
+                    </tr>
+                    <tr>
+                      <td><b>Negative</b></td>
+                      <td>{{ins_neg.toFixed(2)}}</td>
+                      <td>{{ins_ch_neg}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="insights-charts">
+                <div class="row">
+                  <div class="col-md-6">
+                    <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions1"
+                      style="width: 100%; height: 300px; display: block;">
+                    </highcharts-chart>
+                  </div>
+                  <div class="col-md-6">
+                    <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions"
+                      style="width: 100%; height: 300px; display: block;">
+                    </highcharts-chart>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div *ngIf="info_s_pnt==1" class="info_s" style="padding-bottom:1%;;padding-left:5%">

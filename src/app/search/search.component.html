@@ -398,6 +398,53 @@
           </div>
         </div>
       </div>
+
+      <!-- News Section in Summary Tab -->
+      <div class="row mt-4">
+        <div class="col-12">
+          <div class="stock-summary-container">
+            <h2 class="info-title">Top News</h2>
+            <div class="news-carousel">
+              <div id="newsCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  <div *ngFor="let item of fil_news; let i = index" 
+                       class="carousel-item" 
+                       [class.active]="i === 0">
+                    <div class="row">
+                      <div class="col-md-4" (click)="open_modal(content,item)">
+                        <div class="news-content">
+                          <h3 class="news-headline">{{ item.headline }}</h3>
+                          <p class="news-source">{{ item.source }}</p>
+                        </div>
+                      </div>
+                      <div class="col-md-4" *ngIf="fil_news[i+1]" (click)="open_modal(content,fil_news[i+1])">
+                        <div class="news-content">
+                          <h3 class="news-headline">{{ fil_news[i+1].headline }}</h3>
+                          <p class="news-source">{{ fil_news[i+1].source }}</p>
+                        </div>
+                      </div>
+                      <div class="col-md-4" *ngIf="fil_news[i+2]" (click)="open_modal(content,fil_news[i+2])">
+                        <div class="news-content">
+                          <h3 class="news-headline">{{ fil_news[i+2].headline }}</h3>
+                          <p class="news-source">{{ fil_news[i+2].source }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#newsCarousel" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#newsCarousel" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div *ngIf="info_s_pnt==1" class="info_s" style="padding-bottom:1%;;padding-left:5%">

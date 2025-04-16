@@ -74,7 +74,6 @@
 
   <div *ngIf="added_bk==1" style="padding-left:20%">
     <div class="alert alert-success ml-5  d-flex" role="alert" style="width: 80%;">
-      <!--style="position: absolute;left: 25%;top:30%;width:50%"-->
       <p style="width:80%;text-align: center;">{{displayTicker}} added to watchlist.</p>
       <button type="button" style="margin-left: auto;" (click)="cloing_cardBK()" class="btn-close"
         aria-label="Close"></button>
@@ -90,215 +89,8 @@
 
 
   <div *ngIf="comp_d && emp==1">
-    <!-- <div class="row pt-2 pl-2 pr-2">
-      <div class="col">
-        <div class="ds" style="text-align:center"> 
-          <div style="font-size: 20px;font-weight:bold;">{{ comp_d.ticker }} <button *ngIf="bookmarked==1"
-              style="height: 15px;width:15px;background-color:transparent;border: none;"
-              (click)="delete_bookmark(comp_d.ticker)"><i class="bi bi-star-fill" style="color: yellow;"></i></button>
-            <button *ngIf="bookmarked==0" style="height: 15px;width:15px;background-color:transparent;border: none;"
-              (click)="add_data(comp_d.ticker,comp_d.name)"><i class="bi bi-star"></i></button> </div>
-          <div style="font-size: 15px;"> {{ comp_d.name }}</div>
-          <div style="font-size: 10px;"> {{ comp_d.exchange }}</div>
-          <div style="display: flex;justify-content: center; gap:5px;"> <button type="button" class="btn btn-success"
-              (click)="open(content1)">Buy</button> <button *ngIf="has_portf==1" type="button" class="btn btn-danger"
-              (click)="open(content2)">Sell</button> </div>
-        </div>
-      </div>
-      <div class="col">
-        <div style="text-align:center">
-          <img [src]="comp_d.logo" style="width:80px; height:80px; "> 
-        </div>
-      </div>
-      <div class="col">
-        <div class="rp" [style.color]="clr" style="text-align:center"> 
-          <div style="font-size: 30px;font-weight:bold;">{{ summary.c.toFixed(2) }}</div>
-          <div style="font-size: 15px;"> <i *ngIf=" summary.d >0" class="bi bi-triangle-fill"></i> <i
-              *ngIf="summary.d<0" class="bi bi-caret-down-fill"></i>{{ summary.d.toFixed(2) }} (
-            {{summary.dp.toFixed(2)}} % )</div>
-          <div style="font-size: 10px;color:black;"> {{dt}}</div>
-        </div>
-      </div>
-    </div>
-    <div *ngIf="this.market_op_cl==1" class="text-center small fw-bold">
-      <div style="color:red"> Market is Closed on {{this.hrdt1}} 13:00:00</div>
-    </div>
-    <div *ngIf="this.market_op_cl==0" class="text-center small fw-bold"> 
-      <div style="color:green "> Market is Open</div>
-    </div> -->
-
-
-    <!--<div *ngIf="emp==1" class="d-md-none">
-    <nav aria-label="Page navigation example" class="tabs" >
-      <ul class="pagination">
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <li class="page-item"> <button (click)="info()" id="btn1" #btn1 >Summary</button></li>
-        <li class="page-item"><button (click)="info_s()" id="btn2" >Top News</button></li>
-        <li class="page-item"><button (click)="info_ch()" id="btn3" >Charts</button></li>
-        <li class="page-item"> <button (click)="info_inf()" id="btn4" >Insights</button></li>
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
-    </div>-->
-    <!-- <div *ngIf="emp==1" class="d-md-none">
-     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-          <div class="d-flex flex-wrap">
-
-          <div class="carousel-item active">
-            <button (click)="info()" id="btn1" #btn1 >Summary</button>
-            </div>
-          <div class="carousel-item">
-            <button (click)="info_s()" id="btn2" >Top News</button>
-          </div>
-          <div class="carousel-item">
-            <button (click)="info_ch()" id="btn3" >Charts</button>
-          </div>
-          <div class="carousel-item">
-            <button (click)="info_inf()" id="btn4" >Insights</button>
-          </div>
-          </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div> 
-    </div>  -->
-    <!--Source : https://getbootstrap.com/docs/5.3/components/navbar/#nav-->
-
-    <div class="container dflex" style="padding-left:10%;outline:none;">
-      <div *ngIf="emp==1" class="tabs" style="border-bottom: none;">
-        <!--  width: 1000px;height: 60px;     display: flex;   -->
-        <ul class="nav justify-content-center nav-tabs nav-fill" style="border-bottom: none;">
-          <li class="nav-item" style="padding: 5%;">
-            <button (click)="info()" id="btn1" #btn1> Summary</button>
-          </li>
-          <li class="nav-item" style="padding: 5%;">
-            <button (click)="info_s()" id="btn2"> Top News </button>
-          </li>
-          <li class="nav-item" style="padding: 5%;">
-            <button (click)="info_ch()" id="btn3"> Charts </button>
-          </li>
-          <li class="nav-item" style="padding: 5%;">
-            <button (click)="info_inf()" id="btn4"> Insights </button>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!--<div class="d-md-flex justify-content-md-center align-items-md-center">
-        <div *ngIf="emp==1" class="tabs navbar navbar-expand-md "> 
-          <div class="container" >
-            <div class="row" style="width: 100%;">
-            <div class="col-md-3 pl-1 pr-1" style="padding-left:10%;padding-right:10%;" >
-            <button (click)="info()" id="btn1" #btn1   > Summary</button>
-            </div>
-            <div class="col-md-3" style="text-align: center;">
-            <button style="margin-left:1%;margin-right:1%;text-align: center;" (click)="info_s()" id="btn2" > Top News </button>
-            </div>
-          <div class="col-md-3 pl-1 pr-1" style="padding-left:10%;padding-right:10%;">
-            <button  (click)="info_ch()" id="btn3" > Charts </button>
-           
-          </div>
-          <div class="col-md-3 pl-1 pr-1" style="padding-left:10%;padding-right:10%;">
-           <button  (click)="info_inf()" id="btn4" > Insights </button>
-          </div>
-        </div>
-          </div>
-        </div>
-    </div>-->
 
     <div *ngIf="info_pnt==1">
-      <!-- Original Summary Layout -->
-      <!-- <div class="info">
-        <div class="row pt-2 pl-2 pr-2">
-          <div class="col">
-            <div class="ds" style="text-align:center">
-              <div style="font-size: 20px;font-weight:bold;">{{ comp_d.ticker }}
-                <button *ngIf="bookmarked==1" style="height: 15px;width:15px;background-color:transparent;border: none;" (click)="delete_bookmark(comp_d.ticker)">
-                  <i class="bi bi-star-fill" style="color: yellow;"></i>
-                </button>
-                <button *ngIf="bookmarked==0" style="height: 15px;width:15px;background-color:transparent;border: none;" (click)="add_data(comp_d.ticker,comp_d.name)">
-                  <i class="bi bi-star"></i>
-                </button>
-              </div>
-              <div style="font-size: 15px;">{{ comp_d.name }}</div>
-              <div style="font-size: 10px;">{{ comp_d.exchange }}</div>
-              <div style="display: flex;justify-content: center; gap:5px;">
-                <button type="button" class="btn btn-success" (click)="open(content1)">Buy</button>
-                <button *ngIf="has_portf==1" type="button" class="btn btn-danger" (click)="open(content2)">Sell</button>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div style="text-align:center">
-              <img [src]="comp_d.logo" style="width:80px; height:80px;">
-            </div>
-          </div>
-          <div class="col">
-            <div class="rp" [style.color]="clr" style="text-align:center">
-              <div style="font-size: 30px;font-weight:bold;">{{ summary.c.toFixed(2) }}</div>
-              <div style="font-size: 15px;">
-                <i *ngIf="summary.d > 0" class="bi bi-triangle-fill"></i>
-                <i *ngIf="summary.d < 0" class="bi bi-caret-down-fill"></i>
-                {{ summary.d.toFixed(2) }} ({{summary.dp.toFixed(2)}}%)
-              </div>
-              <div style="font-size: 10px;color:black;">{{dt}}</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="container" style="padding-left:15%">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="col-sm-6">
-                <div class="container">
-                  <b>High Price</b>: {{summary.h}}<br/>
-                  <b>Low Price</b>: {{summary.l}}<br/>
-                  <b>Open Price</b>: {{summary.o}}<br/>
-                  <b>Prev. Close</b>: {{summary.pc}}
-                </div>
-              </div>
-              <div class="container text-center mt-4">
-                <div class="small">
-                  <span style="text-decoration: underline;">About the company</span><br/>
-                  <b>IPO Start Date</b>: {{comp_d.ipo}}<br/>
-                  <b>Industry</b>: {{comp_d.finnhubIndustry}}<br/>
-                  <b>Webpage</b>: <a href="{{comp_d.weburl}}">{{comp_d.weburl}}</a><br/>
-                  <b>Company Peers</b>:
-                  <div style="font-size: 12px;">
-                    <a *ngFor="let item of peers" href="#" (click)="setStock(item)">{{item}},</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div>
-                <highcharts-chart 
-                  [Highcharts]="Highcharts"
-                  [options]="chartSummaryOptions"
-                  style="width:auto;height:300px;display: block;">
-                </highcharts-chart>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
-
-      <!-- New Modern Design -->
       <div class="row g-4">
         <div class="col-lg-8">
           <div class="stock-summary-container">
@@ -399,7 +191,6 @@
         </div>
       </div>
 
-      <!-- News Section in Summary Tab -->
       <div class="row mt-4">
         <div class="col-12">
           <div class="stock-summary-container">
@@ -446,7 +237,6 @@
         </div>
       </div>
 
-      <!-- Insights Section in Summary Tab -->
       <div class="row mt-4">
         <div class="col-12">
           <div class="stock-summary-container">
@@ -501,8 +291,6 @@
     </div>
 
     <div *ngIf="info_s_pnt==1" class="info_s" style="padding-bottom:1%;;padding-left:5%">
-      <!-- padding-top:14%position:absolute;top:62%; left:24%;width: 1000px; display: flex; flex-wrap:wrap; gap:20px;-->
-
       <div class="container mt-1">
         <div class="row">
           <div class="col-md-6" *ngFor="let item of fil_news"><!---->
@@ -572,7 +360,6 @@
 
 
     <div *ngIf="info_ch_pnt==1"><!--style="padding-bottom:100px;"-->
-      <!--"width: 80%; height: 63vh; display: block;"-->
       <div class="container" style="padding-left:20%; "><!--padding-bottom:10%;position: absolute; top:58%;left:20%;-->
         <highcharts-chart [Highcharts]="Highcharts" [constructorType]="'stockChart'" [options]="chartOptions2"
           style="height: 60vh;width:80%;display:block"></highcharts-chart>
@@ -636,7 +423,6 @@
             (input)="changeBuy( summary.c )" name="sbar">
         </div>
       </div>
-      <!-- <button style="height: 25px;width:25px;background-color:transparent;border: none;color: #131273;" (click)="search()" type="button"> <i class="bi bi-search"></i> </button>-->
       <p style="font-size: 13px;color:red;font-weight:bold" *ngIf="warning==1"> Not enough money in wallet!
       <p></p>
     </div>
@@ -682,7 +468,6 @@
 
       </div>
     </div>
-    <!-- <button style="height: 25px;width:25px;background-color:transparent;border: none;color: #131273;" (click)="search()" type="button"> <i class="bi bi-search"></i> </button>-->
     <p style="font-size: 13px;color:red;font-weight:bold;" *ngIf="warning_s==1"> You can't sell the stocks that you dont
       have!
     <p></p>

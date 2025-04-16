@@ -23,6 +23,7 @@
     padding-left: 0.2in;
     padding-right: 0.2in;
     height: 40px;
+    font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
 }
 
 /* ::ng-deep .cdk-overlay-pane{
@@ -864,5 +865,9 @@ div[style*="display: flex; flex-direction: column; align-items: center;"] > * {
 
 .insights-charts .col-md-6 {
   padding: 0 12px;
+}
+
+input {
+  font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
 }
 

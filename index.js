@@ -43,12 +43,12 @@ const usersRouter = require('./routers/users');
 app.use('/api', usersRouter);
 
 app.get("/hrs_stk",(req,res)=>{
-console.log(req.query.dt2+"/"+req.query.dt1)
+
 url="https://api.polygon.io/v2/aggs/ticker/"+req.query.name.toUpperCase() +"/range/1/hour/"+req.query.dt1+"/"+req.query.dt2+"?adjusted=true&sort=asc&apiKey=25co1PGn9EK901ClTpj87TticB9GbSKH"
 
 axios.get(url)
         .then(response => {
-        console.log(response.data);
+        
         return res.send(response.data)
             })
     .catch(error => {
@@ -58,11 +58,11 @@ axios.get(url)
 });
 
 app.get("/peers",(req,res) =>{
-    console.log(req.query.name )
+ 
     url="https://finnhub.io/api/v1/stock/peers?symbol="+req.query.name +"&token=cms9s29r01qlk9b15gk0cms9s29r01qlk9b15gkg"
     axios.get(url)
         .then(response => {
-        console.log(response.data);
+        
         return res.send(response.data)
             })
     .catch(error => {
@@ -71,11 +71,11 @@ app.get("/peers",(req,res) =>{
 }  );
 
 app.get("/comp_ear",(req,res) =>{
-    console.log(req.query.name )
+   
     url="https://finnhub.io/api/v1/stock/earnings?symbol="+req.query.name +"&token=cms9s29r01qlk9b15gk0cms9s29r01qlk9b15gkg"
     axios.get(url)
         .then(response => {
-        console.log(response.data);
+        
         return res.send(response.data)
             })
     .catch(error => {
@@ -84,11 +84,11 @@ app.get("/comp_ear",(req,res) =>{
 }  );
 
 app.get("/stockinfo",(req,res) =>{
-    console.log(req.query.name )
+   
     url="https://finnhub.io/api/v1/stock/profile2?symbol="+req.query.name +"&token=cms9s29r01qlk9b15gk0cms9s29r01qlk9b15gkg"
     axios.get(url)
         .then(response => {
-        console.log(response.data);
+        
         return res.send(response.data)
             })
     .catch(error => {
@@ -97,11 +97,11 @@ app.get("/stockinfo",(req,res) =>{
 }  );
 
 app.get("/summary_info",(req,res) =>{
-    console.log(req.query.name )
+    
     url="https://finnhub.io/api/v1/quote?symbol="+req.query.name+"&token=cms9s29r01qlk9b15gk0cms9s29r01qlk9b15gkg"
     axios.get(url)
         .then(response => {
-        console.log(response.data);
+        
         return res.send(response.data)
             })
     .catch(error => {
@@ -110,11 +110,11 @@ app.get("/summary_info",(req,res) =>{
 }  );
 
 app.get("/autocomp",(req,res) =>{
-    console.log(req.query.name )
+   
     url="https://finnhub.io/api/v1/search?q="+req.query.name+"&token=cms9s29r01qlk9b15gk0cms9s29r01qlk9b15gkg"
     axios.get(url)
         .then(response => {
-        console.log(response.data);
+        
         return res.send(response.data)
             })
     .catch(error => {
@@ -122,11 +122,11 @@ app.get("/autocomp",(req,res) =>{
     });
 }  );
 app.get("/recom",(req,res) =>{
-    console.log(req.query.name )
+    
     url="https://finnhub.io/api/v1/stock/recommendation?symbol="+req.query.name+"&token=cms9s29r01qlk9b15gk0cms9s29r01qlk9b15gkg"
     axios.get(url)
         .then(response => {
-        console.log(response.data);
+        
         return res.send(response.data)
             })
     .catch(error => {
@@ -137,17 +137,17 @@ app.get("/recom",(req,res) =>{
    
      
 app.get("/charts_d",(req,res) =>{
-    console.log(req.query.name);
+   
     let currentDate = new Date();
     let futureDate = new Date(currentDate);
     futureDate.setFullYear(currentDate.getFullYear() - 2);
     let to = currentDate.toISOString().split('T')[0];
     let from_d = futureDate.toISOString().split('T')[0];
     url="https://api.polygon.io/v2/aggs/ticker/"+req.query.name.toUpperCase() + "/range/1/day/"+from_d+"/" + to +"?adjusted=true&sort=asc&apiKey=ctO8iVF_Gi19afBovU1ZSr6UIxqt8Fr3"
-    console.log(to,from_d,"sds",url);
+  
     axios.get(url)
         .then(response => {
-        console.log(response);
+       
         return res.send(response.data)
             })
     .catch(error => {
@@ -157,18 +157,18 @@ app.get("/charts_d",(req,res) =>{
 
        
 app.get("/news",(req,res) =>{
-    console.log(req.query.name )
+    
     
     let currentDate = new Date();
     let futureDate = new Date(currentDate);
     futureDate.setDate(currentDate.getDate() - 7);
     let to = currentDate.toISOString().split('T')[0];
     let from_d = futureDate.toISOString().split('T')[0];
-    console.log(to,from_d)
+    
     url="https://finnhub.io/api/v1/company-news?symbol="+req.query.name + "&from="+from_d+"&to=" + to +"&token=cms9s29r01qlk9b15gk0cms9s29r01qlk9b15gkg"
     axios.get(url)
         .then(response => {
-        console.log(response.data);
+        
         return res.send(response.data)
             })
     .catch(error => {
@@ -178,14 +178,14 @@ app.get("/news",(req,res) =>{
 
  
 app.get("/insider",(req,res) =>{
-    console.log(req.query.name )
+    
     let yourDate = new Date()
     let to=yourDate.toISOString().split('T')[0]
     url="https://finnhub.io/api/v1/stock/insider-sentiment?symbol="+req.query.name + "&from="+"2022-01-01"+"&token=cms9s29r01qlk9b15gk0cms9s29r01qlk9b15gkg"
-    console.log(url)
+   
     axios.get(url)
         .then(response => {
-        console.log(response.data);
+       
         return res.send(response.data)
             })
     .catch(error => {
@@ -200,22 +200,22 @@ app.get('/login.html', (req, res) => {
 
 // Authentication middleware
 const checkAuth = async (req, res, next) => {
-    console.log('Checking auth for path:', req.path);
+   
     
     // Skip auth check only for specific paths
     if (req.path === '/login.html' || 
         req.path === '/api/login' || 
         req.path === '/api/signup' ||
         req.path === '/api/logout') {
-        console.log('Skipping auth check for:', req.path);
+       
         return next();
     }
 
     const authToken = req.cookies?.authToken;
-    console.log('Auth token:', authToken ? 'present' : 'missing');
+    
     
     if (!authToken) {
-        console.log('No auth token, redirecting to login');
+       
         return res.redirect('/login.html');
     }
 
@@ -223,17 +223,17 @@ const checkAuth = async (req, res, next) => {
         // Find user by token
         const user = await User.findOne({ authToken });
         if (!user) {
-            console.log('No user found for token, clearing cookies and redirecting');
+            
             // Clear invalid token and redirect to login
             res.clearCookie('authToken');
             res.clearCookie('userData');
             return res.redirect('/login.html');
         }
-        console.log('User authenticated:', user.email);
+        
         req.user = user;
         next();
     } catch (error) {
-        console.error('Auth error:', error);
+        
         res.redirect('/login.html');
     }
 };
@@ -254,7 +254,7 @@ app.get('*', checkAuth, (req, res) => {
 // Signup route
 app.post('/api/signup', async (req, res) => {
     try {
-        console.log('Signup request body:', req.body);
+        
         const { email, password, name } = req.body;
         
         if (!email || !password) {

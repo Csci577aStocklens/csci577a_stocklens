@@ -164,6 +164,14 @@ export class SearchComponent implements OnInit {
   sold_bk = 0;
   username: string = 'YourUsername'; // Will be set from cookie
 
+  // Add this property to track data loading
+  private dataLoaded = {
+    insights: false,
+    recom: false,
+    compEar: false,
+    news: false
+  };
+
   // Utility function to get cookie value by name
   getCookie(name: string): string | null {
     const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
@@ -515,7 +523,9 @@ export class SearchComponent implements OnInit {
     this.info_s_pnt = 0;
     this.info_ch_pnt = 0;
     this.infor_nws_pnt = 0;
-
+    
+    this.processInitialData();  // Reuse the same processing logic
+    
     // NEWS
     const filteredArray = this.news.filter((o: any) => o.headline !== '' && o.image !== '');
     this.fil_news = filteredArray.slice(0, 20);
@@ -722,11 +732,9 @@ export class SearchComponent implements OnInit {
     this.info_s_pnt = 1;
     this.info_ch_pnt = 0;
     this.infor_nws_pnt = 0;
-
-    const filteredArray = this.news.filter((o: any) => o.headline !== '' && o.image !== '');
-    this.fil_news = filteredArray.slice(0, 20);
-    console.log(this.fil_news);
-
+    
+    // Process news data
+    this.processNewsData();
   }
   info_ch() {
     this.info_pnt = 0;
@@ -1107,6 +1115,14 @@ export class SearchComponent implements OnInit {
   }
 
   search() {
+    // Reset data loading flags
+    this.dataLoaded = {
+      insights: false,
+      recom: false,
+      compEar: false,
+      news: false
+    };
+
     console.log(this.ticker.length, "sds", this.ticker.length == 0);
     if (this.ticker.length == 0) {
       this.emp1 = 0;
@@ -1204,14 +1220,15 @@ export class SearchComponent implements OnInit {
         });
 
 
-      //insights
+      // Insights
       axios.get("http://localhost:5001/insider?name=" + this.ticker).then(response => {
-        this.insights = response.data; //JSON.stringify(response.data);
-        console.log("insights ", this.insights);
-      })
-        .catch(error => {
-          console.log(error);
-        });
+        this.insights = response.data;
+        this.dataLoaded.insights = true;
+        this.tryProcessData();
+      }).catch(error => {
+        console.log(error);
+        this.dataLoaded.insights = true; // Mark as loaded even on error
+      });
 
       //charts_d
       axios.get("http://localhost:5001/charts_d?name=" + this.ticker).then(response => {
@@ -1227,29 +1244,33 @@ export class SearchComponent implements OnInit {
       //recom
       axios.get("http://localhost:5001/recom?name=" + this.ticker).then(response => {
         this.recom = response.data; //JSON.stringify(response.data);
-        console.log("recom ", this.recom);
-      })
-        .catch(error => {
-          console.log(error);
-        });
+        this.dataLoaded.recom = true;
+        this.tryProcessData();
+      }).catch(error => {
+        console.log(error);
+        this.dataLoaded.recom = true;
+      });
 
       //comp_ear
       axios.get("http://localhost:5001/comp_ear?name=" + this.ticker).then(response => {
         this.comp_ear = response.data; //JSON.stringify(response.data);
-        console.log("comp_ear ", this.comp_ear);
-      })
-        .catch(error => {
-          console.log(error);
-        });
+        this.dataLoaded.compEar = true;
+        this.tryProcessData();
+      }).catch(error => {
+        console.log(error);
+        this.dataLoaded.compEar = true;
+      });
 
 
       //news
       axios.get("http://localhost:5001/news?name=" + this.ticker).then(response => {
-        this.news = response.data; //JSON.stringify(response.data);
-      })
-        .catch(error => {
-          console.log(error);
-        });
+        this.news = response.data;
+        this.dataLoaded.news = true;
+        this.tryProcessData();
+      }).catch(error => {
+        console.log(error);
+        this.dataLoaded.news = true;
+      });
 
       axios.get("http://localhost:5001/stockinfo?name=" + this.ticker).then(response => {
         this.comp_d = response.data; //JSON.stringify(response.data);
@@ -1533,5 +1554,202 @@ export class SearchComponent implements OnInit {
     }
   }
 
+  private processInitialData() {
+    // Process news if available
+    if (this.news && Array.isArray(this.news)) {
+      const filteredArray = this.news.filter((o: any) => o.headline !== '' && o.image !== '');
+      this.fil_news = filteredArray.slice(0, 20);
+    }
+
+    // Only process insights and charts if all required data is available
+    if (!this.insights?.data || !this.recom || !this.comp_ear) {
+      return;
+    }
+
+    // Process Insights
+    this.processInsightsData();
+    
+    // Initialize Charts
+    this.initializeCharts();
+  }
+
+  private processInsightsData() {
+    if (!this.insights?.data) return;
+
+    this.ins_tot = 0;
+    this.ins_pos = 0;
+    this.ins_neg = 0;
+    this.ins_ch_tot = 0;
+    this.ins_ch_pos = 0;
+    this.ins_ch_neg = 0;
+
+    this.insights['data'].forEach((element: any) => {
+      this.ins_tot += element['mspr'];
+      if (element['mspr'] >= 0) {
+        this.ins_pos += element['mspr']
+      } else {
+        this.ins_neg += element['mspr']
+      }
+
+      this.ins_ch_tot += element['change'];
+      if (element['change'] >= 0) {
+        this.ins_ch_pos += element['change']
+      } else {
+        this.ins_ch_neg += element['change']
+      }
+    });
+
+    this.ins_neg = -1 * this.ins_neg;
+  }
+
+  private initializeCharts() {
+    // Initialize Recommendation Trends chart
+    this.chartOptions1 = {
+      chart: {
+        type: 'column',
+        backgroundColor: '#f8fafc',
+      },
+      title: {
+        text: 'Recommendation Trends',
+      },
+      xAxis: {
+        categories: this.recom.map((obj: any) => obj.period),
+        labels: {
+          formatter: function () {
+            return Highcharts.dateFormat('%Y-%m', Number(new Date(this.value)));
+          }
+        }
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: '# Analysis'
+        },
+        stackLabels: {
+          enabled: false
+        }
+      },
+      tooltip: {
+        backgroundColor: '#f8fafc',
+        style: {
+          backgroundColor: '#f8fafc'
+        },
+        headerFormat: '<b>{point.x}</b><br/>',
+        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+      },
+      plotOptions: {
+        column: {
+          stacking: 'normal',
+          dataLabels: {
+            enabled: true
+          }
+        }
+      },
+      series: [
+        {
+          type: 'column',
+          name: 'Strong Buy',
+          data: this.recom.map((obj: any) => obj.strongBuy),
+          color: "#1a6334"
+        },
+        {
+          type: 'column',
+          name: 'Buy',
+          data: this.recom.map((obj: any) => obj.buy),
+          color: "#24af51"
+        },
+        {
+          type: 'column',
+          name: 'Hold',
+          data: this.recom.map((obj: any) => obj.hold),
+          color: "#b07e28"
+        },
+        {
+          type: 'column',
+          name: 'Sell',
+          data: this.recom.map((obj: any) => obj.sell),
+          color: "#f26063"
+        },
+        {
+          type: 'column',
+          name: 'Strong Sell',
+          data: this.recom.map((obj: any) => obj.strongSell),
+          color: "#752b2c"
+        }
+      ]
+    };
+
+    // Initialize EPS Surprises chart
+    this.chartOptions = {
+      chart: {
+        type: 'spline',
+        backgroundColor: '#f8fafc',
+      },
+      title: {
+        text: 'Historical EPS Surprises'
+      },
+      xAxis: {
+        categories: this.comp_ear.map((obj: any) => obj.period),
+        accessibility: {
+          description: 'Months of the year'
+        },
+        labels: {
+          format: '{value.0} <br/> Surprise:{value.1}'
+        }
+      },
+      yAxis: {
+        title: {
+          text: 'Quaterly EPS'
+        },
+        labels: {
+          format: '{value}'
+        }
+      },
+      tooltip: {
+        backgroundColor: '#f8fafc',
+        style: {
+          backgroundColor: '#f8fafc'
+        },
+        shared: true
+      },
+      plotOptions: {
+        spline: {
+          marker: {
+            radius: 4,
+            lineColor: '#666666',
+            lineWidth: 1
+          }
+        }
+      },
+      series: [{
+        type: 'spline',
+        name: 'Actual',
+        marker: {
+          symbol: 'square'
+        },
+        data: this.comp_ear.map((obj: any) => obj.actual)
+      }, {
+        type: 'spline',
+        name: 'Estimate',
+        marker: {
+          symbol: 'diamond'
+        },
+        data: this.comp_ear.map((obj: any) => obj.estimate)
+      }]
+    };
+  }
+
+  private tryProcessData() {
+    if (this.dataLoaded.insights && this.dataLoaded.recom && this.dataLoaded.compEar && this.dataLoaded.news) {
+      this.processInitialData();
+    }
+  }
+
+  private processNewsData() {
+    if (this.news && Array.isArray(this.news)) {
+      const filteredArray = this.news.filter((o: any) => o.headline !== '' && o.image !== '');
+      this.fil_news = filteredArray.slice(0, 20);
+    }
+  }
 
 }

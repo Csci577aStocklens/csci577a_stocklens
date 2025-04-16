@@ -25,11 +25,11 @@
     height: 40px;
 }
 
-::ng-deep .cdk-overlay-pane{
+/* ::ng-deep .cdk-overlay-pane{
     position: absolute;
     left: 39%;
     top:20%;
-}
+} */
 ::ng-deep mat-spinner{
     position: absolute;
     left: 40%;
@@ -118,4 +118,91 @@
 
 :host {
   background: transparent !important;
+}
+
+::ng-deep .full-width-autocomplete {
+  width: 100% !important;
+}
+
+::ng-deep .cdk-overlay-pane {
+  width: 600px !important;
+  margin-left: -28px !important;
+  margin-top: 16px !important;
+  margin-bottom: 16px !important;
+}
+
+::ng-deep .mat-mdc-autocomplete-panel {
+  --mdc-shape-small: 30px !important;
+  --mat-autocomplete-container-shape: 30px !important;
+  width: 600px !important;
+  max-width: 600px !important;
+  border-radius: 30px !important;
+  box-shadow: 
+    0 0 240px -60px rgba(0, 0, 0, 0.1),
+    0 0 160px -40px rgba(0, 0, 0, 0.06),
+    0 0 640px 0 rgba(108,111,133,0.15) !important;
+  padding: 8px 0 !important;
+  margin-bottom: 0px !important;
+}
+
+::ng-deep .mat-mdc-autocomplete-panel .mdc-list {
+  padding: 8px 0 !important;
+  border-radius: 30px !important;
+}
+
+::ng-deep .mat-mdc-option:first-child {
+  border-top-left-radius: 30px !important;
+  border-top-right-radius: 30px !important;
+}
+
+::ng-deep .mat-mdc-option:last-child {
+  border-bottom-left-radius: 30px !important;
+  border-bottom-right-radius: 30px !important;
+}
+
+::ng-deep .mat-mdc-option {
+  white-space: normal !important;
+  line-height: 1.5em !important;
+  height: auto !important;
+  padding: 12px 28px !important;
+  margin: 0 8px !important;
+}
+
+::ng-deep .mat-mdc-option:hover {
+  border-radius: 20px !important;
+}
+
+/* Add gradient shadow and surrounding blur effect */
+div[style*="display: flex; align-items: center; width: 600px;"] {
+  box-shadow: 
+    0 0 240px -60px rgba(0, 0, 0, 0.1),
+    0 0 160px -40px rgba(0, 0, 0, 0.06),
+    0 0 640px 0 rgba(108,111,133,0.15) !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Create the surrounding blur effect */
+div[style*="display: flex; flex-direction: column; align-items: center;"]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  z-index: 1;
+  pointer-events: none;
+  margin: -100px;
+}
+
+/* Ensure search bar stays above the blur */
+div[style*="display: flex; flex-direction: column; align-items: center;"] {
+  position: relative !important;
+}
+
+div[style*="display: flex; flex-direction: column; align-items: center;"] > * {
+  position: relative !important;
+  z-index: 3 !important;
 }

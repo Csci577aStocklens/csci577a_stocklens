@@ -2,11 +2,9 @@
   <h2 class="st" style="margin-bottom: 24px; font-size: 4.5rem; font-family: 'GeistMono', ui-monospace, SFMono-Regular, Roboto Mono, Menlo, Monaco, Liberation Mono, DejaVu Sans Mono, Courier New, monospace !important;">Welcome,{{ username }}</h2>
   <div style="text-align:center;width: fit-content;">
     <div style="display: flex; align-items: center; width: 600px; height: 56px; border-radius: 999px; margin-top: 32px; background: #fff; box-shadow: 0 4px 16px 0 rgba(108,111,133,0.10); padding: 0 0 0 28px; position: relative;">
-      <input type="text" style="flex: 1; border: none; outline: none; background: transparent; font-size: 1.5rem; padding: 0; height: 100%;" [(ngModel)]="ticker"  (input)="change()" placeholder="Enter Stock Ticker Symbol" name="sbar" [matAutocomplete]="auto">
+      <input type="text" style="flex: 1; border: none; outline: none; background: transparent; font-size: 1.5rem; padding: 0; height: 100%;" [(ngModel)]="ticker"  (input)="change()" placeholder="Enter Stock Ticker Symbol" name="sbar" [matAutocomplete]="auto" [attr.matAutocompletePosition]="srched == 1 ? 'above' : null">
       <button style="height: 36px; width: 36px; border-radius: 50%; background: #6c6f85; border: none; color: #fff; display: flex; align-items: center; justify-content: center; margin-right: 8px; margin-left: 12px; box-shadow: 0 2px 8px 0 rgba(108,111,133,0.15); font-size: 1.5rem;" (click)="clrscr()" type="reset"><i class="bi bi-x"></i></button>
-    </div>
-    <div class="matautodiv" style="position: absolute; left : 39%;top:20%;">
-      <mat-autocomplete #auto="matAutocomplete">
+      <mat-autocomplete #auto="matAutocomplete" class="full-width-autocomplete">
         <mat-option *ngIf="loading" class="is-loading">
           <mat-spinner [diameter] = "30"></mat-spinner>
         </mat-option>
@@ -23,11 +21,9 @@
 <div *ngIf="srched == 1">
   <div style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 1100; display: flex; justify-content: center; pointer-events: none;">
     <div style="display: flex; align-items: center; width: 600px; height: 56px; border-radius: 999px; background: #fff; box-shadow: 0 4px 16px 0 rgba(108,111,133,0.10); padding: 0 0 0 28px; margin-bottom: 24px; pointer-events: auto;">
-      <input type="text" style="flex: 1; border: none; outline: none; background: transparent; font-size: 1.5rem; padding: 0; height: 100%;" [(ngModel)]="ticker"  (input)="change()" placeholder="Enter Stock Ticker Symbol" name="sbar" [matAutocomplete]="auto">
+      <input type="text" style="flex: 1; border: none; outline: none; background: transparent; font-size: 1.5rem; padding: 0; height: 100%;" [(ngModel)]="ticker"  (input)="change()" placeholder="Enter Stock Ticker Symbol" name="sbar" [matAutocomplete]="auto" [attr.matAutocompletePosition]="srched == 1 ? 'above' : null">
       <button style="height: 36px; width: 36px; border-radius: 50%; background: #6c6f85; border: none; color: #fff; display: flex; align-items: center; justify-content: center; margin-right: 8px; margin-left: 12px; box-shadow: 0 2px 8px 0 rgba(108,111,133,0.15); font-size: 1.5rem;" (click)="clrscr()" type="reset"><i class="bi bi-x"></i></button>
-    </div>
-    <div class="matautodiv" style="position: fixed; left: 50%; bottom: 56px; transform: translateX(-50%);">
-      <mat-autocomplete #auto="matAutocomplete">
+      <mat-autocomplete #auto="matAutocomplete" class="full-width-autocomplete">
         <mat-option *ngIf="loading" class="is-loading">
           <mat-spinner [diameter] = "30"></mat-spinner>
         </mat-option>

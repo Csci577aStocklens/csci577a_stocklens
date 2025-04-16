@@ -206,3 +206,436 @@ div[style*="display: flex; flex-direction: column; align-items: center;"] > * {
   position: relative !important;
   z-index: 3 !important;
 }
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col-md-6 {
+  display: flex;
+}
+
+/* Adjust column widths */
+.col-md-6:first-child {
+  width: 70%;
+  flex: 0 0 70%;
+  max-width: 70%;
+}
+
+.col-md-6:last-child {
+  width: 30%;
+  flex: 0 0 30%;
+  max-width: 30%;
+}
+
+/* Increase font sizes in the right card */
+.col-md-6:last-child .info-title {
+  font-size: 28px;
+  margin-bottom: 28px;
+}
+
+.col-md-6:last-child .info-section h3 {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+.col-md-6:last-child .info-row {
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.col-md-6:last-child .info-label {
+  font-size: 16px;
+}
+
+.col-md-6:last-child .info-value {
+  font-size: 16px;
+}
+
+.col-md-6:last-child .peer-link {
+  font-size: 16px;
+  padding: 6px 16px;
+}
+
+.stock-summary-container {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: "GeistMono", ui-monospace, SFMono-Regular, "Roboto Mono", Menlo, Monaco, "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace !important;
+}
+
+.info-title, 
+.company-info h2,
+.ticker,
+.current-price,
+.price-change,
+.market-status,
+.detail-item .label,
+.detail-item .value,
+.info-section h3,
+.info-label,
+.info-value,
+.peer-link {
+  font-family: "GeistMono", ui-monospace, SFMono-Regular, "Roboto Mono", Menlo, Monaco, "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace !important;
+}
+
+.info-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: #1a1a1a;
+}
+
+.info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.info-section {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.info-section h3 {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  color: #374151;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 14px;
+  gap: 16px;
+}
+
+.info-label {
+  color: #6b7280;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.info-value {
+  color: #111827;
+  font-weight: 400;
+  text-align: right;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 60%;
+}
+
+.info-link {
+  color: #2563eb;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.peers-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.peer-link {
+  background: #e5e7eb;
+  color: #374151;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s;
+  
+  &:hover {
+    background: #d1d5db;
+  }
+}
+
+.stock-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.stock-title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.company-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: contain;
+  background-color: #f8fafc;
+  padding: 4px;
+}
+
+.company-info h2 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 600;
+  font-family: "GeistMono", ui-monospace, SFMono-Regular, "Roboto Mono", Menlo, Monaco, "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace !important;
+}
+
+.ticker {
+  color: #666;
+  font-size: 16px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.action-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.buy-btn {
+  background-color: #22c55e;
+  color: white;
+}
+
+.buy-btn:hover {
+  background-color: #16a34a;
+}
+
+.sell-btn {
+  background-color: #ef4444;
+  color: white;
+}
+
+.sell-btn:hover {
+  background-color: #dc2626;
+}
+
+.watchlist-btn {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.watchlist-btn:hover {
+  background-color: #e5e7eb;
+}
+
+.stock-price-container {
+  margin: 24px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price-section {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.current-price {
+  font-size: 48px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.price-change {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.price-change.positive {
+  color: #22c55e;
+}
+
+.price-change.negative {
+  color: #ef4444;
+}
+
+.market-status {
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.market-open {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.market-closed {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.chart-container {
+  margin: 24px 0;
+  background-color: #f8fafc;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+::ng-deep .chart-container .highcharts-background {
+  fill: #f8fafc !important;
+}
+::ng-deep .chart-container .highcharts-tooltip-background {
+    fill: #f8fafc !important;
+  }
+  
+
+.highcharts-tooltip-box{
+    fill: #f8fafc;
+
+}
+
+.stock-details {
+  margin-top: 24px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.detail-item {
+  flex: 1;
+  background-color: #f8fafc;
+  padding: 16px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.detail-item .label {
+  display: block;
+  color: #64748b;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.detail-item .value {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.comparison-container {
+  display: flex;
+  gap: 24px;
+  padding: 20px;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.original-summary, .new-summary {
+  flex: 1;
+  min-width: 600px;
+}
+
+.comparison-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #374151;
+  text-align: center;
+}
+
+.company-details {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.company-details h4 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 16px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.peers-section {
+  margin-top: 24px;
+}
+
+.peers-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Ensure the original design maintains its styling */
+.original-summary .container {
+  padding: 15px;
+}
+
+.original-summary .row {
+  margin-bottom: 20px;
+}
+
+.row.g-4 {
+  margin: 0;
+  width: 100%;
+}
+
+.col-lg-8 .stock-summary-container,
+.col-lg-4 .stock-summary-container {
+  height: 100%;
+  margin: 0;
+}
+
+/* Increase font sizes in the right card */
+.col-lg-4 .info-title {
+  font-size: 28px;
+  margin-bottom: 28px;
+}
+
+.col-lg-4 .info-section h3 {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+.col-lg-4 .info-row {
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.col-lg-4 .info-label {
+  font-size: 16px;
+}
+
+.col-lg-4 .info-value {
+  font-size: 16px;
+}
+
+.col-lg-4 .peer-link {
+  font-size: 16px;
+  padding: 6px 16px;
+}
+

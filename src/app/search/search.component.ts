@@ -6,8 +6,48 @@ import IndicatorsAll from "highcharts/indicators/indicators-all";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ShareddataService } from '../shareddata.service';
 import { AppComponent } from '../app.component';
-IndicatorsAll(Highcharts);
 
+// Set global Highcharts theme
+Highcharts.setOptions({
+  tooltip: {
+    backgroundColor: 'black',
+    style: {
+      color: 'white',
+      fontSize: '14px',
+      fontWeight: 'bold'
+    }
+  },
+  chart: {
+    style: {
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '14px'
+    }
+  },
+  title: {
+    style: {
+      fontSize: '16px',
+      fontWeight: 'bold'
+    }
+  },
+  xAxis: {
+    labels: {
+      style: {
+        fontSize: '12px'
+      }
+    },
+    gridLineWidth: 0
+  },
+  yAxis: {
+    labels: {
+      style: {
+        fontSize: '12px'
+      }
+    },
+    gridLineWidth: 0
+  }
+});
+
+IndicatorsAll(Highcharts);
 
 // portfolio total price - done
 // watchlist css -done
@@ -54,7 +94,8 @@ export class SearchComponent implements OnInit  {
     }, 15001); // 15 seconds
   }
 
-  ticker="";
+  ticker = "";
+  displayTicker = ""; // New variable for display purposes
   dt:any;
   portf:any;
   TickerCtrl= new FormControl();  
@@ -462,7 +503,7 @@ open_modal(content: any,item:any) {
   clrscr(){
     console.log("clrscr",this.ticker);
     this.ticker="";
-    //this.shareddataService.ticker=this.ticker;
+    this.displayTicker = ""; // Clear display ticker
     this.srched=0;
     this.emp=1;
     this.clsalert=1;
@@ -548,7 +589,8 @@ open_modal(content: any,item:any) {
       lineWidth: 2,
       resize: {
           enabled: true
-      }
+      },
+      gridLineWidth: 0
   }, {
       labels: {
           align: 'right',
@@ -560,10 +602,15 @@ open_modal(content: any,item:any) {
       top: '65%',
       height: '35%',
       offset: 0,
-      lineWidth: 2
+      lineWidth: 2,
+      gridLineWidth: 0
   }],
 
   tooltip: {
+      backgroundColor: '#f8fafc',
+      style: {
+          backgroundColor: '#f8fafc'
+      },
       split: true
   },
   series: [{
@@ -660,7 +707,7 @@ open_modal(content: any,item:any) {
     this.chartOptions1={
       chart: {
         type: 'column',
-        backgroundColor: '#f6f6f6',
+        backgroundColor: '#f8fafc',
 
     },
     title: {
@@ -684,6 +731,10 @@ open_modal(content: any,item:any) {
         }
     },
     tooltip: {
+        backgroundColor: '#f8fafc',
+        style: {
+            backgroundColor: '#f8fafc'
+        },
         headerFormat: '<b>{point.x}</b><br/>',
         pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
     },
@@ -739,7 +790,7 @@ open_modal(content: any,item:any) {
     this.chartOptions={
       chart: {
         type: 'spline',
-        backgroundColor: '#f6f6f6',
+        backgroundColor: '#f8fafc',
 
     },
     title: {
@@ -765,6 +816,10 @@ open_modal(content: any,item:any) {
         }
     },
     tooltip: {
+        backgroundColor: '#f8fafc',
+        style: {
+            backgroundColor: '#f8fafc'
+        },
         //crosshairs: true,
         shared: true
     },
@@ -864,6 +919,7 @@ open_modal(content: any,item:any) {
     this.emp=1;
     this.srched=1;
     this.loading=false;
+    this.displayTicker = this.ticker.toUpperCase(); // Update display ticker only when search is performed
 
     this.info_pnt=1;
     this.info_s_pnt=0;
@@ -1063,10 +1119,14 @@ this.appComponent.ticker_app=this.ticker;
       this.chartSummaryOptions = {
         chart: {
           type: 'line',
-          backgroundColor: '#f0f0f0'
+          backgroundColor: '#f8fafc',
+          style: {
+            backgroundColor: '#f8fafc'
+          },
+          plotBackgroundColor: '#f8fafc'
         },
         title: {
-            text: this.ticker + ' Hourly Price Variation',
+            text: this.displayTicker + ' Hourly Price Variation',
           style: {
             color: 'black',
             fontSize: '14px', 
@@ -1189,6 +1249,7 @@ this.appComponent.ticker_app=this.ticker;
 
     console.log(st);
     this.ticker=st.toUpperCase();
+    this.displayTicker = this.ticker; // Update display ticker when stock is selected
     console.log("setSeach",this.ticker);
     this.search();
   }

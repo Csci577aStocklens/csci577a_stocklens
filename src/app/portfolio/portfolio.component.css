@@ -1,4 +1,324 @@
-.heading{
-    font-size: 25px;
-    font-weight: bold;
+/* Portfolio Container Styles */
+.container {
+  padding: 20px;
+  max-width: 1000px;  /* Reduced from 1400px for better centering */
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Portfolio Page Background */
+:host {
+  display: block;
+  min-height: 100vh;
+  position: relative;
+}
+
+:host::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #f5f5f5;
+  z-index: 0;
+}
+
+/* Make sure all content is above the background */
+.container, .card, .alert {
+  position: relative;
+  z-index: 1;
+}
+
+/* Portfolio Header */
+.portfolio-header {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: #2c3e50;
+  text-align: center;
+  font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+  padding-top: 20px;
+}
+
+/* Wallet Balance */
+.wallet-balance {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2c3e50;
+  margin: 30px auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%;
+  max-width: 800px;
+  font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+}
+
+/* Center all content */
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Stock Cards */
+.card {
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  border-radius: 15px;
+  margin: 0 auto 20px;
+  box-shadow: 
+    0 0 240px -60px rgba(0, 0, 0, 0.1),
+    0 0 160px -40px rgba(0, 0, 0, 0.06),
+    0 0 640px 0 rgba(108,111,133,0.15);
+  transition: all 0.3s ease;
+  width: 100%;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 0 240px -60px rgba(0, 0, 0, 0.15),
+    0 0 160px -40px rgba(0, 0, 0, 0.1),
+    0 0 640px 0 rgba(108,111,133,0.2);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 15px;
+  padding: 1px;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0.05)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Card Header */
+.card-header {
+  background: transparent;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.company-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.company-info h4 {
+  color: #2c3e50;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+  font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+}
+
+.company-info h5 {
+  color: #7f8c8d;
+  font-size: 16px;
+  margin: 0;
+  font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+}
+
+/* Card Body */
+.card-body {
+  padding: 20px;
+  background: transparent;
+  color: #2c3e50;
+}
+
+.card-body .row {
+  margin: 0;
+  padding: 10px 0;
+}
+
+.card-body .col-sm-6 {
+  padding: 10px 20px;
+}
+
+.card-body p {
+  color: #2c3e50;
+  font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+}
+
+/* Card Footer */
+.card-footer {
+  background: transparent;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Buttons */
+.btn {
+  padding: 10px 25px;
+  border-radius: 12px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+.btn-primary {
+  background: rgba(52, 152, 219, 0.9);
+  border: none;
+  backdrop-filter: blur(5px);
+}
+
+.btn-primary:hover {
+  background: rgba(52, 152, 219, 1);
+  transform: translateY(-2px);
+}
+
+.btn-danger {
+  background: rgba(231, 76, 60, 0.9);
+  border: none;
+  backdrop-filter: blur(5px);
+}
+
+.btn-danger:hover {
+  background: rgba(231, 76, 60, 1);
+  transform: translateY(-2px);
+}
+
+/* Company Logo */
+.company-logo-container {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.company-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 8px;
+}
+
+.company-logo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(52, 152, 219, 0.3);
+  color: #fff;
+  font-weight: bold;
+  font-size: 20px;
+  text-transform: uppercase;
+  font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+}
+
+/* Text Colors */
+.text-success {
+  color: #27ae60 !important;
+  font-weight: bold;
+}
+
+.text-danger {
+  color: #c0392b !important;
+  font-weight: bold;
+}
+
+/* Labels and Values */
+.mb-0 {
+  margin-bottom: 0;
+  font-size: 14px;
+}
+
+/* Alert Styles */
+.alert {
+  width: 100% !important;
+  max-width: 800px !important;
+  margin: 0 auto 20px !important;
+  border-radius: 10px;
+  padding: 15px 20px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.alert-success {
+  background: rgba(46, 204, 113, 0.9);
+  color: white;
+}
+
+.alert-danger {
+  background: rgba(231, 76, 60, 0.9);
+  color: white;
+}
+
+.alert-warning {
+  background: rgba(241, 196, 15, 0.9);
+  color: #333;
+}
+
+/* Loading Spinner */
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 50px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+  
+  .card-header h4 {
+    font-size: 18px;
+  }
+  
+  .card-header h5 {
+    font-size: 14px;
+  }
+  
+  .mb-0 {
+    font-size: 12px;
+  }
+  
+  .btn {
+    padding: 6px 15px;
+    font-size: 14px;
+  }
 }

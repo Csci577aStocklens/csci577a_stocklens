@@ -115,3 +115,7 @@
     border: none; /* or border: 0; */
     padding: 4px;
 }
+
+:host {
+  background: transparent !important;
+}

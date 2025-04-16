@@ -121,10 +121,35 @@ export class SearchComponent implements OnInit  {
   added_bk=0;
   clsalert=1;
   sold_bk=0;
+  username: string = 'YourUsername'; // Will be set from cookie
+
+  // Utility function to get cookie value by name
+  getCookie(name: string): string | null {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    if (match) {
+      return decodeURIComponent(match[2]);
+    }
+    return null;
+  }
+
 constructor(private modalService: NgbModal, private shareddataService:ShareddataService, private appComponent: AppComponent ){
   if(this.shareddataService.ticker!=""){
     this.ticker=this.shareddataService.ticker;  
   }
+
+  // Fetch username from userData cookie
+  const userDataCookie = this.getCookie('userData');
+  if (userDataCookie) {
+    try {
+      const userData = JSON.parse(userDataCookie);
+      this.username = userData.name ? userData.name : 'Guest';
+    } catch (e) {
+      this.username = 'Guest';
+    }
+  } else {
+    this.username = 'Guest';
+  }
+
   console.log("this.ticker",this.ticker,this.shareddataService.ticker,this.shareddataService.get(),"get",this.appComponent.ticker_app);
 
 }

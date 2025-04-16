@@ -1,4 +1,4 @@
-import { Component,ViewChild, OnInit } from '@angular/core';
+import { Component,ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { SearchComponent } from './search/search.component';
 import { WatchlistComponent } from './watchlist/watchlist.component';
 import { PortfolioComponent } from './portfolio/portfolio.component';
@@ -10,7 +10,7 @@ import { UserService } from './services/user.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   title = 'stck';
   ticker_app="F";
   currentUser: any = null;
@@ -50,6 +50,19 @@ export class AppComponent implements OnInit {
         }
       }
     );
+  }
+
+  ngAfterViewInit() {
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 0) {
+          navbar.classList.add('navbar-shadow');
+        } else {
+          navbar.classList.remove('navbar-shadow');
+        }
+      });
+    }
   }
 
   button(str: string) {

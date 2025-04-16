@@ -1,5 +1,6 @@
-body {
-  background-color: #F8F9FA;
+html, body {
+  background: #F8F9FA;
+  height: 100%;
   min-height: 100vh;
   margin: 0;
   display: flex;
@@ -46,5 +47,15 @@ body {
     padding-left: 0.2in;
     padding-right: 0.2in;
     height: 40px;
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-shadow {
+  box-shadow: 0 4px 16px 0 rgba(108,111,133,0.15);
 }
 

@@ -95,12 +95,12 @@ export class PortfolioComponent {
 
   ngOnInit(){
     axios.get("http://localhost:5001/balance/").then(response=>{
-      this.balance=response.data[0].balance;
+      this.balance=response.data.balance;
       console.log("success",this.balance);
-  }).catch((err)=>{
-    console.log("err fail",err);
-    return;
-  });
+    }).catch((err)=>{
+      console.log("err fail",err);
+      return;
+    });
 
     axios.get("http://localhost:5001/portfolio/").then(response => {
         this.summaries=[];
@@ -151,7 +151,7 @@ Add_portfolio(p:any){
   }, 5001);
   console.log(this.balance,"bana");
   axios.post("http://localhost:5001/balance/",{
-      "balance": this.quantity*p
+      "balance": -1 * this.quantity*p
     }).then((res)=>{
 
       console.log('bllsls',this.balance);
@@ -184,7 +184,7 @@ Add_portfolio(p:any){
               this.summaries.push(response.data);
               console.log("sumarries",this.summaries);
               axios.get("http://localhost:5001/balance/").then(response=>{
-                this.balance=response.data[0].balance;
+                this.balance=response.data.balance;
                 console.log("success lower",this.balance);
                 this.quantity=0;
                 this.total=0.00;
@@ -238,7 +238,7 @@ sell_portfolio(p:any){
   if (this.stocks_having>0){
   // increase the sold 
   axios.post("http://localhost:5001/balance/",{
-      "balance": -1 * this.quantity_s*p
+      "balance": this.quantity_s*p
     }).then((res)=>{
 
       console.log('bllsls',this.balance);
@@ -275,7 +275,7 @@ sell_portfolio(p:any){
               this.info_pnt=1;
               console.log("sumarries",this.summaries);
               axios.get("http://localhost:5001/balance/").then(response=>{
-                this.balance=response.data[0].balance;
+                this.balance=response.data.balance;
                 console.log("success lower",this.balance);
                 this.quantity_s=0;
                 this.total_s=0.00;
@@ -309,7 +309,7 @@ sell_portfolio(p:any){
   else{
      // increase the sold 
   axios.post("http://localhost:5001/balance/",{
-    "balance": -1 * this.quantity_s*p
+    "balance": this.quantity_s*p
   }).then((res)=>{
 
     console.log('bllsls',this.balance);
@@ -343,7 +343,7 @@ sell_portfolio(p:any){
                 this.info_pnt=1;
                 console.log("sumarries",this.summaries);
                 axios.get("http://localhost:5001/balance/").then(response=>{
-                  this.balance=response.data[0].balance;
+                  this.balance=response.data.balance;
                   console.log("success lower",this.balance);
                   this.quantity_s=0;
                   this.total_s=0.00;

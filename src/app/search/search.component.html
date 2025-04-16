@@ -1,229 +1,305 @@
-<!DOCTYPE html>
-<html lang="en">
-    <body>
-
-<h2 class="st"> STOCK SEARCH</h2>
-
-<div class="row align-items-center justify-content-center">
-  <div class="col-md-4 " style="outline:none;text-align:center;border-color: #131273;border-width: 3px;border-radius: 35px;border-style: solid;width: fit-content;padding-top: 0.05in;">
-      <input type="text" style="border: none;width:280px;padding-left:0.04in;outline: none;" [(ngModel)]="ticker"  (input)="change()" placeholder="Enter Stock Ticker Symbol" name="sbar" [matAutocomplete]="auto">
-      <button style="height: 25px;width:25px;background-color:transparent;border: none;color: #131273;" (click)="search()" type="button"> <i class="bi bi-search"></i> </button>
-      <button style="height: 25px;width:25px;background-color:transparent;border: none;color: #131273;" (click)="clrscr()" type="reset" >  <i class="bi bi-x"></i></button>
-      <div class="matautodiv" style="position: absolute; left : 39%;top:20%;">
-        <mat-autocomplete #auto="matAutocomplete" style="position: absolute; left : 39%;top:20%;">
-          <mat-option *ngIf="loading" class="is-loading">
-            <mat-spinner [diameter] = "30"></mat-spinner>
+<div *ngIf="srched != 1"
+  style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh;">
+  <h2 class="st"
+    style="margin-bottom: 24px; font-size: 4.5rem; font-family: 'GeistMono', ui-monospace, SFMono-Regular, Roboto Mono, Menlo, Monaco, Liberation Mono, DejaVu Sans Mono, Courier New, monospace !important;">
+    Welcome,{{ username }}</h2>
+  <div style="text-align:center;width: fit-content;">
+    <div
+      style="display: flex; align-items: center; width: 600px; height: 56px; border-radius: 999px; margin-top: 32px; background: #fff; box-shadow: 0 4px 16px 0 rgba(108,111,133,0.10); padding: 0 0 0 28px; position: relative;">
+      <input type="text"
+        style="flex: 1; border: none; outline: none; background: transparent; font-size: 1.5rem; padding: 0; height: 100%;"
+        [(ngModel)]="ticker" (input)="change()" placeholder="Enter Stock Ticker Symbol" name="sbar"
+        [matAutocomplete]="auto" [attr.matAutocompletePosition]="srched == 1 ? 'above' : null">
+      <button
+        style="height: 36px; width: 36px; border-radius: 50%; background: #6c6f85; border: none; color: #fff; display: flex; align-items: center; justify-content: center; margin-right: 8px; margin-left: 12px; box-shadow: 0 2px 8px 0 rgba(108,111,133,0.15); font-size: 1.5rem;"
+        (click)="clrscr()" type="reset"><i class="bi bi-x"></i></button>
+      <mat-autocomplete #auto="matAutocomplete" class="full-width-autocomplete">
+        <mat-option *ngIf="loading" class="is-loading">
+          <mat-spinner [diameter]="30"></mat-spinner>
+        </mat-option>
+        <ng-container *ngIf="!loading">
+          <mat-option *ngFor="let suggestion of auto_cmp" [value]="suggestion.symbol"
+            (click)="setStock(suggestion.symbol)">
+            {{ suggestion.symbol }} - {{ suggestion.description }}
           </mat-option>
-    <ng-container *ngIf="!loading">
-           <mat-option *ngFor="let suggestion of auto_cmp" [value]="suggestion.symbol" (click)="setStock(suggestion.symbol)" >
-                {{ suggestion.symbol }} - {{ suggestion.description }}
-             </mat-option>
-    </ng-container>
-  </mat-autocomplete>
-</div>
-</div>
+        </ng-container>
+      </mat-autocomplete>
+    </div>
+  </div>
 </div>
 
+<div *ngIf="srched == 1">
+  <div
+    style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 1100; display: flex; justify-content: center; pointer-events: none;">
+    <div
+      style="display: flex; align-items: center; width: 600px; height: 56px; border-radius: 999px; background: #fff; box-shadow: 0 4px 16px 0 rgba(108,111,133,0.10); padding: 0 0 0 28px; margin-bottom: 24px; pointer-events: auto;">
+      <input type="text"
+        style="flex: 1; border: none; outline: none; background: transparent; font-size: 1.5rem; padding: 0; height: 100%;"
+        [(ngModel)]="ticker" (input)="change()" placeholder="Enter Stock Ticker Symbol" name="sbar"
+        [matAutocomplete]="auto" [attr.matAutocompletePosition]="srched == 1 ? 'above' : null">
+      <button
+        style="height: 36px; width: 36px; border-radius: 50%; background: #6c6f85; border: none; color: #fff; display: flex; align-items: center; justify-content: center; margin-right: 8px; margin-left: 12px; box-shadow: 0 2px 8px 0 rgba(108,111,133,0.15); font-size: 1.5rem;"
+        (click)="clrscr()" type="reset"><i class="bi bi-x"></i></button>
+      <mat-autocomplete #auto="matAutocomplete" class="full-width-autocomplete">
+        <mat-option *ngIf="loading" class="is-loading">
+          <mat-spinner [diameter]="30"></mat-spinner>
+        </mat-option>
+        <ng-container *ngIf="!loading">
+          <mat-option *ngFor="let suggestion of auto_cmp" [value]="suggestion.symbol"
+            (click)="setStock(suggestion.symbol)">
+            {{ suggestion.symbol }} - {{ suggestion.description }}
+          </mat-option>
+        </ng-container>
+      </mat-autocomplete>
+    </div>
+  </div>
+</div>
 
 <div *ngIf="srched==1 && charts_hoursly_data && peers">
   <div *ngIf="added_s==1" style="padding-left:20%">
-    <div class="alert alert-success  d-flex" role="alert"  style="width: 80%;">
-      <p style="width:80%;text-align: center;">{{ticker}} bought succesfully.</p>
-      <button type="button" style="margin-left: auto;" (click)="cloing_cardB()" class="btn-close" aria-label="Close"></button>
-     </div>
+    <div class="alert alert-success  d-flex" role="alert" style="width: 80%;">
+      <p style="width:80%;text-align: center;">{{displayTicker}} bought succesfully.</p>
+      <button type="button" style="margin-left: auto;" (click)="cloing_cardB()" class="btn-close"
+        aria-label="Close"></button>
+    </div>
   </div>
   <div *ngIf="sold_s==1" style="padding-left:20%">
     <div class="alert alert-danger d-flex" role="alert" style="width: 80%;">
-      <p style="width:80%;text-align: center;">{{ticker}} sold succesfully.</p>
-      <button type="button" style="margin-left: auto;"  (click)="cloing_cardS()" class="btn-close" aria-label="Close"></button>
-     </div>  
+      <p style="width:80%;text-align: center;">{{displayTicker}} sold succesfully.</p>
+      <button type="button" style="margin-left: auto;" (click)="cloing_cardS()" class="btn-close"
+        aria-label="Close"></button>
     </div>
-  
-  
-     <div *ngIf="added_bk==1" style="padding-left:20%">
-      <div class="alert alert-success ml-5  d-flex" role="alert" style="width: 80%;"><!--style="position: absolute;left: 25%;top:30%;width:50%"-->
-        <p style="width:80%;text-align: center;">{{ticker}} added to watchlist.</p>
-        <button type="button" style="margin-left: auto;" (click)="cloing_cardBK()" class="btn-close" aria-label="Close"></button>
-       </div>
-    </div>
-    <div *ngIf="sold_bk==1" style="padding-left:20%">
-      <div *ngIf="sold_bk==1" class="alert alert-danger ml-5 d-flex " role="alert" style="width: 80%;">
-        <p style="width:80%;text-align: center;">{{ticker}} remove from watchlist.</p>
-        <button type="button" style="margin-left: auto;" (click)="cloing_cardSK()" class="btn-close" aria-label="Close"></button>
-       </div>  
-      </div>
-    
-
-<div *ngIf="comp_d && emp==1">
-  <div class="row pt-2 pl-2 pr-2">
-    <div class="col">
-        <div class="ds" style="text-align:center">   <!--"leftP"-->
-            <div style="font-size: 20px;font-weight:bold;">{{ comp_d.ticker }} <button *ngIf="bookmarked==1" style="height: 15px;width:15px;background-color:transparent;border: none;" (click)="delete_bookmark(comp_d.ticker)" ><i class="bi bi-star-fill" style="color: yellow;"></i></button>  <button *ngIf="bookmarked==0" style="height: 15px;width:15px;background-color:transparent;border: none;" (click)="add_data(comp_d.ticker,comp_d.name)" ><i class="bi bi-star"></i></button>   </div>
-            <div style="font-size: 15px;">    {{ comp_d.name }}</div>
-            <div style="font-size: 10px;">    {{ comp_d.exchange }}</div>
-            <div style="display: flex;justify-content: center; gap:5px;"> <button type="button" class="btn btn-success" (click)="open(content1)">Buy</button> <button *ngIf="has_portf==1" type="button" class="btn btn-danger" (click)="open(content2)">Sell</button> </div>
-        </div>
-      </div>
-      <div class="col" >
-        <div style="text-align:center">
-          <img src={{comp_d.logo}}  style="width:80px; height:80px; ">  <!--"log"-->
-        </div>
-      </div>
-      <div class="col">
-          <div class="rp" [style.color]="clr" style="text-align:center"> <!--"rightP"-->
-              <div style="font-size: 30px;font-weight:bold;" >{{ summary.c.toFixed(2) }}</div>
-              <div style="font-size: 15px;">  <i *ngIf=" summary.d >0" class="bi bi-triangle-fill"></i>  <i *ngIf="summary.d<0"  class="bi bi-caret-down-fill"></i>{{ summary.d.toFixed(2) }} ( {{summary.dp.toFixed(2)}} % )</div>
-              <div style="font-size: 10px;color:black;">    {{dt}}</div>
-          </div>
-      </div>
   </div>
-  <div *ngIf="this.market_op_cl==1" class="text-center small fw-bold"> 
-    <div style="color:red"> Market is Closed on {{this.hrdt1}} 13:00:00</div>  
+
+
+  <div *ngIf="added_bk==1" style="padding-left:20%">
+    <div class="alert alert-success ml-5  d-flex" role="alert" style="width: 80%;">
+      <p style="width:80%;text-align: center;">{{displayTicker}} added to watchlist.</p>
+      <button type="button" style="margin-left: auto;" (click)="cloing_cardBK()" class="btn-close"
+        aria-label="Close"></button>
+    </div>
   </div>
-  <div *ngIf="this.market_op_cl==0" class="text-center small fw-bold" > <!--class="mrk"-->
-    <div style="color:green "> Market is Open</div>  
+  <div *ngIf="sold_bk==1" style="padding-left:20%">
+    <div *ngIf="sold_bk==1" class="alert alert-danger ml-5 d-flex " role="alert" style="width: 80%;">
+      <p style="width:80%;text-align: center;">{{displayTicker}} remove from watchlist.</p>
+      <button type="button" style="margin-left: auto;" (click)="cloing_cardSK()" class="btn-close"
+        aria-label="Close"></button>
     </div>
-   
-   
-   <!--<div *ngIf="emp==1" class="d-md-none">
-    <nav aria-label="Page navigation example" class="tabs" >
-      <ul class="pagination">
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <li class="page-item"> <button (click)="info()" id="btn1" #btn1 >Summary</button></li>
-        <li class="page-item"><button (click)="info_s()" id="btn2" >Top News</button></li>
-        <li class="page-item"><button (click)="info_ch()" id="btn3" >Charts</button></li>
-        <li class="page-item"> <button (click)="info_inf()" id="btn4" >Insights</button></li>
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
-    </div>-->
-    <!-- <div *ngIf="emp==1" class="d-md-none">
-     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-          <div class="d-flex flex-wrap">
+  </div>
 
-          <div class="carousel-item active">
-            <button (click)="info()" id="btn1" #btn1 >Summary</button>
-            </div>
-          <div class="carousel-item">
-            <button (click)="info_s()" id="btn2" >Top News</button>
-          </div>
-          <div class="carousel-item">
-            <button (click)="info_ch()" id="btn3" >Charts</button>
-          </div>
-          <div class="carousel-item">
-            <button (click)="info_inf()" id="btn4" >Insights</button>
-          </div>
-          </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div> 
-    </div>  -->
-    <!--Source : https://getbootstrap.com/docs/5.3/components/navbar/#nav-->
 
-    <div class="container dflex" style="padding-left:10%;outline:none;">
-      <div *ngIf="emp==1" class="tabs" style="border-bottom: none;"> <!--  width: 1000px;height: 60px;     display: flex;   -->
-        <ul class="nav justify-content-center nav-tabs nav-fill" style="border-bottom: none;" >
-          <li class="nav-item" style="padding: 5%;">
-              <button (click)="info()" id="btn1" #btn1   > Summary</button>
-          </li>
-          <li class="nav-item" style="padding: 5%;">
-            <button (click)="info_s()" id="btn2" > Top News </button>
-          </li>
-          <li class="nav-item" style="padding: 5%;">
-            <button  (click)="info_ch()" id="btn3" > Charts </button>
-          </li>
-          <li class="nav-item" style="padding: 5%;">
-            <button  (click)="info_inf()" id="btn4" > Insights </button>
-          </li>
-        </ul>
-      </div>
-    </div>
-    
-    <!--<div class="d-md-flex justify-content-md-center align-items-md-center">
-        <div *ngIf="emp==1" class="tabs navbar navbar-expand-md "> 
-          <div class="container" >
-            <div class="row" style="width: 100%;">
-            <div class="col-md-3 pl-1 pr-1" style="padding-left:10%;padding-right:10%;" >
-            <button (click)="info()" id="btn1" #btn1   > Summary</button>
-            </div>
-            <div class="col-md-3" style="text-align: center;">
-            <button style="margin-left:1%;margin-right:1%;text-align: center;" (click)="info_s()" id="btn2" > Top News </button>
-            </div>
-          <div class="col-md-3 pl-1 pr-1" style="padding-left:10%;padding-right:10%;">
-            <button  (click)="info_ch()" id="btn3" > Charts </button>
-           
-          </div>
-          <div class="col-md-3 pl-1 pr-1" style="padding-left:10%;padding-right:10%;">
-           <button  (click)="info_inf()" id="btn4" > Insights </button>
-          </div>
-        </div>
-          </div>
-        </div>
-    </div>-->
-    
-    <div *ngIf="info_pnt==1" class="info" >
-      <div class="container" style="padding-left:15%"><!--style="padding-top: 13%;padding-left:15%"-->
-        <div class="row">
-          <div class="col-md-6">
-            <div class="col-sm-6">
-              <div class="container"> <!--style="position: absolute; top:62%; left:24%"-->
-                <b>High Price </b>: {{summary.h}}<br/>
-                <b>Low Price </b>: {{summary.l}}<br/>
-                <b>Open Price </b>: {{summary.o}}<br/>
-                <b>Prev. Close</b> :{{summary.pc}}
+  <div *ngIf="comp_d && emp==1">
+
+    <div *ngIf="info_pnt==1">
+      <div class="row g-4">
+        <div class="col-lg-8">
+          <div class="stock-summary-container">
+            <div class="stock-header">
+              <div class="stock-title">
+                <img [src]="comp_d.logo" alt="Company Logo" class="company-logo">
+                <div class="company-info">
+                  <h2>{{comp_d.name}}</h2>
+                  <span class="ticker">{{displayTicker}}</span>
+                </div>
+              </div>
+              <div class="action-buttons">
+                <button class="action-btn buy-btn" (click)="open(content1)">Buy</button>
+                <button *ngIf="has_portf==1" class="action-btn sell-btn" (click)="open(content2)">Sell</button>
+                <button class="action-btn watchlist-btn" (click)="bookmarked ? delete_bookmark(displayTicker) : add_data(displayTicker, comp_d.name)">
+                  {{bookmarked ? 'Remove from Watchlist' : 'Add to Watchlist'}}
+                </button>
               </div>
             </div>
-        <div class="container text-center mt-4">
-          <div class="small"> <!-- style="position: absolute; top:73%; left:32%;line-height: 28px ; text-align:center;width:300px;"-->
-            <span style="text-decoration: underline;"> About the company </span><br/>
-            <b>IPO Start Date</b> : {{comp_d.ipo}}<br/>
-            <b>Industry</b> : {{comp_d.finnhubIndustry}}<br/>
-            <b>Webpage</b> : <a href="{{comp_d.weburl}}">{{comp_d.weburl}}</a><br/>
-            <b>Company Peers</b> : 
-            <div style="font-size: 12px;">
-              <a  *ngFor="let item of peers" href="#" (click)="setStock(item)"> {{item}},</a>
+            
+            <div class="stock-price-container">
+              <div class="price-section">
+                <h1 class="current-price">${{summary.c | number:'1.2-2'}}</h1>
+                <div class="price-change" [ngClass]="{'positive': summary.d > 0, 'negative': summary.d < 0}">
+                  <i *ngIf="summary.d > 0" class="bi bi-triangle-fill"></i>
+                  <i *ngIf="summary.d < 0" class="bi bi-caret-down-fill"></i>
+                  <span class="change-amount">{{summary.d | number:'1.2-2'}}</span>
+                  <span class="change-percent">({{summary.dp | number:'1.2-2'}}%)</span>
+                </div>
+              </div>
+              <div class="market-status" [ngClass]="{'market-open': market_op_cl === 0, 'market-closed': market_op_cl === 1}">
+                {{market_op_cl === 0 ? 'Market Open' : 'Market Closed'}}
+              </div>
+            </div>
+
+            <div class="chart-container">
+              <highcharts-chart [Highcharts]="Highcharts" [options]="chartSummaryOptions"
+                style="width: 100%; height: 200px; display: block;">
+              </highcharts-chart>
+            </div>
+
+            <div class="stock-details">
+              <div class="detail-row">
+                <div class="detail-item">
+                  <span class="label">Open</span>
+                  <span class="value">${{summary.o | number:'1.2-2'}}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="label">High</span>
+                  <span class="value">${{summary.h | number:'1.2-2'}}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="label">Low</span>
+                  <span class="value">${{summary.l | number:'1.2-2'}}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="label">Prev. Close</span>
+                  <span class="value">${{summary.pc | number:'1.2-2'}}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        </div>
-        <div class="col-md-6 mt-1">
-        <div> <!-- style="position: absolute; top:62%; left:60%;background-color:#aea6a6"-->  
-          <highcharts-chart
-            [Highcharts]="Highcharts"
-            [options]="chartSummaryOptions"
-            style="width:auto;height:300px;display: block;">
-          </highcharts-chart>
-        </div>
+
+        <div class="col-lg-4">
+          <div class="stock-summary-container">
+            <h2 class="info-title">Information</h2>
+            <div class="info-content">
+              <div class="info-section">
+                <h3>About the Company</h3>
+                <div class="info-row">
+                  <span class="info-label">IPO Start Date:</span>
+                  <span class="info-value">{{comp_d.ipo}}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Industry:</span>
+                  <span class="info-value">{{comp_d.finnhubIndustry}}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Exchange</span>
+                  <span class="info-value">{{comp_d.exchange}}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Website:</span>
+                  <a href="{{comp_d.weburl}}" target="_blank" class="info-link">{{comp_d.weburl}}</a>
+                </div>
+              </div>
+              <div class="info-section">
+                <h3>Company Peers</h3>
+                <div class="peers-container">
+                  <a *ngFor="let item of peers" 
+                     (click)="setStock(item)" 
+                     class="peer-link">{{item}}</a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
+      <div class="row mt-4">
+        <div class="col-12">
+          <div class="stock-summary-container">
+            <h2 class="info-title">Top News</h2>
+            <div class="news-carousel">
+              <div id="newsCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  <div *ngFor="let item of fil_news; let i = index" 
+                       class="carousel-item" 
+                       [class.active]="i === 0">
+                    <div class="row">
+                      <div class="col-md-4" (click)="open_modal(content,item)">
+                        <div class="news-content">
+                          <h3 class="news-headline">{{ item.headline }}</h3>
+                          <p class="news-source">{{ item.source }}</p>
+                        </div>
+                      </div>
+                      <div class="col-md-4" *ngIf="fil_news[i+1]" (click)="open_modal(content,fil_news[i+1])">
+                        <div class="news-content">
+                          <h3 class="news-headline">{{ fil_news[i+1].headline }}</h3>
+                          <p class="news-source">{{ fil_news[i+1].source }}</p>
+                        </div>
+                      </div>
+                      <div class="col-md-4" *ngIf="fil_news[i+2]" (click)="open_modal(content,fil_news[i+2])">
+                        <div class="news-content">
+                          <h3 class="news-headline">{{ fil_news[i+2].headline }}</h3>
+                          <p class="news-source">{{ fil_news[i+2].source }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#newsCarousel" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#newsCarousel" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <!--</div>-->
+
+      <div class="row mt-4">
+        <div class="col-12">
+          <div class="stock-summary-container">
+            <h2 class="info-title">Insider Sentiments</h2>
+            <div class="insights-content">
+              <div class="insights-table">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>{{ comp_d.name }}</th>
+                      <th>MSPR</th>
+                      <th>Change</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><b>Total</b></td>
+                      <td>{{ins_tot.toFixed(2)}}</td>
+                      <td>{{ins_ch_tot}}</td>
+                    </tr>
+                    <tr>
+                      <td><b>Positive</b></td>
+                      <td>{{ins_pos.toFixed(2)}}</td>
+                      <td>{{ins_ch_pos}}</td>
+                    </tr>
+                    <tr>
+                      <td><b>Negative</b></td>
+                      <td>{{ins_neg.toFixed(2)}}</td>
+                      <td>{{ins_ch_neg}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="insights-charts">
+                <div class="row">
+                  <div class="col-md-6">
+                    <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions1"
+                      style="width: 100%; height: 300px; display: block;">
+                    </highcharts-chart>
+                  </div>
+                  <div class="col-md-6">
+                    <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions"
+                      style="width: 100%; height: 300px; display: block;">
+                    </highcharts-chart>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    
-    <div *ngIf="info_s_pnt==1" class="info_s" style="padding-bottom:1%;;padding-left:5%"><!-- padding-top:14%position:absolute;top:62%; left:24%;width: 1000px; display: flex; flex-wrap:wrap; gap:20px;-->
-      
+
+    <div *ngIf="info_s_pnt==1" class="info_s" style="padding-bottom:1%;;padding-left:5%">
       <div class="container mt-1">
         <div class="row">
           <div class="col-md-6" *ngFor="let item of fil_news"><!---->
-            <div  style="margin-top: 12px; padding: 11px;border: 1px solid grey;background-color: #f9f9f9;border-radius: 10px;"  (click)="open_modal(content,item)">
+            <div
+              style="margin-top: 12px; padding: 11px;border: 1px solid grey;background-color: #f9f9f9;border-radius: 10px;"
+              (click)="open_modal(content,item)">
               <div class="row d-flex align-items-center justify-content-center">
-                <img class="col-sm-4 news-img" src="{{ item.image }}" style="width:120px; height: 70px;border-radius: 15%;">
+                <img class="col-sm-4 news-img" src="{{ item.image }}"
+                  style="width:120px; height: 70px;border-radius: 15%;">
                 <div class="col-sm-8 text-center" style="word-wrap: break-word;">
                   {{ item.headline }}
                 </div>
@@ -232,210 +308,226 @@
           </div>
         </div>
       </div>
-      </div>
+    </div>
 
     <div *ngIf="infor_nws_pnt==1">
-      <div class="container " ><!--style="padding-bottom:150px;"-->
-          <div class="container mt-1 pt-3"><!--position: absolute; top:58%;left:50%;-->
-            <p class="text-center" style="font-size:15px;font-weight:bold;text-align:center;margin-top:3%"> Insider Sentiments </p>
-            <div >
-              <table class='tb' style=" margin-left:35%;border-collapse: collapse; font-family: sans-serif; text-align: center;width: 60%; margin: auto; ">
-                <tr><th style="text-align: center;"> {{ comp_d.name }}</th>  <th style="text-align: center;"> MSPR </th> <th style="text-align: center;"> Change </th></tr>
-                <tr> <td><b>Total</b> </td>   <td> {{ins_tot.toFixed(2)}}</td>   <td> {{ins_ch_tot}}</td>  </tr>
-                <tr> <td><b> Positive </b></td>   <td>{{ins_pos.toFixed(2)}} </td>  <td> {{ins_ch_pos}}</td>  </tr>
-                <tr> <td> <b>Negative </b></td>   <td>{{ins_neg.toFixed(2)}} </td>  <td>{{ins_ch_neg}} </td>  </tr>
-              </table>
+      <div class="container "><!--style="padding-bottom:150px;"-->
+        <div class="container mt-1 pt-3"><!--position: absolute; top:58%;left:50%;-->
+          <p class="text-center" style="font-size:15px;font-weight:bold;text-align:center;margin-top:3%"> Insider
+            Sentiments </p>
+          <div>
+            <table class='tb'
+              style=" margin-left:35%;border-collapse: collapse; font-family: sans-serif; text-align: center;width: 60%; margin: auto; ">
+              <tr>
+                <th style="text-align: center;"> {{ comp_d.name }}</th>
+                <th style="text-align: center;"> MSPR </th>
+                <th style="text-align: center;"> Change </th>
+              </tr>
+              <tr>
+                <td><b>Total</b> </td>
+                <td> {{ins_tot.toFixed(2)}}</td>
+                <td> {{ins_ch_tot}}</td>
+              </tr>
+              <tr>
+                <td><b> Positive </b></td>
+                <td>{{ins_pos.toFixed(2)}} </td>
+                <td> {{ins_ch_pos}}</td>
+              </tr>
+              <tr>
+                <td> <b>Negative </b></td>
+                <td>{{ins_neg.toFixed(2)}} </td>
+                <td>{{ins_ch_neg}} </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="row pt-6" style="margin-top: 10%;">
+          <div class="col-md-6 ">
+            <div class="container  m-0">
+              <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions1"
+                style="display: block;"></highcharts-chart>
             </div>
           </div>
-          <div class="row pt-6" style="margin-top: 10%;"> 
-            <div class="col-md-6 ">
-              <div class="container  m-0" >
-                <highcharts-chart
-                   [Highcharts]="Highcharts"
-                    [options]="chartOptions1"
-                    style="display: block;"
-                ></highcharts-chart>
-              </div>
+          <div class="col-md-6 ">
+            <div class="container  m-0">
+              <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions"
+                style="display: block;"></highcharts-chart>
             </div>
-            <div class="col-md-6 ">
-              <div class="container  m-0" >
-                <highcharts-chart
-                  [Highcharts]="Highcharts"
-                  [options]="chartOptions"
-                  style="display: block;"
-                ></highcharts-chart>
-              </div>
-            </div>
-          </div><!--position: absolute; top:80%;left:18%; style="padding-top:10px"-->
+          </div>
+        </div><!--position: absolute; top:80%;left:18%; style="padding-top:10px"-->
       </div>
     </div>
 
-      
-    <div *ngIf="info_ch_pnt==1" ><!--style="padding-bottom:100px;"-->
-      <!--"width: 80%; height: 63vh; display: block;"-->
-  <div class="container" style="padding-left:20%; "><!--padding-bottom:10%;position: absolute; top:58%;left:20%;-->
-          <highcharts-chart 
-          [Highcharts]="Highcharts"
-          [constructorType]="'stockChart'"
-          [options]="chartOptions2"
-          style="height: 60vh;width:80%;display:block"
-        ></highcharts-chart>
-        </div>
+
+    <div *ngIf="info_ch_pnt==1"><!--style="padding-bottom:100px;"-->
+      <div class="container" style="padding-left:20%; "><!--padding-bottom:10%;position: absolute; top:58%;left:20%;-->
+        <highcharts-chart [Highcharts]="Highcharts" [constructorType]="'stockChart'" [options]="chartOptions2"
+          style="height: 60vh;width:80%;display:block"></highcharts-chart>
+      </div>
     </div>
 
+  </div>
+
+  <div *ngIf="emp==0" style="position: absolute;  left :25%;top:40%;width: 50%;">
+    <div *ngIf="clsalert==0" class="alert alert-danger d-flex" role="alert">
+      <span style="width:100%;text-align: center;">No data found. Please enter a valid ticker.</span>
+    </div>
+  </div>
+
+</div>
+<div *ngIf="emp1==0" style="position: absolute; left :25%;top:40%;width: 50%;">
+  <div *ngIf="clsalert==0" class="alert alert-danger d-flex" role="alert">
+    <span style="width:100%;text-align: center;">Please enter a valid ticker</span>
+    <button type="button" style="margin-left: auto;" (click)="close_err()" class="btn-close"
+      aria-label="Close"></button>
+  </div>
 </div>
 
-<div *ngIf="emp==0" style="position: absolute;  left :25%;top:40%;width: 50%;" >
-  <div  *ngIf="clsalert==0" class="alert alert-danger d-flex" role="alert">
-    <span style="width:100%;text-align: center;">No data found. Please enter a valid ticker.</span>
-   </div>
-</div>
 
-</div>
-<div *ngIf="emp1==0" style="position: absolute; left :25%;top:40%;width: 50%;" >
-  <div *ngIf="clsalert==0" class="alert alert-danger d-flex"  role="alert">
-   <span style="width:100%;text-align: center;">Please enter a valid ticker</span>
-    <button type="button" style="margin-left: auto;"  (click)="close_err()" class="btn-close" aria-label="Close"></button>
-   </div>
-</div>
-
-
-<br/>
-<br/><br/><br/>
+<br />
+<br /><br /><br />
 
 
 
 <div *ngIf="!charts_hoursly_data && srched==1">
   <div class="text-center d-flex justify-content-center mt-5" style="position:absolute;left:50%">
-      <mat-spinner diameter="38"></mat-spinner>
+    <mat-spinner diameter="38"></mat-spinner>
   </div>
 </div>
 
-<ng-template #content1 let-modal >
+<ng-template #content1 let-modal>
 
   <!-- Modal -->
-  <div >
+  <div>
 
-  <div class="modal-header d-block" style="padding: 16px;">
-    <div class =  "d-flex">
-    <h4 id="modal-title">{{this.ticker}}</h4>
-    <button type="button" class="close"  aria-label="Close" (click)="closing()" (click)="modal.dismiss('Cross click')" style ="text-decoration:underline;margin-left: auto;color:blue;outline: none;border:none;background-color:transparent;">
-      <span aria-hidden="true">&times;</span>
-    </button><br/>
-    
-    </div> 
+    <div class="modal-header d-block" style="padding: 16px;">
+      <div class="d-flex">
+        <h4 id="modal-title">{{displayTicker}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closing()"
+          (click)="modal.dismiss('Cross click')"
+          style="text-decoration:underline;margin-left: auto;color:blue;outline: none;border:none;background-color:transparent;">
+          <span aria-hidden="true">&times;</span>
+        </button><br />
+
+      </div>
+    </div>
+    <div class="modal-body">
+      <p style="font-size: 13px;">Current Price : {{ summary.c.toFixed(2) }}</p>
+      <p style="font-size: 13px;">Money in Wallet : {{this.balance.toFixed(2)}}</p>
+      <div class="row">
+        <div class="col-sm-2">
+          <span style="font-size: 13px;">Quantity :</span>
+        </div>
+        <div class="col-sm-10">
+          <input type="number" style="width:80%;" class="form-control" [(ngModel)]="quantity"
+            (input)="changeBuy( summary.c )" name="sbar">
+        </div>
+      </div>
+      <p style="font-size: 13px;color:red;font-weight:bold" *ngIf="warning==1"> Not enough money in wallet!
+      <p></p>
+    </div>
+    <div class="modal-footer ">
+      <div class="container  d-flex justify-content-between ">
+        <p style="width:100%">Total: {{total.toFixed(2)}}</p> <button type="button" style="margin-left: auto; "
+          class="btn btn-success" [disabled]="enable_buy==1" (click)="Add_portfolio(summary.c)"
+          (click)="modal.dismiss('Cross click')">Buy</button>
+
+      </div>
+    </div>
   </div>
-  <div class="modal-body">
-  <p style="font-size: 13px;">Current Price : {{ summary.c.toFixed(2) }}</p>
-  <p style="font-size: 13px;">Money in Wallet : {{this.balance.toFixed(2)}}</p> 
-  <div class="row">
-    <div class="col-sm-2">
-  <span style="font-size: 13px;">Quantity :</span>
-  </div>  <div class="col-sm-10">
-    <input type="number" style="width:80%;" class="form-control"  [(ngModel)]="quantity" (input)="changeBuy( summary.c )" name="sbar" >
-  </div>
-</div>
-  <!-- <button style="height: 25px;width:25px;background-color:transparent;border: none;color: #131273;" (click)="search()" type="button"> <i class="bi bi-search"></i> </button>-->
-  <p style="font-size: 13px;color:red;font-weight:bold" *ngIf="warning==1"> Not enough money in wallet! <p></p>
-</div>
-  <div class="modal-footer " >
-    <div class = "container  d-flex justify-content-between " >
-      <p style="width:100%">Total: {{total.toFixed(2)}}</p>    <button type="button" style="margin-left: auto; " class="btn btn-success" [disabled]="enable_buy==1" (click)="Add_portfolio(summary.c)" (click)="modal.dismiss('Cross click')">Buy</button> 
-    
-   </div>
-  </div>
-</div>
-  
-  
-  </ng-template>
 
 
-  
+</ng-template>
+
+
+
 <ng-template #content2 let-modal>
 
   <!-- Modal -->
-  
+
   <div class="modal-header d-block" style="padding: 16px;">
-    <div class =  "d-flex">
-    <h4 id="modal-title">{{this.ticker}}</h4>
-    <button type="button" class="close"  aria-label="Close" (click)="closing()" (click)="modal.dismiss('Cross click')" style ="text-decoration:underline;margin-left: auto;color:blue;outline: none;border:none;background-color:transparent;">
-      <span aria-hidden="true">&times;</span>
-    </button><br/>
-    
-    </div> 
+    <div class="d-flex">
+      <h4 id="modal-title">{{displayTicker}}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="closing()" (click)="modal.dismiss('Cross click')"
+        style="text-decoration:underline;margin-left: auto;color:blue;outline: none;border:none;background-color:transparent;">
+        <span aria-hidden="true">&times;</span>
+      </button><br />
+
+    </div>
   </div>
   <div class="modal-body">
-  <p style="font-size: 13px;">Current Price: {{ summary.c.toFixed(2) }}</p>
-  <p style="font-size: 13px;">Money in Wallet : {{this.balance.toFixed(2)}}</p> 
-  <div class="row">
-    <div class="col-sm-2">
-  <span style="font-size: 13px;">Quantity :</span>
-  </div>  <div class="col-sm-10">
-  <input type="number" style="width:80%;" class="form-control" [(ngModel)]="quantity_s" (input)="changeSell( summary.c )" name="sbar" >
-     
-</div>
-</div>
-  <!-- <button style="height: 25px;width:25px;background-color:transparent;border: none;color: #131273;" (click)="search()" type="button"> <i class="bi bi-search"></i> </button>-->
-  <p style="font-size: 13px;color:red;font-weight:bold;" *ngIf="warning_s==1" > You can't sell the stocks that you  dont have! <p></p>
-</div>
-  <div class="modal-footer " >
-    <div class = "container d-flex justify-content-between " >
-      <p style="width:100%"> Total : {{total_s.toFixed(2)}}</p>    <button type="button" style="margin-left: auto; "  class="btn btn-success" [disabled]="enable_sell==1" (click)="sell_portfolio(summary.c)" (click)="modal.dismiss('Cross click')">Sell</button> 
-  
-   </div>
+    <p style="font-size: 13px;">Current Price: {{ summary.c.toFixed(2) }}</p>
+    <p style="font-size: 13px;">Money in Wallet : {{this.balance.toFixed(2)}}</p>
+    <div class="row">
+      <div class="col-sm-2">
+        <span style="font-size: 13px;">Quantity :</span>
+      </div>
+      <div class="col-sm-10">
+        <input type="number" style="width:80%;" class="form-control" [(ngModel)]="quantity_s"
+          (input)="changeSell( summary.c )" name="sbar">
+
+      </div>
+    </div>
+    <p style="font-size: 13px;color:red;font-weight:bold;" *ngIf="warning_s==1"> You can't sell the stocks that you dont
+      have!
+    <p></p>
   </div>
-  
-  
-  </ng-template>
+  <div class="modal-footer ">
+    <div class="container d-flex justify-content-between ">
+      <p style="width:100%"> Total : {{total_s.toFixed(2)}}</p> <button type="button" style="margin-left: auto; "
+        class="btn btn-success" [disabled]="enable_sell==1" (click)="sell_portfolio(summary.c)"
+        (click)="modal.dismiss('Cross click')">Sell</button>
+
+    </div>
+  </div>
+
+
+</ng-template>
 
 <ng-template #content let-modal>
 
   <!-- Modal -->
-  
+
   <div class="modal-header d-block" style="padding: 16px;">
-    <div class =  "d-flex" >
-    <h1 id="modal-title">{{model_item.source}}</h1>
-    <button type="button" class="close"  aria-label="Close" (click)="modal.dismiss('Cross click')" style ="margin-left: auto;color:blue; outline: none;margin-right:5%;border:none;background-color:transparent;text-decoration:underline">
-      <span aria-hidden="true">&times;</span>
-    </button><br/>
+    <div class="d-flex">
+      <h1 id="modal-title">{{model_item.source}}</h1>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')"
+        style="margin-left: auto;color:blue; outline: none;margin-right:5%;border:none;background-color:transparent;text-decoration:underline">
+        <span aria-hidden="true">&times;</span>
+      </button><br />
     </div>
     <p style="font-size: 10px;">{{model_date}}</p>
-    
+
   </div>
   <div class="modal-body">
-  <p style="font-size: 15px; font-weight:bold"> {{model_item.headline}}</p>
-  <p style="font-size: 10px;">{{model_item_summary}} <a href="{{model_item.url}}" target="_blank"> here</a></p> 
+    <p style="font-size: 15px; font-weight:bold"> {{model_item.headline}}</p>
+    <p style="font-size: 10px;">{{model_item_summary}} <a href="{{model_item.url}}" target="_blank"> here</a></p>
   </div>
-  <div class="modal-footer justify-content-left" >
-    <div class = "container" style="border: 1px solid black;border-radius: 6px;">
-    <h3 style="font-size: 13px;">Share</h3>
+  <div class="modal-footer justify-content-left">
+    <div class="container" style="border: 1px solid black;border-radius: 6px;">
+      <h3 style="font-size: 13px;">Share</h3>
       <div style="height:30px;width:200px;display: flex; gap:5px;margin-bottom:8px;margin-top:8px;">
         <a class="twitter-share-button"
-        href="https://twitter.com/intent/post?text={{model_item.headline}}&url={{model_item.url}}" target="_blank">
-        <i class="bi-twitter-x" style="font-size:24px;height:8px;width:8px;color:black"></i>
-        </a> <span>     </span>
-        <a href="https://www.facebook.com/sharer/sharer.php?u={{model_item.url}}" target="_blank" rel="noopener noreferrer">
+          href="https://twitter.com/intent/post?text={{model_item.headline}}&url={{model_item.url}}" target="_blank">
+          <i class="bi-twitter-x" style="font-size:24px;height:8px;width:8px;color:black"></i>
+        </a> <span> </span>
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{model_item.url}}" target="_blank"
+          rel="noopener noreferrer">
           <i class="bi bi-facebook" style="font-size:24px;height:8px;width:8px;"></i>
         </a>
-        
-      <div id="fb-root"></div>
-  
-      <!-- Your share button code -->
-      <div class="fb-share-button"
-      data-href="https://www.your-domain.com/your-page.html"
-      data-layout="button_count">
-      </div>
-  
-  
-      </div>
-  
-  
-   </div>
-  </div>
-  
-  
-  </ng-template>
 
-  
-</body>
-</html>
+        <div id="fb-root"></div>
+
+        <!-- Your share button code -->
+        <div class="fb-share-button" data-href="https://www.your-domain.com/your-page.html" data-layout="button_count">
+        </div>
+
+
+      </div>
+
+
+    </div>
+  </div>
+
+
+</ng-template>

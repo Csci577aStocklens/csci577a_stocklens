@@ -1,16 +1,19 @@
-import { Component,ViewChild } from '@angular/core';
+import { Component,ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { SearchComponent } from './search/search.component';
 import { WatchlistComponent } from './watchlist/watchlist.component';
 import { PortfolioComponent } from './portfolio/portfolio.component';
+import { HttpClient } from '@angular/common/http';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit, AfterViewInit {
   title = 'stck';
   ticker_app="F";
+  currentUser: any = null;
 
   // Source : https://blog.angular-university.io/angular-viewchild/
   @ViewChild(SearchComponent) searchComponent!: SearchComponent;
@@ -21,9 +24,46 @@ export class AppComponent {
   isUserMenuOpen: boolean = false;
 	static buttonId: any;
   showwhatcomp: Number=1;
-  constructor(){
+  constructor(private http: HttpClient, private userService: UserService) {
 		this.button('srch');
 	}
+
+  ngOnInit() {
+    this.userService.getCurrentUser().subscribe(
+      (response) => {
+        if (response.success) {
+          this.currentUser = response.user;
+          console.log('Current user:', response.user);
+        } else {
+          console.error('Error fetching current user:', response.message);
+        }
+      },
+      (error) => {
+        console.error('Error fetching current user:', error);
+      }
+    );
+
+    this.userService.currentUser$.subscribe(
+      user => {
+        if (user && user.success) {
+          this.currentUser = user.user;
+        }
+      }
+    );
+  }
+
+  ngAfterViewInit() {
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 0) {
+          navbar.classList.add('navbar-shadow');
+        } else {
+          navbar.classList.remove('navbar-shadow');
+        }
+      });
+    }
+  }
 
   button(str: string) {
     this.clickedbutton = str;

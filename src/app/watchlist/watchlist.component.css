@@ -8,3 +8,21 @@
 .modal {
     z-index: 1050; /* Adjust the value accordingly */
   }
+
+.watchlist-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    border-radius: 1rem;
+  }
+  
+.watchlist-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-remove {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 1rem;
+    line-height: 1;
+  }

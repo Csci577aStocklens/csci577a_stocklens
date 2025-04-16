@@ -57,7 +57,7 @@
               </button>
             </li>
             <li class="nav-item">
-              <button style="text-align:center" class="nav-link text-uppercase fw-bolder" id="portfolio" (click)="button('prtfl')" [ngClass]="{'active-button': clickedbutton === 'prtfl'}">
+              <button style="text-align:center" class="nav-link text-uppercase fw-bolder" id="portfolio" (click)="button('prtfl')" [ngClass]="{'active-button': clickedbutton === 'prtfl'}" style="margin-right: 1rem;">
                 <i class="bi bi-briefcase fw-bolder" style="margin-right: 8px; color: #27303b;"></i><span style="color: #27303b;">Portfolio</span>
               </button>
             </li>
@@ -69,7 +69,16 @@
               <i class="bi bi-person-circle fw-bolder" style="font-size: 24px; color: #27303b;"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" style="background-color: #ffffff; border: 1px solid #e5e7eb;">
-              <li><span class="dropdown-item text-uppercase fw-bolder" style="color: #27303b; background-color: transparent; cursor: pointer;" onmouseover="this.style.color='#60a5fa'" onmouseout="this.style.color='#27303b'">John Doe</span></li>
+              <li *ngIf="currentUser">
+                <span class="dropdown-item text-uppercase fw-bolder" style="color: #27303b; background-color: transparent;">
+                  {{currentUser.email}}
+                </span>
+              </li>
+              <li *ngIf="!currentUser">
+                <span class="dropdown-item text-uppercase fw-bolder" style="color: #27303b; background-color: transparent;">
+                  Not logged in
+                </span>
+              </li>
             </ul>
           </li>
         </ul>
@@ -93,12 +102,6 @@
 
 
 
- <footer class="bg-light" style="position: fixed; bottom:0;width: 100%;">
-  
-  <div class="container text-center" style="padding:1%">
-    <b>Powered by </b><a href="https://finnhub.io/" target="_blank">Finnhub.io</a>
-  </div>
-</footer>
 
   </body>
 

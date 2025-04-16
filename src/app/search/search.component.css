@@ -23,13 +23,14 @@
     padding-left: 0.2in;
     padding-right: 0.2in;
     height: 40px;
+    font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
 }
 
-::ng-deep .cdk-overlay-pane{
+/* ::ng-deep .cdk-overlay-pane{
     position: absolute;
     left: 39%;
     top:20%;
-}
+} */
 ::ng-deep mat-spinner{
     position: absolute;
     left: 40%;
@@ -115,3 +116,758 @@
     border: none; /* or border: 0; */
     padding: 4px;
 }
+
+:host {
+  background: transparent !important;
+}
+
+::ng-deep .full-width-autocomplete {
+  width: 100% !important;
+}
+
+::ng-deep .cdk-overlay-pane {
+  width: 600px !important;
+  margin-left: -28px !important;
+  margin-top: 16px !important;
+  margin-bottom: 16px !important;
+}
+
+::ng-deep .mat-mdc-autocomplete-panel {
+  --mdc-shape-small: 30px !important;
+  --mat-autocomplete-container-shape: 30px !important;
+  width: 600px !important;
+  max-width: 600px !important;
+  border-radius: 30px !important;
+  box-shadow: 
+    0 0 240px -60px rgba(0, 0, 0, 0.1),
+    0 0 160px -40px rgba(0, 0, 0, 0.06),
+    0 0 640px 0 rgba(108,111,133,0.15) !important;
+  padding: 8px 0 !important;
+  margin-bottom: 0px !important;
+}
+
+::ng-deep .mat-mdc-autocomplete-panel .mdc-list {
+  padding: 8px 0 !important;
+  border-radius: 30px !important;
+}
+
+::ng-deep .mat-mdc-option:first-child {
+  border-top-left-radius: 30px !important;
+  border-top-right-radius: 30px !important;
+}
+
+::ng-deep .mat-mdc-option:last-child {
+  border-bottom-left-radius: 30px !important;
+  border-bottom-right-radius: 30px !important;
+}
+
+::ng-deep .mat-mdc-option {
+  white-space: normal !important;
+  line-height: 1.5em !important;
+  height: auto !important;
+  padding: 12px 28px !important;
+  margin: 0 8px !important;
+}
+
+::ng-deep .mat-mdc-option:hover {
+  border-radius: 20px !important;
+}
+
+/* Add gradient shadow and surrounding blur effect */
+div[style*="display: flex; align-items: center; width: 600px;"] {
+  box-shadow: 
+    0 0 240px -60px rgba(0, 0, 0, 0.1),
+    0 0 160px -40px rgba(0, 0, 0, 0.06),
+    0 0 640px 0 rgba(108,111,133,0.15) !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Create the surrounding blur effect */
+div[style*="display: flex; flex-direction: column; align-items: center;"]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  z-index: 1;
+  pointer-events: none;
+  margin: -100px;
+}
+
+/* Ensure search bar stays above the blur */
+div[style*="display: flex; flex-direction: column; align-items: center;"] {
+  position: relative !important;
+}
+
+div[style*="display: flex; flex-direction: column; align-items: center;"] > * {
+  position: relative !important;
+  z-index: 3 !important;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col-md-6 {
+  display: flex;
+}
+
+/* Adjust column widths */
+.col-md-6:first-child {
+  width: 70%;
+  flex: 0 0 70%;
+  max-width: 70%;
+}
+
+.col-md-6:last-child {
+  width: 30%;
+  flex: 0 0 30%;
+  max-width: 30%;
+}
+
+/* Increase font sizes in the right card */
+.col-md-6:last-child .info-title {
+  font-size: 28px;
+  margin-bottom: 28px;
+}
+
+.col-md-6:last-child .info-section h3 {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+.col-md-6:last-child .info-row {
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.col-md-6:last-child .info-label {
+  font-size: 16px;
+}
+
+.col-md-6:last-child .info-value {
+  font-size: 16px;
+}
+
+.col-md-6:last-child .peer-link {
+  font-size: 16px;
+  padding: 6px 16px;
+}
+
+.stock-summary-container {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+  margin-left: 12px;
+  width: calc(98%);
+  display: flex;
+  flex-direction: column;
+  font-family: "GeistMono", ui-monospace, SFMono-Regular, "Roboto Mono", Menlo, Monaco, "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace !important;
+}
+
+.info-title, 
+.company-info h2,
+.ticker,
+.current-price,
+.price-change,
+.market-status,
+.detail-item .label,
+.detail-item .value,
+.info-section h3,
+.info-label,
+.info-value,
+.peer-link {
+  font-family: "GeistMono", ui-monospace, SFMono-Regular, "Roboto Mono", Menlo, Monaco, "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace !important;
+}
+
+.info-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: #1a1a1a;
+}
+
+.info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.info-section {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 1rem;
+}
+
+.info-section h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #374151;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  font-size: 14px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.info-label {
+  color: #6b7280;
+  font-weight: 500;
+  flex-shrink: 0;
+  min-width: 120px;
+}
+
+.info-value {
+  color: #111827;
+  font-weight: 400;
+  text-align: right;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 60%;
+  flex: 1;
+}
+
+.info-link {
+  color: #2563eb;
+  text-decoration: none;
+  word-break: break-all;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  display: inline-block;
+}
+
+.info-link:hover {
+  text-decoration: underline;
+}
+
+.peers-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 100%;
+}
+
+.peer-link {
+  background: #e5e7eb;
+  color: #374151;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.peer-link:hover {
+  background: #d1d5db;
+}
+
+.stock-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.stock-title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.company-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: contain;
+  background-color: #f8fafc;
+  padding: 4px;
+}
+
+.company-info h2 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 600;
+  font-family: "GeistMono", ui-monospace, SFMono-Regular, "Roboto Mono", Menlo, Monaco, "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace !important;
+}
+
+.ticker {
+  color: #666;
+  font-size: 16px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.action-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.buy-btn {
+  background-color: #22c55e;
+  color: white;
+}
+
+.buy-btn:hover {
+  background-color: #16a34a;
+}
+
+.sell-btn {
+  background-color: #ef4444;
+  color: white;
+}
+
+.sell-btn:hover {
+  background-color: #dc2626;
+}
+
+.watchlist-btn {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.watchlist-btn:hover {
+  background-color: #e5e7eb;
+}
+
+.stock-price-container {
+  margin: 24px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price-section {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.current-price {
+  font-size: 48px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.price-change {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.price-change.positive {
+  color: #22c55e;
+}
+
+.price-change.negative {
+  color: #ef4444;
+}
+
+.market-status {
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.market-open {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.market-closed {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.chart-container {
+  margin: 24px 0;
+  background-color: #f8fafc;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+::ng-deep .chart-container .highcharts-background {
+  fill: #f8fafc !important;
+}
+::ng-deep .chart-container .highcharts-tooltip-background {
+    fill: #f8fafc !important;
+  }
+  
+
+.highcharts-tooltip-box{
+    fill: #f8fafc;
+
+}
+
+.stock-details {
+  margin-top: 24px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.detail-item {
+  flex: 1;
+  background-color: #f8fafc;
+  padding: 16px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.detail-item .label {
+  display: block;
+  color: #64748b;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.detail-item .value {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.comparison-container {
+  display: flex;
+  gap: 24px;
+  padding: 20px;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.original-summary, .new-summary {
+  flex: 1;
+  min-width: 600px;
+}
+
+.comparison-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #374151;
+  text-align: center;
+}
+
+.company-details {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.company-details h4 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 16px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.peers-section {
+  margin-top: 24px;
+}
+
+.peers-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Ensure the original design maintains its styling */
+.original-summary .container {
+  padding: 15px;
+}
+
+.original-summary .row {
+  margin-bottom: 20px;
+}
+
+.row.g-4 {
+  margin: 0;
+  width: 100%;
+}
+
+.col-lg-8 .stock-summary-container,
+.col-lg-4 .stock-summary-container {
+  height: 100%;
+  margin: 0;
+  width: 100%;
+}
+
+/* Increase font sizes in the right card */
+.col-lg-4 .info-title {
+  font-size: 28px;
+  margin-bottom: 28px;
+}
+
+.col-lg-4 .info-section h3 {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+.col-lg-4 .info-row {
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.col-lg-4 .info-label {
+  font-size: 16px;
+}
+
+.col-lg-4 .info-value {
+  font-size: 16px;
+}
+
+.col-lg-4 .peer-link {
+  font-size: 16px;
+  padding: 6px 16px;
+}
+
+/* News Carousel Styles */
+.news-carousel {
+  margin-top: 1rem;
+  margin-left: 7px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #f8fafc;
+  width: 100%;
+}
+
+.news-carousel .carousel-inner {
+  border-radius: 12px;
+  padding: 1rem;
+  width: 100%;
+}
+
+.news-carousel .carousel-item {
+  height: auto;
+  min-height: 150px;
+  transition: transform 0.6s ease-in-out;
+  width: 100%;
+}
+
+.news-carousel .carousel-item .row {
+  margin: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.news-carousel .col-md-4 {
+  padding: 0.5rem;
+  flex: 0 0 33.333333%;
+  max-width: 33.333333%;
+  width: 33.333333%;
+}
+
+.news-carousel .news-content {
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 8px;
+  height: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  width: 100%;
+}
+
+.news-carousel .news-content:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.news-carousel .news-headline {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.news-carousel .news-source {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.news-carousel .carousel-control-prev,
+.news-carousel .carousel-control-next {
+  width: 5%;
+  opacity: 0.7;
+  background-color: transparent;
+  margin: 0 -1rem;
+}
+
+.news-carousel .carousel-control-prev {
+  margin-left: -1.5rem;
+}
+
+.news-carousel .carousel-control-next {
+  margin-right: -1.5rem;
+}
+
+.news-carousel .carousel-control-prev-icon,
+.news-carousel .carousel-control-next-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: transparent;
+  background-size: 100% 100%;
+  filter: brightness(0) saturate(100%) invert(40%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(94%) contrast(86%);
+}
+
+.news-carousel .carousel-control-prev-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%2364748b'%3e%3cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z' stroke='%2364748b' stroke-width='2'/%3e%3c/svg%3e");
+}
+
+.news-carousel .carousel-control-next-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%2364748b'%3e%3cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z' stroke='%2364748b' stroke-width='2'/%3e%3c/svg%3e");
+}
+
+@media (max-width: 768px) {
+  .news-carousel .col-md-4 {
+    padding: 0.25rem;
+  }
+  
+  .news-carousel .news-content {
+    padding: 1rem;
+  }
+  
+  .news-carousel .news-headline {
+    font-size: 1rem;
+  }
+
+  .info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .info-label {
+    min-width: auto;
+  }
+
+  .info-value {
+    text-align: left;
+    max-width: 100%;
+  }
+
+  .peer-link {
+    max-width: calc(50% - 4px);
+  }
+}
+
+/* Ensure consistent width for all containers */
+.container.dflex {
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+}
+
+.row.mt-4 {
+  width: 100%;
+  margin: 0;
+}
+
+.col-12 {
+  width: 100%;
+  padding: 0;
+}
+
+.insights-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.insights-table {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.insights-table .table {
+  margin-bottom: 0;
+  width: 100%;
+}
+
+.insights-table th {
+  color: #6b7280;
+  font-weight: 500;
+  padding: 12px;
+  text-align: center;
+}
+
+.insights-table td {
+  color: #111827;
+  padding: 12px;
+  text-align: center;
+}
+
+.insights-charts {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.insights-charts ::ng-deep .highcharts-background {
+  fill: #f8fafc !important;
+}
+
+.insights-charts ::ng-deep .highcharts-container {
+  background-color: #f8fafc !important;
+}
+
+.insights-charts ::ng-deep .highcharts-plot-background {
+  fill: #f8fafc !important;
+}
+
+.insights-charts ::ng-deep .highcharts-plot-border {
+  stroke: #e5e7eb !important;
+}
+
+.insights-charts .row {
+  margin: 0;
+}
+
+.insights-charts .col-md-6 {
+  padding: 0 12px;
+}
+
+input {
+  font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+}
+

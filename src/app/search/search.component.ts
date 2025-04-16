@@ -443,23 +443,23 @@ export class SearchComponent implements OnInit {
 
   }
   open(content: any) {
-    //  this.modalService.open(content, {  centered: false});
     let pf: any;
     axios.get("http://localhost:5001/portfolio").then(response => {
-      pf = response.data; //JSON.stringify(response.data);
+      pf = response.data;
       const isPresent = pf.find((obj: any) => obj.ticker == this.ticker);
       console.log(isPresent, "isPresent");
       if (isPresent) {
         this.stocks_having = isPresent.qnt;
       }
       else {
-        this.stocks_having = 0
+        this.stocks_having = 0;
       }
-      this.modalService.open(content, { centered: false });
-
+      this.modalService.open(content, { 
+        centered: true,
+        size: 'md',
+        windowClass: 'custom-modal'
+      });
     }).catch(error => { console.log(error) });
-
-
     console.log("end");
   }
   changeBuy(p: any) {
@@ -484,25 +484,27 @@ export class SearchComponent implements OnInit {
     console.log("sds modal");
     console.log(item);
     this.model_item = item;
-    const dateObject = new Date(item.datetime * 1000); // Multiply by 1000 to convert from seconds to milliseconds
+    const dateObject = new Date(item.datetime * 1000);
     const months = [
       "January", "February", "March", "April", "May", "June",
       "July", "August", "September", "October", "November", "December"
     ];
 
-    // Get the components of the date
     const day = dateObject.getDate();
     const month = months[dateObject.getMonth()];
     const year = dateObject.getFullYear();
 
-    // Format the date
     const formattedDate = `${month} ${day}, ${year}`;
 
-    this.model_date = formattedDate
-
+    this.model_date = formattedDate;
     this.model_item_summary = item.summary.slice(0, -5);
 
-    this.modalService.open(content, { centered: false });
+    this.modalService.open(content, { 
+      centered: true,
+      size: 'md',
+      scrollable: true,
+      windowClass: 'news-modal'
+    });
     console.log("end");
   }
 
@@ -1327,23 +1329,21 @@ export class SearchComponent implements OnInit {
             this.clr = "red";
           }
 
-          //this.info_pnt = 1;
-          //peers- do write a function that atek tthe item and set the ticker symbol and call the searcg function
-
           //if (this.market_op_cl==0){ // open
           let currentDate = new Date();
           let year = currentDate.getFullYear();
-          let month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding 1 to month because it's zero-based
+          let month = String(currentDate.getMonth() + 1).padStart(2, '0');
           let day = String(currentDate.getDate()).padStart(2, '0');
           let formattedDate1 = year + "-" + month + "-" + day;
           this.hrdt1 = formattedDate1;
 
-          currentDate.setDate(currentDate.getDate() - 1);
-          let yearPreviousDay = currentDate.getFullYear();
-          let monthPreviousDay = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding 1 to month because it's zero-based
-          let dayPreviousDay = String(currentDate.getDate()).padStart(2, '0');
-          let formattedPreviousDay = yearPreviousDay + "-" + monthPreviousDay + "-" + dayPreviousDay;
-          this.hrdt2 = formattedPreviousDay
+          // Calculate date 24 hours ago
+          let pastDate = new Date(currentDate.getTime() - 24 * 60 * 60 * 1000);
+          let yearPast = pastDate.getFullYear();
+          let monthPast = String(pastDate.getMonth() + 1).padStart(2, '0');
+          let dayPast = String(pastDate.getDate()).padStart(2, '0');
+          let formattedPastDate = yearPast + "-" + monthPast + "-" + dayPast;
+          this.hrdt2 = formattedPastDate;
           // }
           /*else{
             let currentDate = new Date();
@@ -1407,6 +1407,16 @@ export class SearchComponent implements OnInit {
               },
               xAxis: {
                 type: 'datetime',
+                labels: {
+                  format: '{value:%H:%M}',
+                  rotation: -45,
+                  style: {
+                    fontSize: '10px'
+                  }
+                },
+                tickInterval: 3600000, // 1 hour in milliseconds
+                minPadding: 0.05,
+                maxPadding: 0.05
               },
               yAxis: {
                 opposite: true,

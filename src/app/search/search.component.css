@@ -887,9 +887,9 @@ input {
   display: flex;
   align-items: center;
   min-height: calc(100% - 1rem);
-  max-width: 55vh;
+  max-width: 65vh;
   margin: 0 auto;
-  --bs-modal-width: 55vh;
+  --bs-modal-width: 65vh;
   --bs-modal-margin: 25.5rem;
 }
 

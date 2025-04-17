@@ -11,6 +11,7 @@ import { error } from 'highcharts';
   styleUrl: './portfolio.component.css'
 })
 export class PortfolioComponent {
+  userName = ''; // Will be populated from cookie
   empty=0;
   balance=1500;
   protf:any;
@@ -27,6 +28,7 @@ export class PortfolioComponent {
   summaries: any[] = [];
   closeResult:any;
   companyProfilesMap: { [key: string]: any } = {};  // Changed from array to map
+  expandedStock: string | null = null;
 
   quantity=0;
   total=0.00;
@@ -45,52 +47,28 @@ export class PortfolioComponent {
   name="";
   @Output() wtchlstcall = new EventEmitter();
 
-  constructor( private modalService: NgbModal){/*
-   axios.get("http://localhost:5001/balance/").then(response=>{
-      this.balance=response.data[0].balance;
-      console.log("success",this.balance);
-  }).catch((err)=>{
-    console.log("err fail",err);
-    return;
-  });
+  // Utility function to get cookie value by name
+  getCookie(name: string): string | null {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    if (match) {
+      return decodeURIComponent(match[2]);
+    }
+    return null;
+  }
 
-    axios.get("http://localhost:5001/portfolio/").then(response => {
-        this.summaries=[];
-        this.protf = response.data; //JSON.stringify(response.data);
-        console.log("protf ",this.protf);
-        if(this.protf.length==0){
-          this.empty=1;
-        }
-        else{
-          this.empty=0;
-        }
-        //this.protf.forEach( (tckr : any )=> {
-        for (let i = 0; i < this.protf.length; i++) {
-          let tckr=this.protf[i];
-          console.log("tkcr",tckr);
-        axios.get("http://localhost:5001/summary_info?name="+tckr.ticker).then(response => {
-            this.summary = response.data; //JSON.stringify(response.data);
-            const smr=response.data;
-            console.log("summa",tckr,this.summary);
-            this.summaries.push( smr); //this.summary)  //   response.data);
-            this.protf[i].avg= this.protf[i].total / this.protf[i].qnt
-            this.protf[i].change= smr.c- this.protf[i].avg;
-            this.protf[i].c=smr.c;
-            
-            this.info_pnt=1;
-
-            console.log("sumarries",this.summaries);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-      } ; //);
-
-      })
-      .catch(error => {
-        console.log(error);
-      });*/
-
+  constructor(private modalService: NgbModal) {
+    // Fetch username from userData cookie
+    const userDataCookie = this.getCookie('userData');
+    if (userDataCookie) {
+      try {
+        const userData = JSON.parse(userDataCookie);
+        this.userName = userData.name ? userData.name : 'Investor';
+      } catch (e) {
+        this.userName = 'Investor';
+      }
+    } else {
+      this.userName = 'Investor';
+    }
   }
 
   ngOnInit(){
@@ -132,9 +110,10 @@ export class PortfolioComponent {
             const smr=response.data;
             console.log("summa",tckr,this.summary);
             this.summaries.push(smr);
-            this.protf[i].avg= this.protf[i].total / this.protf[i].qnt;
-            this.protf[i].change= smr.c- this.protf[i].avg;
-            this.protf[i].c=smr.c;
+            this.protf[i].avg = this.protf[i].total / this.protf[i].qnt;
+            this.protf[i].c = smr.c;
+            this.protf[i].d = smr.d;  // Daily change value
+            this.protf[i].dp = smr.dp;  // Daily change percentage
             this.info_pnt=1;
             console.log("sumarries",this.summaries);
           }).catch(error => {
@@ -451,6 +430,14 @@ private refreshPortfolioData() {
   }).catch(error => {
     console.log(error);
   });
+}
+
+toggleStockExpansion(ticker: string) {
+  if (this.expandedStock === ticker) {
+    this.expandedStock = null;
+  } else {
+    this.expandedStock = ticker;
+  }
 }
 
 }

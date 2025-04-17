@@ -14,8 +14,11 @@
 
 <div class="container">
   <div class="content-wrapper">
-    <h1 class="portfolio-header">My Portfolio</h1>
-    <div class="wallet-balance">Money in the Wallet: ${{balance.toFixed(2)}}</div>
+    <h1 class="portfolio-header">{{userName}}'s Portfolio</h1>
+    <div class="wallet-balance">
+      <span>Available Balance:</span>
+      <span class="balance-amount">${{balance.toFixed(2)}}</span>
+    </div>
     
     <div class="container pt-2 mt-6" *ngIf="protf">
       <div *ngIf="empty==1">
@@ -24,82 +27,79 @@
         </div>
       </div>
 
-      <div class="card mt-4" *ngFor="let item of protf">
-        <div class="card-header" (click)="setStock(item.ticker)">
-          <div class="company-logo-container">
-            <img *ngIf="companyProfilesMap[item.ticker]?.logo" [src]="companyProfilesMap[item.ticker]?.logo" [alt]="item.ticker + ' logo'" class="company-logo">
-            <div *ngIf="!companyProfilesMap[item.ticker]?.logo" class="company-logo-placeholder">
-              {{item.ticker[0]}}
+      <div class="stocks-list-container">
+        <div *ngFor="let item of protf" 
+             class="stock-row"
+             [class.expanded]="expandedStock === item.ticker"
+             (click)="toggleStockExpansion(item.ticker)">
+          
+          <!-- Basic Row View -->
+          <div class="stock-row-content">
+            <div class="stock-logo">
+              <img *ngIf="companyProfilesMap[item.ticker]?.logo" 
+                   [src]="companyProfilesMap[item.ticker]?.logo" 
+                   [alt]="item.ticker + ' logo'" 
+                   class="company-logo">
+              <div *ngIf="!companyProfilesMap[item.ticker]?.logo" 
+                   class="company-logo-placeholder">
+                {{item.ticker[0]}}
+              </div>
+            </div>
+            <div class="stock-basic-info">
+              <div class="stock-name">
+                <span class="stock-ticker">{{item.ticker}}</span>
+                <span class="stock-company-name">{{item.name}}</span>
+              </div>
+              <div class="stock-quantity">
+                {{item.qnt}} shares
+              </div>
+            </div>
+            <div class="stock-price-info">
+              <div class="current-price">${{item.c.toFixed(2)}}</div>
+              <div class="price-change" [ngClass]="item.d > 0 ? 'positive' : item.d < 0 ? 'negative' : ''">
+                <i *ngIf="item.dp < 0" class="bi bi-caret-down-fill"></i>
+                <i *ngIf="item.dp > 0" class="bi bi-caret-up-fill"></i>
+                {{item.d.toFixed(2)}} ({{item.dp.toFixed(2)}}%)
+              </div>
             </div>
           </div>
-          <div class="company-info">
-            <h4 class="d-inline">{{ item.ticker }}</h4>
-            <h5 class="text-secondary d-inline">{{ item.name }}</h5>
+
+          <!-- Expanded View -->
+          <div class="stock-details">
+            <div class="details-grid">
+              <div class="metrics-row">
+                <div class="metric-item">
+                  <span class="metric-label">Avg Cost</span>
+                  <span class="metric-value">${{item.avg.toFixed(2)}}</span>
+                </div>
+                <div class="metric-divider">•</div>
+                <div class="metric-item">
+                  <span class="metric-label">Total Cost</span>
+                  <span class="metric-value">${{item.total.toFixed(2)}}</span>
+                </div>
+                <div class="metric-divider">•</div>
+                <div class="metric-item">
+                  <span class="metric-label">Market Value</span>
+                  <span class="metric-value">${{(item.qnt * item.c).toFixed(2)}}</span>
+                </div>
+                <div class="metric-divider">•</div>
+                <div class="metric-item">
+                  <span class="metric-label">Total Return</span>
+                  <span class="metric-value" [ngClass]="((item.qnt * item.c) - item.total) > 0 ? 'positive' : ((item.qnt * item.c) - item.total) < 0 ? 'negative' : ''">
+                    ${{((item.qnt * item.c) - item.total).toFixed(2)}} 
+                    ({{((item.c - item.avg) / item.avg * 100).toFixed(2)}}%)
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="stock-actions">
+              <button class="btn btn-primary" (click)="open(content1,item)">Buy More</button>
+              <button class="btn btn-danger" (click)="open(content2,item)">Sell</button>
+              <button class="btn btn-outline-secondary" (click)="$event.stopPropagation(); setStock(item.ticker)">More Details</button>
+            </div>
           </div>
         </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="row">
-                        <div class="col">
-                            <p class="mb-0" style="font-weight: bold;" >Quantity:</p>
-                        </div>
-                        <div class="col">
-                            <p class="mb-0 " style="font-weight: bold;" >{{ item.qnt  }}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p class="mb-0 " style="font-weight: bold;" >Avg. Cost/Share:</p>
-                        </div>
-                        <div class="col">
-                            <p class="mb-0 " style="font-weight: bold;" >{{ item.avg.toFixed(2) }}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p class="mb-0 " style="font-weight: bold;" >Total Cost:</p>
-                        </div>
-                        <div class="col">
-                            <p class="mb-0 " style="font-weight: bold;" >{{  (item.total).toFixed(2) }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="row">
-                        <div class="col">
-                            <p class="mb-0 " style="font-weight: bold;" >Change:</p>
-                        </div>
-                        <div class="col">
-                            <p class="mb-0 " style="font-weight: bold;"  [ngClass]="item.change > 0 ? 'text-success' : item.change < 0 ? 'text-danger' : ''">
-                              {{ item.change.toFixed(2) }}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p class="mb-0 " style="font-weight: bold;" >Current Price</p>
-                        </div>
-                        <div class="col">
-                            <p class="mb-0 " style="font-weight: bold;"  [ngClass]="item.change > 0 ? 'text-success' : item.change < 0 ? 'text-danger' : ''">
-                                {{ item.c .toFixed(2) }}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p class="mb-0 " style="font-weight: bold;" >Market Value:</p>
-                        </div>
-                        <div class="col">
-                            <p class="mb-0" style="font-weight: bold;" [ngClass]="item.change > 0 ? 'text-success' : item.change < 0 ? 'text-danger' : ''">
-                              {{ (item.qnt *  item.c).toFixed(2) }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>        
-        <div class="card-footer">
-            <button class="btn btn-primary" (click)="open(content1,item)">Buy</button>
-            <button class="btn btn-danger" (click)="open(content2,item)">Sell</button>
-        </div>
+      </div>
     </div>
   </div>
 </div>

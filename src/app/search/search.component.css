@@ -872,25 +872,38 @@ input {
 }
 
 /* Modal Styles */
-::ng-deep .modal-content {
-  background-color: white;
-  border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  margin: 0 auto;
-  /* height: 100%; */
-  display: flex;
-  flex-direction: column;
+::ng-deep .modal-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+  margin: 0 !important;
+  max-width: 500px;
+  width: 90%;
+  z-index: 1050;
 }
 
-::ng-deep .modal-dialog {
-  display: flex;
-  align-items: center;
-  min-height: calc(100% - 1rem);
-  max-width: 65vh;
-  margin: 0 auto;
-  --bs-modal-width: 65vh;
-  --bs-modal-margin: 25.5rem;
+::ng-deep .modal-content {
+  position: relative;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  border: none;
+}
+
+::ng-deep .modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+}
+
+body.modal-open {
+  overflow: hidden;
+  padding-right: 0 !important;
 }
 
 ::ng-deep .modal-header {

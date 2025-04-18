@@ -1,0 +1,331 @@
+:root {
+  --primary: #2563eb;
+  --primary-hover: #1741a6;
+  --accent: #22c55e;
+  --bg: #f6f8fb;
+  --white: #fff;
+  --text-main: #0a2540;
+  --text-muted: #6b7a90;
+  --border: #e3e8f0;
+  --radius: 18px;
+  --transition: 0.2s cubic-bezier(.4,0,.2,1);
+  --shadow: 0 2px 12px rgba(30, 41, 59, 0.06);
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text-main);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color var(--transition);
+}
+
+/* ====== Header ====== */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 64px; /* Equal top and bottom padding for vertical centering */
+  background: var(--white);
+  box-shadow: var(--shadow);
+  border-radius: 0 0 var(--radius) var(--radius);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb 60%, #22c55e 100%);
+  box-shadow: 0 2px 8px rgba(37,99,235,0.10);
+}
+
+.logo span {
+  font-weight: 800;
+  font-size: 22px;
+  color: var(--primary);
+  letter-spacing: 0.5px;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+nav a {
+  margin: 0 12px;
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--text-main);
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: background var(--transition), color var(--transition);
+}
+
+nav a:hover {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.login,
+nav a.login {
+  font-weight: 700;
+  background: #f4f7fb;
+  color: var(--text-main);
+  padding: 8px 22px;
+  border-radius: 10px;
+  margin-left: 12px;
+  border: none;
+  box-shadow: none;
+  font-size: 16px;
+  transition: background var(--transition), color var(--transition);
+}
+
+nav a.login:hover {
+  background: var(--primary);
+  color: var(--white);
+}
+
+/* ====== Hero Section ====== */
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 64px 64px 0 64px;
+  background: var(--white);
+  border-radius: 0 0 48px 48px;
+  box-shadow: var(--shadow);
+  margin-bottom: 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-text {
+  max-width: 540px;
+  z-index: 1;
+}
+
+.hero-text h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 18px;
+  color: var(--text-main);
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.hero-text p {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+  font-weight: 400;
+}
+
+.email-signup {
+  display: flex;
+  align-items: center;
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.07);
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+  max-width: 420px;
+}
+
+.email-signup input {
+  padding: 16px 20px;
+  border: none;
+  font-size: 1.08rem;
+  flex: 1;
+  min-width: 180px;
+  background: transparent;
+  color: var(--text-main);
+  outline: none;
+}
+
+.email-signup input::placeholder {
+  color: #b0b8c9;
+  font-weight: 400;
+}
+
+.email-signup button {
+  padding: 0 28px;
+  background: var(--primary);
+  border: none;
+  color: var(--white);
+  font-weight: 600;
+  font-size: 1.08rem;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  transition: background var(--transition);
+  height: 48px;
+  margin-left: -2px;
+}
+
+.email-signup button:hover {
+  background: var(--primary-hover);
+}
+
+.hero-image {
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.hero-image img {
+  max-width: 340px;
+  width: 100%;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(37, 99, 235, 0.10);
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  margin-left: 24px;
+}
+
+/* ====== Trending Stocks Section ====== */
+.trending {
+  text-align: center;
+  padding: 48px 0 0 0;
+  background: transparent;
+}
+
+.trending h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 38px;
+  color: var(--text-main);
+  letter-spacing: -0.5px;
+}
+
+.stocks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 32px;
+}
+
+.stock {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 18px;
+  width: 260px;
+  min-width: 220px;
+  padding: 32px 18px 28px 18px;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.07);
+  transition: transform var(--transition), box-shadow var(--transition), border var(--transition);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.stock:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 12px 32px rgba(37,99,235,0.13);
+  border: 1.5px solid var(--primary);
+}
+
+.stock img {
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.stock h3 {
+  margin: 18px 0 8px;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: 0.2px;
+}
+
+.stock p {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 4px 0;
+  color: var(--text-main);
+}
+
+.stock .positive {
+  color: var(--accent);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+/* ====== Footer ====== */
+footer {
+  text-align: center;
+  padding: 32px 0 18px 0;
+  background: transparent;
+  font-size: 15px;
+  color: var(--text-muted);
+  letter-spacing: 0.2px;
+}
+
+/* ====== Responsive Design ====== */
+@media (max-width: 1100px) {
+  .hero {
+    flex-direction: column;
+    padding: 48px 24px 0 24px;
+    text-align: center;
+  }
+  .hero-image {
+    justify-content: center;
+    margin-top: 32px;
+  }
+  header {
+    padding: 16px 24px;
+  }
+}
+
+@media (max-width: 700px) {
+  .hero {
+    padding: 24px 8px 0 8px;
+    border-radius: 0 0 32px 32px;
+  }
+  .hero-text h1 {
+    font-size: 2.1rem;
+  }
+  .trending {
+    padding: 24px 0 0 0;
+  }
+  .stocks {
+    gap: 18px;
+  }
+  .stock {
+    width: 95vw;
+    max-width: 320px;
+    padding: 22px 8px 18px 8px;
+  }
+  header {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 4vw;
+  }
+  nav a {
+    margin: 0 8px;
+    font-size: 15px;
+  }
+}

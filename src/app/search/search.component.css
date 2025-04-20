@@ -878,7 +878,7 @@ input {
   left: 50%;
   transform: translate(-50%, -50%) !important;
   margin: 0 !important;
-  max-width: 500px;
+  max-width: 700px;
   width: 90%;
   z-index: 1050;
 }
@@ -1672,5 +1672,22 @@ body.modal-open {
 
 ::ng-deep .mat-mdc-autocomplete-panel[style*="bottom:"] .mdc-list-item__primary-text {
   color: white !important;
+}
+
+/* Adjust column widths in modal */
+.modal-body .col-sm-8 {
+  width: 60%;
+}
+
+.modal-body .col-sm-4 {
+  width: 40%;
+}
+
+.modal-body .col-sm-9 {
+  width: 65%;
+}
+
+.modal-body .col-sm-3 {
+  width: 35%;
 }
 

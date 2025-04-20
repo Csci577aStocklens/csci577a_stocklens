@@ -1444,22 +1444,20 @@ body.modal-open {
 
 /* News Modal Styles */
 ::ng-deep .news-modal .modal-dialog {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  max-width: 600px;
-  height: auto;
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  max-width: 600px;
+  width: 90%;
+  height: auto;
+  z-index: 1050;
 }
 
 ::ng-deep .news-modal .modal-content {
-  margin: auto;
-  max-height: fit-content;
+  position: relative;
+  max-height: 90vh;
   width: 100%;
   display: flex;
   flex-direction: column;

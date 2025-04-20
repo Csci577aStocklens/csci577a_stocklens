@@ -55,11 +55,11 @@
               </div>
             </div>
             <div class="stock-price-info">
-              <div class="current-price">${{item.c.toFixed(2)}}</div>
-              <div class="price-change" [ngClass]="item.d > 0 ? 'positive' : item.d < 0 ? 'negative' : ''">
-                <i *ngIf="item.dp < 0" class="bi bi-caret-down-fill"></i>
-                <i *ngIf="item.dp > 0" class="bi bi-caret-up-fill"></i>
-                {{item.d.toFixed(2)}} ({{item.dp.toFixed(2)}}%)
+              <div class="current-price">${{(item.c || 0).toFixed(2)}}</div>
+              <div class="price-change" [ngClass]="(item.d || 0) > 0 ? 'positive' : (item.d || 0) < 0 ? 'negative' : ''">
+                <i *ngIf="(item.dp || 0) < 0" class="bi bi-caret-down-fill"></i>
+                <i *ngIf="(item.dp || 0) > 0" class="bi bi-caret-up-fill"></i>
+                {{(item.d || 0).toFixed(2)}} ({{(item.dp || 0).toFixed(2)}}%)
               </div>
             </div>
           </div>
@@ -70,24 +70,24 @@
               <div class="metrics-row">
                 <div class="metric-item">
                   <span class="metric-label">Avg Cost</span>
-                  <span class="metric-value">${{item.avg.toFixed(2)}}</span>
+                  <span class="metric-value">${{(item.avg || 0).toFixed(2)}}</span>
                 </div>
                 <div class="metric-divider">•</div>
                 <div class="metric-item">
                   <span class="metric-label">Total Cost</span>
-                  <span class="metric-value">${{item.total.toFixed(2)}}</span>
+                  <span class="metric-value">${{(item.total || 0).toFixed(2)}}</span>
                 </div>
                 <div class="metric-divider">•</div>
                 <div class="metric-item">
                   <span class="metric-label">Market Value</span>
-                  <span class="metric-value">${{(item.qnt * item.c).toFixed(2)}}</span>
+                  <span class="metric-value">${{((item.qnt || 0) * (item.c || 0)).toFixed(2)}}</span>
                 </div>
                 <div class="metric-divider">•</div>
                 <div class="metric-item">
                   <span class="metric-label">Total Return</span>
-                  <span class="metric-value" [ngClass]="((item.qnt * item.c) - item.total) > 0 ? 'positive' : ((item.qnt * item.c) - item.total) < 0 ? 'negative' : ''">
-                    ${{((item.qnt * item.c) - item.total).toFixed(2)}} 
-                    ({{((item.c - item.avg) / item.avg * 100).toFixed(2)}}%)
+                  <span class="metric-value" [ngClass]="(((item.qnt || 0) * (item.c || 0)) - (item.total || 0)) > 0 ? 'positive' : (((item.qnt || 0) * (item.c || 0)) - (item.total || 0)) < 0 ? 'negative' : ''">
+                    ${{(((item.qnt || 0) * (item.c || 0)) - (item.total || 0)).toFixed(2)}} 
+                    ({{(((item.c || 0) - (item.avg || 0)) / (item.avg || 1) * 100).toFixed(2)}}%)
                   </span>
                 </div>
               </div>

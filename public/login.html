@@ -227,7 +227,7 @@
             const userData = getUserData();
             if (userData) {
                 // User is logged in, redirect to home page
-                window.location.href = '/';
+                window.location.href = '/app';
             }
         }
 
@@ -273,7 +273,7 @@
                 
                 if (response.ok && data.success) {
                     // Redirect to home page after successful login
-                    window.location.href = '/';
+                    window.location.href = '/app';
                 } else {
                     const errorDiv = document.getElementById('loginError');
                     errorDiv.textContent = data.message || 'Login failed';

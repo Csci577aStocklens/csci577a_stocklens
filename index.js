@@ -240,7 +240,7 @@ const checkAuth = async (req, res, next) => {
 
 // Protected root route
 app.get('/', checkAuth, (req, res) => {
-    res.sendFile(path.resolve(__dirname, './dist/stock-lens-ui/browser', 'index.html'));
+    res.sendFile(path.resolve(__dirname, './public', 'index.html'));
 });
 
 // Serve static files (after auth check)

@@ -72,12 +72,15 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
     else if (str === 'wchlst') {
       this.showwhatcomp = 2;
+      this.watchComponent?.ngOnInit();
     }
     else if (str === 'prtfl') {
       this.showwhatcomp = 3;
+      this.portfolioComponent?.ngOnInit();
     }
     else if (str === 'chat') {
       this.showwhatcomp = 4;
+      
     }
   }
 

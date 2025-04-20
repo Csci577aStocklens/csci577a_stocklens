@@ -871,3 +871,808 @@ input {
   font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
 }
 
+/* Modal Styles */
+::ng-deep .modal-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+  margin: 0 !important;
+  max-width: 500px;
+  width: 90%;
+  z-index: 1050;
+}
+
+::ng-deep .modal-content {
+  position: relative;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  border: none;
+}
+
+::ng-deep .modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+}
+
+body.modal-open {
+  overflow: hidden;
+  padding-right: 0 !important;
+}
+
+::ng-deep .modal-header {
+  border-bottom: 1px solid #e5e7eb;
+  padding: calc(2vh + 8px);
+  flex-shrink: 0;
+}
+
+::ng-deep .modal-body {
+  padding: calc(2vh + 8px);
+  font-family: "GeistMono", ui-monospace, SFMono-Regular, "Roboto Mono", Menlo, Monaco, "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace !important;
+  flex: 1;
+  overflow-y: auto;
+}
+
+::ng-deep .modal-footer {
+  border-top: 1px solid #e5e7eb;
+  padding: calc(2vh + 8px);
+  flex-shrink: 0;
+}
+
+::ng-deep .modal-title {
+  font-size: calc(2vh + 12px);
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+::ng-deep .modal-body p {
+  font-size: calc(0.8vh + 10px);
+  color: #374151;
+  margin-bottom: calc(1vh + 4px);
+}
+
+::ng-deep .modal-body .form-control {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: calc(1vh + 4px) calc(1.5vh + 4px);
+  font-size: calc(1.5vh + 8px);
+  width: 100%;
+}
+
+::ng-deep .modal-body .form-control:focus {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.1);
+}
+
+::ng-deep .modal-footer .btn-success {
+  background-color: #22c55e;
+  border: none;
+  padding: calc(1vh + 4px) calc(2vh + 8px);
+  font-weight: 500;
+  font-size: calc(1.5vh + 8px);
+}
+
+::ng-deep .modal-footer .btn-success:hover {
+  background-color: #16a34a;
+}
+
+::ng-deep .modal-footer .btn-success:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.current-price-value,
+.wallet-amount,
+.quantity-label,
+.quantity-input {
+  font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+  font-size: calc(1vh + 12px);
+  color: #1a1a1a;
+}
+
+.current-price-value,
+.wallet-amount,
+.quantity-input {
+  font-weight: 600;
+}
+
+.quantity-label {
+  font-weight: 400;
+  display: inline-block;
+  margin-right: 8px;
+  width: 220px;
+  height: calc(0.8vh + 16px);
+  line-height: calc(0.8vh + 16px);
+}
+
+.quantity-input {
+  font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+  font-size: calc(0.8vh + 10px);
+  font-weight: 600;
+  width: 100%;
+  height: calc(0.8vh + 16px);
+  padding: calc(0.4vh + 2px) calc(0.5vh + 4px);
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: white;
+  color: #1a1a1a;
+  text-align: right !important;
+}
+
+/* Remove spinner buttons for Chrome, Safari, Edge, Opera */
+.quantity-input::-webkit-inner-spin-button,
+.quantity-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Remove spinner buttons for Firefox */
+.quantity-input {
+  -moz-appearance: textfield;
+}
+
+/* Override any Bootstrap form-control styles */
+.quantity-input.form-control {
+  text-align: right !important;
+}
+
+.quantity-input:focus {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.1);
+  outline: none;
+}
+
+.modal-footer p {
+  font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+  font-size: calc(0.8vh + 10px);
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+  text-align: left;
+}
+
+.modal-body .col-sm-9 p,
+.modal-body .col-sm-3 p {
+  font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+  font-size: calc(0.8vh + 10px);
+  margin: 0;
+  line-height: calc(0.8vh + 16px);
+}
+
+.modal-body .col-sm-9 p {
+  font-weight: 400;
+}
+
+.modal-body .col-sm-3 p {
+  font-weight: 600;
+}
+
+/* Modal Header Styles */
+::ng-deep .modal-header h4 {
+  font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+  font-size: calc(1.2vh + 14px);
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+/* Modal Body Styles */
+.modal-body {
+  font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+}
+
+/* Price and Wallet Labels and Values */
+.modal-body .row {
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.modal-body .col-sm-9 p {
+  font-weight: 400;
+  font-size: calc(0.8vh + 10px);
+  text-align: left;
+}
+
+.modal-body .col-sm-3 p {
+  font-weight: 600;
+  font-size: calc(0.8vh + 10px);
+  text-align: right;
+}
+
+/* Remove any inline styles that might override these */
+.modal-body p[style*="font-size"] {
+  font-size: calc(0.8vh + 10px) !important;
+}
+
+/* Ensure consistent spacing */
+.modal-body .row + .row {
+  margin-top: 8px;
+}
+
+/* Quantity Section */
+.quantity-label {
+  font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+  font-size: calc(0.8vh + 10px);
+  font-weight: 400;
+  color: #1a1a1a;
+  display: inline-block;
+  margin-right: 8px;
+  width: 220px;
+  height: calc(0.8vh + 16px);
+  line-height: calc(0.8vh + 16px);
+}
+
+.quantity-input {
+  font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+  font-size: calc(0.8vh + 10px);
+  font-weight: 600;
+  width: 100%;
+  height: calc(0.8vh + 16px);
+  padding: calc(0.4vh + 2px) calc(0.5vh + 4px);
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: white;
+  color: #1a1a1a;
+}
+
+/* Warning Message */
+.modal-body p[style*="color:red"] {
+  font-size: calc(0.75vh + 10px);
+  font-weight: 500;
+  margin-top: 6px;
+}
+
+/* Modal Footer */
+.modal-footer .container {
+  padding: 0;
+}
+
+.modal-footer p {
+  font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+  font-size: calc(0.8vh + 10px);
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+::ng-deep .modal-footer .btn-success {
+  font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+  font-size: calc(0.75vh + 10px);
+  font-weight: 500;
+  padding: calc(0.6vh + 4px) calc(1.2vh + 6px);
+}
+
+::ng-deep .modal-footer .btn-success:hover {
+  background-color: #16a34a;
+}
+
+::ng-deep .modal-footer .btn-success:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Modal Close Button Styles */
+.close {
+  font-size: calc(1.5vh + 14px);
+  color: #1a1a1a !important;
+  opacity: 1;
+  font-weight: 300;
+  line-height: 1;
+  padding: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #4b5563 !important;
+  opacity: 1;
+}
+
+.close span {
+  display: block;
+  transform: scale(1.1);
+}
+
+/* Ensure proper alignment in flex container */
+.modal-header .d-flex {
+  width: 100%;
+  align-items: center;
+}
+
+/* Toast Notifications */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.toast-notification {
+  pointer-events: auto;
+  min-width: 300px;
+  max-width: 400px;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+  animation: slideIn 0.3s ease-out;
+  backdrop-filter: blur(8px);
+}
+
+.toast-notification p {
+  margin: 0;
+  font-size: calc(0.9vh + 11px);
+  font-weight: 500;
+  flex-grow: 1;
+  padding-right: 12px;
+}
+
+.toast-success {
+  background-color: rgba(220, 252, 231, 0.95);
+  border: 1px solid #22c55e;
+  color: #166534;
+}
+
+.toast-error {
+  background-color: rgba(254, 226, 226, 0.95);
+  border: 1px solid #ef4444;
+  color: #991b1b;
+}
+
+.toast-close {
+  background: transparent;
+  border: none;
+  color: currentColor;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 18px;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+  line-height: 1;
+}
+
+.toast-close:hover {
+  opacity: 1;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.toast-notification.fade-out {
+  animation: slideOut 0.3s ease-in forwards;
+}
+
+/* Modal Content Styles */
+.modal-label,
+.modal-value {
+  font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+  font-size: calc(0.8vh + 10px);
+  margin: 0;
+  line-height: calc(0.8vh + 16px);
+}
+
+.modal-label {
+  font-weight: 400;
+  color: #374151;
+}
+
+.modal-value {
+  font-weight: 600;
+  color: #1a1a1a;
+  text-align: right;
+}
+
+/* Override any inline styles */
+.modal-body p[style*="font-size"] {
+  font-size: calc(0.8vh + 10px) !important;
+}
+
+.modal-body .row {
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+/* Dark theme search bar styles for bottom position */
+.bottom-search-container {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1100;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.bottom-search-bar {
+  display: flex;
+  align-items: center;
+  width: 600px;
+  height: 56px;
+  border-radius: 999px;
+  background: #1a1a1a;
+  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2);
+  padding: 0 0 0 28px;
+  margin-bottom: 24px;
+  pointer-events: auto;
+}
+
+.bottom-search-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1.5rem;
+  padding: 0;
+  height: 100%;
+  color: #ffffff;
+}
+
+.bottom-search-bar input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.bottom-search-bar .clear-button {
+  height: 36px;
+  width: 36px;
+  border-radius: 50%;
+  background: #2d2d2d;
+  border: none;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  margin-left: 12px;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
+  font-size: 1.5rem;
+  transition: background-color 0.2s ease;
+}
+
+.bottom-search-bar .clear-button:hover {
+  background: #404040;
+}
+
+/* Dark theme autocomplete styles */
+.bottom-search-bar .mat-mdc-autocomplete-panel,
+.bottom-search-bar ::ng-deep .mat-mdc-autocomplete-panel {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+  border: 1px solid #2d2d2d !important;
+  border-radius: 30px !important;
+  width: 600px !important;
+  max-width: 600px !important;
+  margin-bottom: 16px !important;
+  padding: 8px 0 !important;
+  box-shadow: 
+    0 0 240px -60px rgba(0, 0, 0, 0.5),
+    0 0 160px -40px rgba(0, 0, 0, 0.3),
+    0 0 640px 0 rgba(0, 0, 0, 0.25) !important;
+}
+
+.bottom-search-bar .mat-mdc-option,
+.bottom-search-bar ::ng-deep .mat-mdc-option {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+  padding: 12px 28px !important;
+  margin: 0 8px !important;
+  border-radius: 20px !important;
+}
+
+.bottom-search-bar .mat-mdc-option:hover,
+.bottom-search-bar ::ng-deep .mat-mdc-option:hover {
+  background-color: #2d2d2d !important;
+}
+
+.bottom-search-bar .mat-mdc-option.mat-mdc-option-active,
+.bottom-search-bar ::ng-deep .mat-mdc-option.mat-mdc-option-active {
+  background-color: #404040 !important;
+}
+
+.bottom-search-bar .mat-mdc-option .mdc-list-item__primary-text,
+.bottom-search-bar ::ng-deep .mat-mdc-option .mdc-list-item__primary-text {
+  color: #ffffff !important;
+}
+
+.bottom-search-bar .mat-mdc-option .mat-mdc-option-text,
+.bottom-search-bar ::ng-deep .mat-mdc-option .mat-mdc-option-text {
+  color: #ffffff !important;
+}
+
+.bottom-search-bar .mat-mdc-option .mdc-list-item__primary-text span,
+.bottom-search-bar ::ng-deep .mat-mdc-option .mdc-list-item__primary-text span {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.bottom-search-bar .mat-spinner circle,
+.bottom-search-bar ::ng-deep .mat-spinner circle {
+  stroke: #ffffff !important;
+}
+
+.bottom-search-bar .mat-mdc-option:first-child,
+.bottom-search-bar ::ng-deep .mat-mdc-option:first-child {
+  border-top-left-radius: 30px !important;
+  border-top-right-radius: 30px !important;
+}
+
+.bottom-search-bar .mat-mdc-option:last-child,
+.bottom-search-bar ::ng-deep .mat-mdc-option:last-child {
+  border-bottom-left-radius: 30px !important;
+  border-bottom-right-radius: 30px !important;
+}
+
+.bottom-search-bar .mat-mdc-option.is-loading,
+.bottom-search-bar ::ng-deep .mat-mdc-option.is-loading {
+  background-color: transparent !important;
+}
+
+/* News Modal Styles */
+::ng-deep .news-modal .modal-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 600px;
+  height: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+::ng-deep .news-modal .modal-content {
+  margin: auto;
+  max-height: fit-content;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+::ng-deep .news-modal .modal-header {
+  padding: 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+::ng-deep .news-modal .modal-header h1 {
+  font-size: 1.5rem;
+  margin: 0;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+::ng-deep .news-modal .modal-header p {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 4px 0 0 0;
+}
+
+::ng-deep .news-modal .modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+  max-height: calc(90vh - 180px); /* Account for header and footer */
+}
+
+::ng-deep .news-modal .modal-footer {
+  padding: 20px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+::ng-deep .news-modal .news-date {
+  color: #6b7280;
+  font-size: 0.875rem;
+  margin: 0;
+  text-align: left;
+}
+
+::ng-deep .news-modal .share-container {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+::ng-deep .news-modal .share-container h3 {
+  font-size: 0.875rem;
+  margin: 0 0 12px 0;
+  color: #374151;
+}
+
+::ng-deep .news-modal .share-buttons {
+  display: flex;
+  gap: 16px;
+}
+
+::ng-deep .news-modal .share-buttons a {
+  color: #374151;
+  transition: color 0.2s ease;
+}
+
+::ng-deep .news-modal .share-buttons a:hover {
+  color: #1a1a1a;
+}
+
+/* Prevent body scrolling when modal is open */
+body.modal-open {
+  overflow: hidden;
+}
+
+/* Dark theme styles for Material overlay container and panel - only for bottom search */
+.bottom-search-bar ::ng-deep .cdk-overlay-container .mat-mdc-autocomplete-panel,
+.bottom-search-container ::ng-deep .cdk-overlay-container .mat-mdc-autocomplete-panel {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+  border: 1px solid #2d2d2d !important;
+  border-radius: 30px !important;
+}
+
+.bottom-search-bar ::ng-deep .cdk-overlay-container .mat-mdc-option,
+.bottom-search-container ::ng-deep .cdk-overlay-container .mat-mdc-option {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+}
+
+.bottom-search-bar ::ng-deep .cdk-overlay-container .mat-mdc-option:hover,
+.bottom-search-container ::ng-deep .cdk-overlay-container .mat-mdc-option:hover {
+  background-color: #2d2d2d !important;
+}
+
+.bottom-search-bar ::ng-deep .cdk-overlay-container .mat-mdc-option.mat-mdc-option-active,
+.bottom-search-container ::ng-deep .cdk-overlay-container .mat-mdc-option.mat-mdc-option-active {
+  background-color: #404040 !important;
+}
+
+.bottom-search-bar ::ng-deep .cdk-overlay-container .mdc-list-item__primary-text,
+.bottom-search-container ::ng-deep .cdk-overlay-container .mdc-list-item__primary-text {
+  color: #ffffff !important;
+}
+
+.bottom-search-bar ::ng-deep .cdk-overlay-container .mat-mdc-option-text,
+.bottom-search-container ::ng-deep .cdk-overlay-container .mat-mdc-option-text {
+  color: #ffffff !important;
+}
+
+/* Remove the global styles */
+/* ::ng-deep .mat-mdc-autocomplete-panel {
+  --mdc-list-list-item-container-color: #1a1a1a !important;
+  --mdc-list-list-item-hover-state-layer-color: #2d2d2d !important;
+  --mdc-list-list-item-selected-container-color: #404040 !important;
+}
+
+::ng-deep .cdk-overlay-pane {
+  background-color: #1a1a1a !important;
+}
+
+::ng-deep .mat-mdc-autocomplete-panel.mat-mdc-autocomplete-visible {
+  background-color: #1a1a1a !important;
+} */
+
+::ng-deep .cdk-overlay-container .cdk-overlay-pane:has(.mat-mdc-autocomplete-panel[style*="bottom:"]) {
+  .mat-mdc-autocomplete-panel {
+    --mat-autocomplete-background-color: #000000 !important;
+    background-color: #000000 !important;
+    color: white !important;
+  }
+
+  .mat-mdc-option {
+    --mdc-list-list-item-label-text-color: white !important;
+    --mdc-list-list-item-supporting-text-color: white !important;
+    --mdc-list-list-item-leading-icon-color: white !important;
+    --mdc-list-list-item-trailing-icon-color: white !important;
+  }
+
+  .mat-mdc-option:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .mat-mdc-option.mat-mdc-option-active {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+  }
+
+  .mdc-list-item__primary-text {
+    color: white !important;
+  }
+}
+
+/* Ensure text remains white in the dark theme */
+::ng-deep .cdk-overlay-container .cdk-overlay-pane:has(.mat-mdc-autocomplete-panel[style*="bottom:"]) .mat-mdc-option .mdc-list-item__primary-text,
+::ng-deep .cdk-overlay-container .cdk-overlay-pane:has(.mat-mdc-autocomplete-panel[style*="bottom:"]) .mat-mdc-option-text {
+  color: white !important;
+}
+
+/* Dark theme styles for Material overlay container and panel - only for bottom search */
+::ng-deep .cdk-overlay-container .cdk-overlay-pane:has(.mat-mdc-autocomplete-panel[style*="bottom:"]) .mat-mdc-autocomplete-panel {
+  --mat-autocomplete-background-color: #1a1a1a !important;
+  background-color: #1a1a1a !important;
+  color: white !important;
+  border: 1px solid #2d2d2d !important;
+}
+
+::ng-deep .cdk-overlay-container .cdk-overlay-pane:has(.mat-mdc-autocomplete-panel[style*="bottom:"]) .mat-mdc-option {
+  --mdc-list-list-item-label-text-color: white !important;
+  --mdc-list-list-item-supporting-text-color: white !important;
+  --mdc-list-list-item-leading-icon-color: white !important;
+  --mdc-list-list-item-trailing-icon-color: white !important;
+  background-color: #1a1a1a !important;
+  color: white !important;
+}
+
+::ng-deep .cdk-overlay-container .cdk-overlay-pane:has(.mat-mdc-autocomplete-panel[style*="bottom:"]) .mat-mdc-option:hover {
+  background-color: #2d2d2d !important;
+}
+
+::ng-deep .cdk-overlay-container .cdk-overlay-pane:has(.mat-mdc-autocomplete-panel[style*="bottom:"]) .mat-mdc-option.mat-mdc-option-active {
+  background-color: #404040 !important;
+}
+
+::ng-deep .cdk-overlay-container .cdk-overlay-pane:has(.mat-mdc-autocomplete-panel[style*="bottom:"]) .mat-mdc-option .mdc-list-item__primary-text {
+  color: white !important;
+}
+
+::ng-deep .cdk-overlay-container .cdk-overlay-pane:has(.mat-mdc-autocomplete-panel[style*="bottom:"]) .mat-mdc-option .mat-mdc-option-text {
+  color: white !important;
+}
+
+/* Override Material's default background color */
+::ng-deep .mat-mdc-autocomplete-panel[style*="bottom:"] {
+  --mdc-list-list-item-container-color: #1a1a1a !important;
+  --mdc-list-list-item-hover-state-layer-color: #2d2d2d !important;
+  --mdc-list-list-item-selected-container-color: #404040 !important;
+  background-color: #1a1a1a !important;
+}
+
+/* Additional overrides for Material's newer MDC-based classes */
+::ng-deep .mat-mdc-autocomplete-panel[style*="bottom:"] .mdc-list {
+  background-color: #1a1a1a !important;
+}
+
+::ng-deep .mat-mdc-autocomplete-panel[style*="bottom:"] .mdc-list-item {
+  background-color: #1a1a1a !important;
+}
+
+::ng-deep .mat-mdc-autocomplete-panel[style*="bottom:"] .mdc-list-item__primary-text {
+  color: white !important;
+}
+

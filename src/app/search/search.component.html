@@ -34,17 +34,20 @@
 </div>
 
 <div *ngIf="srched == 1">
-  <div
-    style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 1100; display: flex; justify-content: center; pointer-events: none;">
-    <div
-      style="display: flex; align-items: center; width: 600px; height: 56px; border-radius: 999px; background: #fff; box-shadow: 0 4px 16px 0 rgba(108,111,133,0.10); padding: 0 0 0 28px; margin-bottom: 24px; pointer-events: auto;">
+  <div class="bottom-search-container">
+    <div class="bottom-search-bar">
       <input type="text"
-        style="flex: 1; border: none; outline: none; background: transparent; font-size: 1.5rem; padding: 0; height: 100%;"
-        [(ngModel)]="ticker" (input)="change()" placeholder="Enter Stock Ticker Symbol" name="sbar"
-        [matAutocomplete]="auto" [attr.matAutocompletePosition]="srched == 1 ? 'above' : null">
-      <button
-        style="height: 36px; width: 36px; border-radius: 50%; background: #6c6f85; border: none; color: #fff; display: flex; align-items: center; justify-content: center; margin-right: 8px; margin-left: 12px; box-shadow: 0 2px 8px 0 rgba(108,111,133,0.15); font-size: 1.5rem;"
-        (click)="clrscr()" type="reset"><i class="bi bi-x"></i></button>
+        [(ngModel)]="ticker"
+        (input)="change()"
+        placeholder="Enter Stock Ticker Symbol"
+        name="sbar"
+        [matAutocomplete]="auto"
+        [attr.matAutocompletePosition]="srched == 1 ? 'above' : null">
+      <button class="clear-button"
+        (click)="clrscr()"
+        type="reset">
+        <i class="bi bi-x"></i>
+      </button>
       <mat-autocomplete #auto="matAutocomplete" class="full-width-autocomplete">
         <mat-option *ngIf="loading" class="is-loading">
           <mat-spinner [diameter]="30"></mat-spinner>
@@ -61,37 +64,27 @@
 </div>
 
 <div *ngIf="srched==1 && charts_hoursly_data && peers">
-  <div *ngIf="added_s==1" style="padding-left:20%">
-    <div class="alert alert-success  d-flex" role="alert" style="width: 80%;">
-      <p style="width:80%;text-align: center;">{{displayTicker}} bought succesfully.</p>
-      <button type="button" style="margin-left: auto;" (click)="cloing_cardB()" class="btn-close"
-        aria-label="Close"></button>
+  <div class="toast-container">
+    <div *ngIf="added_s==1" class="toast-notification toast-success">
+      <p>{{displayTicker}} bought successfully.</p>
+      <button type="button" class="toast-close" (click)="cloing_cardB()">×</button>
+    </div>
+    
+    <div *ngIf="sold_s==1" class="toast-notification toast-error">
+      <p>{{displayTicker}} sold successfully.</p>
+      <button type="button" class="toast-close" (click)="cloing_cardS()">×</button>
+    </div>
+    
+    <div *ngIf="added_bk==1" class="toast-notification toast-success">
+      <p>{{displayTicker}} added to watchlist.</p>
+      <button type="button" class="toast-close" (click)="cloing_cardBK()">×</button>
+    </div>
+    
+    <div *ngIf="sold_bk==1" class="toast-notification toast-error">
+      <p>{{displayTicker}} removed from watchlist.</p>
+      <button type="button" class="toast-close" (click)="cloing_cardSK()">×</button>
     </div>
   </div>
-  <div *ngIf="sold_s==1" style="padding-left:20%">
-    <div class="alert alert-danger d-flex" role="alert" style="width: 80%;">
-      <p style="width:80%;text-align: center;">{{displayTicker}} sold succesfully.</p>
-      <button type="button" style="margin-left: auto;" (click)="cloing_cardS()" class="btn-close"
-        aria-label="Close"></button>
-    </div>
-  </div>
-
-
-  <div *ngIf="added_bk==1" style="padding-left:20%">
-    <div class="alert alert-success ml-5  d-flex" role="alert" style="width: 80%;">
-      <p style="width:80%;text-align: center;">{{displayTicker}} added to watchlist.</p>
-      <button type="button" style="margin-left: auto;" (click)="cloing_cardBK()" class="btn-close"
-        aria-label="Close"></button>
-    </div>
-  </div>
-  <div *ngIf="sold_bk==1" style="padding-left:20%">
-    <div *ngIf="sold_bk==1" class="alert alert-danger ml-5 d-flex " role="alert" style="width: 80%;">
-      <p style="width:80%;text-align: center;">{{displayTicker}} remove from watchlist.</p>
-      <button type="button" style="margin-left: auto;" (click)="cloing_cardSK()" class="btn-close"
-        aria-label="Close"></button>
-    </div>
-  </div>
-
 
   <div *ngIf="comp_d && emp==1">
 
@@ -409,31 +402,44 @@
       <div class="d-flex">
         <h4 id="modal-title">{{displayTicker}}</h4>
         <button type="button" class="close" aria-label="Close" (click)="closing()"
-          (click)="modal.dismiss('Cross click')"
-          style="text-decoration:underline;margin-left: auto;color:blue;outline: none;border:none;background-color:transparent;">
+          (click)="modal.dismiss('Cross click')">
           <span aria-hidden="true">&times;</span>
         </button><br />
 
       </div>
     </div>
     <div class="modal-body">
-      <p style="font-size: 13px;">Current Price : {{ summary.c.toFixed(2) }}</p>
-      <p style="font-size: 13px;">Money in Wallet : {{this.balance.toFixed(2)}}</p>
       <div class="row">
-        <div class="col-sm-2">
-          <span style="font-size: 13px;">Quantity :</span>
+        <div class="col-sm-9">
+          <p class="modal-label">Current Price:</p>
         </div>
-        <div class="col-sm-10">
-          <input type="number" style="width:80%;" class="form-control" [(ngModel)]="quantity"
+        <div class="col-sm-3">
+          <p class="modal-value">&#36;{{ summary.c.toFixed(2) }}</p>
+        </div>
+      </div>
+  
+      <div class="row">
+        <div class="col-sm-9">
+          <p class="modal-label">Money in Wallet :</p>
+        </div>
+        <div class="col-sm-3">
+          <p class="modal-value">&#36;{{this.balance.toFixed(2)}}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-8">
+          <span class="quantity-label">Quantity :</span>
+        </div>
+        <div class="col-sm-4">
+          <input type="number" class="quantity-input" [(ngModel)]="quantity"
             (input)="changeBuy( summary.c )" name="sbar">
         </div>
       </div>
-      <p style="font-size: 13px;color:red;font-weight:bold" *ngIf="warning==1"> Not enough money in wallet!
-      <p></p>
+      <p style="font-size: 13px;color:red;font-weight:bold" *ngIf="warning==1"> Not enough money in wallet!</p>
     </div>
     <div class="modal-footer ">
       <div class="container  d-flex justify-content-between ">
-        <p style="width:100%">Total: {{total.toFixed(2)}}</p> <button type="button" style="margin-left: auto; "
+        <p style="width:100%">Total: &#36;{{total.toFixed(2)}}</p> <button type="button" style="margin-left: auto; "
           class="btn btn-success" [disabled]="enable_buy==1" (click)="Add_portfolio(summary.c)"
           (click)="modal.dismiss('Cross click')">Buy</button>
 
@@ -453,24 +459,37 @@
   <div class="modal-header d-block" style="padding: 16px;">
     <div class="d-flex">
       <h4 id="modal-title">{{displayTicker}}</h4>
-      <button type="button" class="close" aria-label="Close" (click)="closing()" (click)="modal.dismiss('Cross click')"
-        style="text-decoration:underline;margin-left: auto;color:blue;outline: none;border:none;background-color:transparent;">
+      <button type="button" class="close" aria-label="Close" (click)="closing()" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button><br />
 
     </div>
   </div>
   <div class="modal-body">
-    <p style="font-size: 13px;">Current Price: {{ summary.c.toFixed(2) }}</p>
-    <p style="font-size: 13px;">Money in Wallet : {{this.balance.toFixed(2)}}</p>
     <div class="row">
-      <div class="col-sm-2">
-        <span style="font-size: 13px;">Quantity :</span>
+      <div class="col-sm-9">
+        <p class="modal-label">Current Price:</p>
       </div>
-      <div class="col-sm-10">
-        <input type="number" style="width:80%;" class="form-control" [(ngModel)]="quantity_s"
-          (input)="changeSell( summary.c )" name="sbar">
+      <div class="col-sm-3">
+        <p class="modal-value">&#36;{{ summary.c.toFixed(2) }}</p>
+      </div>
+    </div>
 
+    <div class="row">
+      <div class="col-sm-9">
+        <p class="modal-label">Money in Wallet :</p>
+      </div>
+      <div class="col-sm-3">
+        <p class="modal-value">&#36;{{this.balance.toFixed(2)}}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8">
+        <span class="quantity-label">Quantity :</span>
+      </div>
+      <div class="col-sm-4">
+        <input type="number" class="quantity-input" [(ngModel)]="quantity_s"
+          (input)="changeSell( summary.c )" name="sbar">
       </div>
     </div>
     <p style="font-size: 13px;color:red;font-weight:bold;" *ngIf="warning_s==1"> You can't sell the stocks that you dont
@@ -479,7 +498,7 @@
   </div>
   <div class="modal-footer ">
     <div class="container d-flex justify-content-between ">
-      <p style="width:100%"> Total : {{total_s.toFixed(2)}}</p> <button type="button" style="margin-left: auto; "
+      <p style="width:100%"> Total : &#36;{{total_s.toFixed(2)}}</p> <button type="button" style="margin-left: auto; "
         class="btn btn-success" [disabled]="enable_sell==1" (click)="sell_portfolio(summary.c)"
         (click)="modal.dismiss('Cross click')">Sell</button>
 
@@ -490,49 +509,63 @@
 </ng-template>
 
 <ng-template #content let-modal>
-
-  <!-- Modal -->
-
-  <div class="modal-header d-block" style="padding: 16px;">
-    <div class="d-flex">
-      <h1 id="modal-title">{{model_item.source}}</h1>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')"
-        style="margin-left: auto;color:blue; outline: none;margin-right:5%;border:none;background-color:transparent;text-decoration:underline">
-        <span aria-hidden="true">&times;</span>
-      </button><br />
-    </div>
-    <p style="font-size: 10px;">{{model_date}}</p>
-
-  </div>
-  <div class="modal-body">
-    <p style="font-size: 15px; font-weight:bold"> {{model_item.headline}}</p>
-    <p style="font-size: 10px;">{{model_item_summary}} <a href="{{model_item.url}}" target="_blank"> here</a></p>
-  </div>
-  <div class="modal-footer justify-content-left">
-    <div class="container" style="border: 1px solid black;border-radius: 6px;">
-      <h3 style="font-size: 13px;">Share</h3>
-      <div style="height:30px;width:200px;display: flex; gap:5px;margin-bottom:8px;margin-top:8px;">
-        <a class="twitter-share-button"
-          href="https://twitter.com/intent/post?text={{model_item.headline}}&url={{model_item.url}}" target="_blank">
-          <i class="bi-twitter-x" style="font-size:24px;height:8px;width:8px;color:black"></i>
-        </a> <span> </span>
-        <a href="https://www.facebook.com/sharer/sharer.php?u={{model_item.url}}" target="_blank"
-          rel="noopener noreferrer">
-          <i class="bi bi-facebook" style="font-size:24px;height:8px;width:8px;"></i>
-        </a>
-
-        <div id="fb-root"></div>
-
-        <!-- Your share button code -->
-        <div class="fb-share-button" data-href="https://www.your-domain.com/your-page.html" data-layout="button_count">
-        </div>
-
-
+  <div class="news-modal">
+    <div class="modal-header">
+      <div class="d-flex">
+        <h1 id="modal-title">{{model_item.source}}</h1>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
+    </div>
 
+    <div class="modal-body">
+      <h2>{{model_item.headline}}</h2>
+      <p>{{model_item_summary}} <a href="{{model_item.url}}" target="_blank">Read more</a></p>
+    </div>
 
+    <div class="modal-footer">
+      <p class="news-date">{{model_date}}</p>
+      <div class="share-container">
+        <h3>Share</h3>
+        <div class="share-buttons">
+          <a class="twitter-share-button"
+            href="https://twitter.com/intent/post?text={{model_item.headline}}&url={{model_item.url}}"
+            target="_blank">
+            <i class="bi-twitter-x"></i>
+          </a>
+          <a href="https://www.facebook.com/sharer/sharer.php?u={{model_item.url}}"
+            target="_blank"
+            rel="noopener noreferrer">
+            <i class="bi bi-facebook"></i>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
-
-
 </ng-template>
+
+<style>
+  .modal-body .col-sm-9 p,
+  .modal-body .col-sm-3 p {
+    font-size: calc(1vh + 12px);
+  }
+
+  .modal-body p[style*="font-size"] {
+    font-size: calc(1vh + 12px) !important;
+  }
+
+  .modal-body .row {
+    margin-bottom: 12px;
+  }
+
+  .quantity-input::-webkit-inner-spin-button,
+  .quantity-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .quantity-input {
+    -moz-appearance: textfield;
+  }
+</style>

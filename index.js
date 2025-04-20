@@ -13,7 +13,7 @@ const cors = require('cors');
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-mongoose.connect("mongodb+srv://mihirsr10:mongodbatlas@cluster0.gstbdyf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
+mongoose.connect("mongodb+srv://adityasi:adityasinha@cluster0.3qhwgvc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
     useNewUrlParser: true,
 });
 
@@ -45,6 +45,7 @@ app.use('/api', usersRouter);
 app.get("/hrs_stk",(req,res)=>{
 
 url="https://api.polygon.io/v2/aggs/ticker/"+req.query.name.toUpperCase() +"/range/1/hour/"+req.query.dt1+"/"+req.query.dt2+"?adjusted=true&sort=asc&apiKey=25co1PGn9EK901ClTpj87TticB9GbSKH"
+
 
 axios.get(url)
         .then(response => {
@@ -425,7 +426,66 @@ module.exports = config;`;
     }
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+
+app.post('/api/chat', async (req, res) => {
+    const { messages } = req.body;
+    const TOGETHER_API_KEY = '8a5cd81a4f45607d0ff5c7a233bc2273ed28698f67ad1ca16921935947003db7';
+    const TOGETHER_API_URL = 'https://api.together.xyz/v1/chat/completions';
+    const AUTOCOMP_API_URL = 'http://localhost:5001/autocomp';
+
+    try {
+        const lastMessage = messages[messages.length - 1]?.content || '';
+
+        const autocompResponse = await axios.get(`${AUTOCOMP_API_URL}?name=${encodeURIComponent(lastMessage)}`);
+        const autocompResults = autocompResponse.data.result;
+
+        
+        const stockMatches = autocompResults.filter((item) => {
+            return item.type === 'Common Stock' && !item.symbol.includes('.');
+        });
+
+        
+        if (stockMatches.length > 0) {
+            console.log('Stock matches found:', stockMatches);
+        } else {
+            console.log('No stock matches found.');
+        }
+
+        
+        const formattedMessages = messages.map((message) => ({
+            content: message.content,
+        }));
+
+        
+        const response = await axios.post(
+            TOGETHER_API_URL,
+            {
+                model: 'meta-llama/Llama-3.3-70B-Instruct-Turbo-Free',
+                messages: formattedMessages,
+            },
+            {
+                headers: {
+                    'Authorization': `Bearer ${TOGETHER_API_KEY}`,
+                    'Content-Type': 'application/json',
+                    max_tokens: 8193,
+                },
+            }
+        );
+
+        
+        const content = response.data.choices[0]?.message?.content || 'No response from assistant.';
+
+        
+        res.json({
+            content,
+            stockMatches,
+        });
+    } catch (error) {
+        console.error('Error in /api/chat:', error.response?.data || error.message);
+        res.status(500).json({ error: 'Failed to process the request.' });
+    }
 });
 
+  app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`);
+  });

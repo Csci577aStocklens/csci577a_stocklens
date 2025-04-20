@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-chat',
@@ -7,54 +7,40 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent {
-  userMessage: string = ''; // Holds the user's input message
-  chatMessages: { role: string, content: string }[] = []; // Stores the chat history
-
-  private apiUrl: string = 'https://api.together.xyz/v1/chat/completions'; // API endpoint
-  private apiKey: string = 'd7391b364663a3f058dfe4ec68eb9fde99f594f941f23f3e19be1c7f43ca579e'; // API key
+  userMessage: string = '';
+  chatMessages: { role: string, content: string }[] = [];
+  isLoading: boolean = false;
+  
+  private apiUrl: string = 'http://localhost:5001/api/chat';
 
   constructor(private http: HttpClient) {}
 
   sendMessage() {
     if (!this.userMessage.trim()) {
-      console.log('User message is empty.'); // Debug log
-      return; // Do nothing if the input is empty
+      return;
     }
-  
-    console.log('User message:', this.userMessage); // Log the user's input
-  
-    // Add the user's message to the chat history immediately
+
     this.chatMessages.push({ role: 'user', content: this.userMessage });
-    console.log('Updated chatMessages:', this.chatMessages); // Log the updated chat history
-  
-    // Prepare the payload for the API request
+    this.isLoading = true;
+
     const payload = {
-      model: 'meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8',
-      messages: this.chatMessages // Send the entire chat history
+      messages: this.chatMessages.map(msg => ({
+        content: msg.content
+      }))
     };
-    console.log('Payload:', payload); // Log the payload being sent to the API
-  
-    // Set the headers for the API request
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.apiKey}`,
-      'Content-Type': 'application/json'
-    });
-  
-    // Make the POST request to the API
-    this.http.post<any>(this.apiUrl, payload, { headers }).subscribe(
+    
+    this.http.post<any>(this.apiUrl, payload).subscribe(
       (response) => {
-        console.log('API Response:', response); // Log the API response
-        // Add the API's response to the chat history
-        const assistantMessage = response.choices[0].message.content;
+        const assistantMessage = response.content || 'No response from assistant.';
         this.chatMessages.push({ role: 'assistant', content: assistantMessage });
-        console.log('Updated chatMessages after API response:', this.chatMessages); // Log the updated chat history
+        this.isLoading = false; 
       },
       (error) => {
-        console.error('Error:', error); // Log any errors
+        console.error('API Error:', error);
+        this.chatMessages.push({ role: 'assistant', content: 'Error: Failed to get response from server.' });
+        this.isLoading = false;
       }
     );
-  
-    // Clear the user's input field
     this.userMessage = '';
   }
 }

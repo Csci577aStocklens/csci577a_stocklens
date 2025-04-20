@@ -42,6 +42,9 @@ app.use("/portfolio",portfolioRouter);
 const usersRouter = require('./routers/users');
 app.use('/api', usersRouter);
 
+const chatRouter = require('./routers/chat');
+app.use('/api', chatRouter);
+
 app.get("/hrs_stk",(req,res)=>{
 
 url="https://api.polygon.io/v2/aggs/ticker/"+req.query.name.toUpperCase() +"/range/1/hour/"+req.query.dt1+"/"+req.query.dt2+"?adjusted=true&sort=asc&apiKey=25co1PGn9EK901ClTpj87TticB9GbSKH"
@@ -423,66 +426,6 @@ module.exports = config;`;
     } catch (error) {
         console.error('Error parsing user data:', error);
         res.status(500).json({ message: 'Server error' });
-    }
-});
-
-
-app.post('/api/chat', async (req, res) => {
-    const { messages } = req.body;
-    const TOGETHER_API_KEY = '8a5cd81a4f45607d0ff5c7a233bc2273ed28698f67ad1ca16921935947003db7';
-    const TOGETHER_API_URL = 'https://api.together.xyz/v1/chat/completions';
-    const AUTOCOMP_API_URL = 'http://localhost:5001/autocomp';
-
-    try {
-        const lastMessage = messages[messages.length - 1]?.content || '';
-
-        const autocompResponse = await axios.get(`${AUTOCOMP_API_URL}?name=${encodeURIComponent(lastMessage)}`);
-        const autocompResults = autocompResponse.data.result;
-
-        
-        const stockMatches = autocompResults.filter((item) => {
-            return item.type === 'Common Stock' && !item.symbol.includes('.');
-        });
-
-        
-        if (stockMatches.length > 0) {
-            console.log('Stock matches found:', stockMatches);
-        } else {
-            console.log('No stock matches found.');
-        }
-
-        
-        const formattedMessages = messages.map((message) => ({
-            content: message.content,
-        }));
-
-        
-        const response = await axios.post(
-            TOGETHER_API_URL,
-            {
-                model: 'meta-llama/Llama-3.3-70B-Instruct-Turbo-Free',
-                messages: formattedMessages,
-            },
-            {
-                headers: {
-                    'Authorization': `Bearer ${TOGETHER_API_KEY}`,
-                    'Content-Type': 'application/json',
-                    max_tokens: 8193,
-                },
-            }
-        );
-
-        
-        const content = response.data.choices[0]?.message?.content || 'No response from assistant.';
-
-        
-        res.json({
-            content,
-            stockMatches,
-        });
-    } catch (error) {
-        console.error('Error in /api/chat:', error.response?.data || error.message);
-        res.status(500).json({ error: 'Failed to process the request.' });
     }
 });
 

@@ -3,12 +3,13 @@
 </div>
 <div class="chat-container">
   <div class="chat-messages">
-    <!-- Loop through chatMessages to display each message -->
+    
     <div *ngFor="let message of chatMessages" [ngClass]="{'user-message': message.role === 'user', 'assistant-message': message.role === 'assistant'}">
-      <div [innerHTML]="message.content | safeHtml"></div> <!-- Apply the pipe -->
+      <div class="message-bubble">
+        <div [innerHTML]="message.content | safeHtml"></div>
+      </div>
     </div>
 
-    <!-- Loading indicator -->
     <div *ngIf="isLoading" class="loading-indicator assistant-message">
       <div class="dots">
         <span></span>

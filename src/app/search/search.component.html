@@ -26,6 +26,11 @@
       </mat-autocomplete>
     </div>
   </div>
+  <!-- Add this inside your main component template where you want recommendations to appear -->
+<app-recommendations 
+[srched]="srched" 
+(stockSelected)="setStock($event)">
+</app-recommendations>
 </div>
 
 <div *ngIf="srched == 1">

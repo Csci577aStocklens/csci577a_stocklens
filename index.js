@@ -42,6 +42,9 @@ app.use("/portfolio",portfolioRouter);
 const usersRouter = require('./routers/users');
 app.use('/api', usersRouter);
 
+const recommendationsRouter = require('./routers/recommendations');
+app.use('', recommendationsRouter);
+
 app.get("/hrs_stk",(req,res)=>{
 
 url="https://api.polygon.io/v2/aggs/ticker/"+req.query.name.toUpperCase() +"/range/1/hour/"+req.query.dt1+"/"+req.query.dt2+"?adjusted=true&sort=asc&apiKey=25co1PGn9EK901ClTpj87TticB9GbSKH"

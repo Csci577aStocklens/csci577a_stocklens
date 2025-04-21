@@ -1,12 +1,31 @@
+<div class="chat-title">
+  <strong>AI Chat Assistant</strong>
+</div>
 <div class="chat-container">
-  <div class="chat-header">
-    <h2>AI Chat Assistant</h2>
-  </div>
   <div class="chat-messages">
-    <!-- Messages will go here -->
+    
+    <div *ngFor="let message of chatMessages" [ngClass]="{'user-message': message.role === 'user', 'assistant-message': message.role === 'assistant'}">
+      <div class="message-bubble">
+        <div [innerHTML]="message.content | safeHtml"></div>
+      </div>
+    </div>
+
+    <div *ngIf="isLoading" class="loading-indicator assistant-message">
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
   </div>
   <div class="chat-input">
-    <input type="text" placeholder="Type your message..." class="message-input">
-    <button class="send-button">Send</button>
+    <input 
+      type="text" 
+      placeholder="Type your message..." 
+      class="message-input" 
+      [(ngModel)]="userMessage" 
+      (keyup.enter)="sendMessage()"
+    >
+    <button class="send-button" (click)="sendMessage()">Send</button>
   </div>
 </div>

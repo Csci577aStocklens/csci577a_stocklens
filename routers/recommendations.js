@@ -124,7 +124,7 @@ router.get('/recommendations/:userId', async (req, res) => {
   
     // Calculate total stocks and industry counts
     const total = Object.values(industryMap).reduce((acc, v) => acc + v.length, 0);
-    const recommendations = {};
+    let recommendations = {};
   
     // Function to get recommendations with inverse proportion based on user watchlist
     const getIndustryRecommendations = async (industry, symbols, useInverseProportion) => {

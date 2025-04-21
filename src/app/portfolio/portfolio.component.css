@@ -1,4 +1,887 @@
-.heading{
-    font-size: 25px;
+/* Portfolio Container Styles */
+.container {
+    padding: 20px;
+    max-width: 1000px;  /* Reduced from 1400px for better centering */
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Portfolio Page Background */
+  :host {
+    display: block;
+    min-height: 100vh;
+    position: relative;
+  }
+  
+  :host::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #f5f5f5;
+    z-index: 0;
+  }
+  
+  /* Make sure all content is above the background */
+  .container, .card, .alert {
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Portfolio Header */
+  .portfolio-header {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #1a1a1a;
+    text-align: center;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    padding-top: 2rem;
+    letter-spacing: -0.025em;
+    line-height: 1.25;
+  }
+  
+  /* Wallet Balance */
+  .wallet-balance {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #4b5563;
+    margin: 2rem auto;
+    padding: 1.5rem 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    box-shadow: 
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(229, 231, 235, 0.5);
+    transition: all 0.2s ease;
+  }
+  
+  .wallet-balance:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .wallet-balance .balance-amount {
+    font-weight: 600;
+    color: #1a1a1a;
+    font-size: 1.5rem;
+  }
+  
+  /* Center all content */
+  .content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  /* Stock Cards */
+  .card {
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    border-radius: 15px;
+    margin: 0 auto 20px;
+    box-shadow: 
+      0 0 240px -60px rgba(0, 0, 0, 0.1),
+      0 0 160px -40px rgba(0, 0, 0, 0.06),
+      0 0 640px 0 rgba(108,111,133,0.15);
+    transition: all 0.3s ease;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+      0 0 240px -60px rgba(0, 0, 0, 0.15),
+      0 0 160px -40px rgba(0, 0, 0, 0.1),
+      0 0 640px 0 rgba(108,111,133,0.2);
+  }
+  
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 15px;
+    padding: 1px;
+    background: linear-gradient(
+      to bottom right,
+      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0.05)
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  
+  /* Card Header */
+  .card-header {
+    background: transparent;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .company-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .company-info h4 {
+    color: #2c3e50;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+    font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+  }
+  
+  .company-info h5 {
+    color: #7f8c8d;
+    font-size: 18px;
+    margin: 0;
+    font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+  }
+  
+  /* Card Body */
+  .card-body {
+    padding: 20px;
+    background: transparent;
+    color: #2c3e50;
+  }
+  
+  .card-body .row {
+    margin: 0;
+    padding: 10px 0;
+  }
+  
+  .card-body .col-sm-6 {
+    padding: 10px 20px;
+  }
+  
+  .card-body p {
+    color: #2c3e50;
+    font-size: 16px;
+    font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+  }
+  
+  /* Card Footer */
+  .card-footer {
+    background: transparent;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  /* Buttons */
+  .btn {
+    padding: 10px 25px;
+    border-radius: 12px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+  }
+  
+  .btn-primary {
+    background-color: #22c55e;
+    border: none;
+    backdrop-filter: blur(5px);
+  }
+  
+  .btn-primary:hover {
+    background-color: #16a34a;
+    transform: translateY(-2px);
+  }
+  
+  .btn-danger {
+    background-color: #ef4444;
+    border: none;
+    backdrop-filter: blur(5px);
+  }
+  
+  .btn-danger:hover {
+    background-color: #dc2626;
+    transform: translateY(-2px);
+  }
+  
+  /* Company Logo */
+  .company-logo-container {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .company-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 8px;
+  }
+  
+  .company-logo-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(52, 152, 219, 0.3);
+    color: #fff;
     font-weight: bold;
-}
+    font-size: 20px;
+    text-transform: uppercase;
+    font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+  }
+  
+  /* Text Colors */
+  .text-success {
+    color: #27ae60 !important;
+    font-weight: bold;
+  }
+  
+  .text-danger {
+    color: #c0392b !important;
+    font-weight: bold;
+  }
+  
+  /* Labels and Values */
+  .mb-0 {
+    margin-bottom: 0;
+    font-size: 14px;
+  }
+  
+  /* Alert Styles */
+  .alert {
+    width: 100% !important;
+    max-width: 800px !important;
+    margin: 0 auto 20px !important;
+    border-radius: 10px;
+    padding: 15px 20px;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .alert-success {
+    background: rgba(46, 204, 113, 0.9);
+    color: white;
+  }
+  
+  .alert-danger {
+    background: rgba(231, 76, 60, 0.9);
+    color: white;
+  }
+  
+  .alert-warning {
+    background: rgba(241, 196, 15, 0.9);
+    color: #333;
+  }
+  
+  /* Loading Spinner */
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 50px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .container {
+      padding: 10px;
+    }
+    
+    .card-header h4 {
+      font-size: 18px;
+    }
+    
+    .card-header h5 {
+      font-size: 14px;
+    }
+    
+    .mb-0 {
+      font-size: 12px;
+    }
+    
+    .btn {
+      padding: 6px 15px;
+      font-size: 14px;
+    }
+  }
+
+  /* Modal Styles */
+  ::ng-deep .modal-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+    margin: 0 !important;
+    max-width: 700px;
+    width: 90%;
+    z-index: 1050;
+  }
+
+  ::ng-deep .modal-content {
+    position: relative;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    border: none;
+  }
+
+  ::ng-deep .modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+  }
+
+  body.modal-open {
+    overflow: hidden;
+    padding-right: 0 !important;
+  }
+
+  ::ng-deep .modal-header {
+    border-bottom: 1px solid #e5e7eb;
+    padding: calc(2vh + 8px);
+    flex-shrink: 0;
+  }
+
+  ::ng-deep .modal-body {
+    padding: calc(2vh + 8px);
+    font-family: "GeistMono", ui-monospace, SFMono-Regular, "Roboto Mono", Menlo, Monaco, "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace !important;
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  ::ng-deep .modal-footer {
+    border-top: 1px solid #e5e7eb;
+    padding: calc(2vh + 8px);
+    flex-shrink: 0;
+  }
+
+  ::ng-deep .modal-title {
+    font-size: calc(2vh + 12px);
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+  }
+
+  ::ng-deep .modal-body p {
+    font-size: calc(0.8vh + 10px);
+    color: #374151;
+    margin-bottom: calc(1vh + 4px);
+  }
+
+  ::ng-deep .modal-body .form-control {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: calc(1vh + 4px) calc(1.5vh + 4px);
+    font-size: calc(1.5vh + 8px);
+    width: 100%;
+  }
+
+  ::ng-deep .modal-body .form-control:focus {
+    border-color: #22c55e;
+    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.1);
+  }
+
+  ::ng-deep .modal-footer .btn-success {
+    background-color: #22c55e;
+    border: none;
+    padding: calc(1vh + 4px) calc(2vh + 8px);
+    font-weight: 500;
+    font-size: calc(1.5vh + 8px);
+  }
+
+  ::ng-deep .modal-footer .btn-success:hover {
+    background-color: #16a34a;
+  }
+
+  ::ng-deep .modal-footer .btn-success:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+  }
+
+  .current-price-value,
+  .wallet-amount,
+  .quantity-label,
+  .quantity-input {
+    font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+    font-size: calc(1vh + 12px);
+    color: #1a1a1a;
+  }
+
+  .current-price-value,
+  .wallet-amount,
+  .quantity-input {
+    font-weight: 600;
+  }
+
+  .quantity-label {
+    font-weight: 400;
+    display: inline-block;
+    margin-right: 8px;
+    width: 220px;
+    height: calc(0.8vh + 16px);
+    line-height: calc(0.8vh + 16px);
+  }
+
+  .quantity-input {
+    font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+    font-size: calc(0.8vh + 10px);
+    font-weight: 600;
+    width: 100%;
+    height: calc(0.8vh + 16px);
+    padding: calc(0.4vh + 2px) calc(0.5vh + 4px);
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background-color: white;
+    color: #1a1a1a;
+    text-align: right !important;
+  }
+
+  /* Remove spinner buttons for Chrome, Safari, Edge, Opera */
+  .quantity-input::-webkit-inner-spin-button,
+  .quantity-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Remove spinner buttons for Firefox */
+  .quantity-input {
+    -moz-appearance: textfield;
+  }
+
+  /* Override any Bootstrap form-control styles */
+  .quantity-input.form-control {
+    text-align: right !important;
+  }
+
+  .quantity-input:focus {
+    border-color: #22c55e;
+    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.1);
+    outline: none;
+  }
+
+  .modal-footer p {
+    font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+    font-size: calc(0.8vh + 10px);
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+    text-align: left;
+  }
+
+  /* Modal Close Button Styles */
+  .close {
+    font-size: calc(1.5vh + 14px);
+    color: #1a1a1a !important;
+    opacity: 1;
+    font-weight: 300;
+    line-height: 1;
+    padding: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    margin-left: auto;
+    cursor: pointer;
+  }
+
+  .close:hover {
+    color: #4b5563 !important;
+    opacity: 1;
+  }
+
+  .close span {
+    display: block;
+    transform: scale(1.1);
+  }
+
+  /* Modal Content Styles */
+  .modal-label,
+  .modal-value {
+    font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+    font-size: calc(0.8vh + 10px);
+    margin: 0;
+    line-height: calc(0.8vh + 16px);
+  }
+
+  .modal-label {
+    font-weight: 400;
+    color: #374151;
+  }
+
+  .modal-value {
+    font-weight: 600;
+    color: #1a1a1a;
+    text-align: right;
+  }
+
+  /* Override any inline styles */
+  .modal-body p[style*="font-size"] {
+    font-size: calc(0.8vh + 10px) !important;
+  }
+
+  .modal-body .row {
+    margin-bottom: 12px;
+    align-items: center;
+  }
+
+  /* Warning Message */
+  .modal-body p[style*="color:red"] {
+    font-size: calc(0.75vh + 10px);
+    font-weight: 500;
+    margin-top: 6px;
+  }
+
+  /* Modal Footer */
+  .modal-footer .container {
+    padding: 0;
+  }
+
+  .modal-footer p {
+    font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+    font-size: calc(0.8vh + 10px);
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+  }
+
+  ::ng-deep .modal-footer .btn-success {
+    font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+    font-size: calc(0.75vh + 10px);
+    font-weight: 500;
+    padding: calc(0.6vh + 4px) calc(1.2vh + 6px);
+  }
+
+  /* Stock List Styles */
+  .stocks-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px 0;
+  }
+
+  .stock-row {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .stock-row:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .stock-row-content {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .stock-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+  }
+
+  .company-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 6px;
+  }
+
+  .company-logo-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(52, 152, 219, 0.1);
+    color: #2c3e50;
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .stock-basic-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .stock-name {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .stock-ticker {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c3e50;
+  }
+
+  .stock-company-name {
+    font-size: 14px;
+    color: #6c757d;
+  }
+
+  .stock-quantity {
+    font-size: 14px;
+    color: #495057;
+  }
+
+  .stock-price-info {
+    text-align: right;
+    min-width: 120px;
+  }
+
+  .current-price {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c3e50;
+  }
+
+  .price-change {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .price-change.positive {
+    color: #27ae60;
+  }
+
+  .price-change.negative {
+    color: #c0392b;
+  }
+
+  /* Expanded View Styles */
+  .stock-details {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+    margin-top: 0;
+  }
+
+  .stock-row.expanded .stock-details {
+    max-height: 500px;
+    opacity: 1;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+  }
+
+  .details-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .metrics-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 0;
+    flex-wrap: nowrap;
+  }
+
+  .metric-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .metric-label {
+    font-size: 12px;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  .metric-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c3e50;
+    white-space: nowrap;
+  }
+
+  .metric-divider {
+    color: #dee2e6;
+    font-size: 16px;
+    margin-top: 16px;
+    flex: none;
+  }
+
+  .stock-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+
+  .stock-actions .btn {
+    min-width: 120px;
+    font-family: 'GeistMono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Monaco, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace !important;
+  }
+
+  .btn-outline-secondary {
+    color: #6c757d;
+    border-color: #6c757d;
+    background: transparent;
+  }
+
+  .btn-outline-secondary:hover {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+    transform: translateY(-2px);
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .stock-row-content {
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+    }
+
+    .stock-price-info {
+      grid-column: 1 / -1;
+      text-align: left;
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .details-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .stock-actions {
+      flex-direction: column;
+    }
+
+    .stock-actions .btn {
+      width: 100%;
+    }
+
+    .metrics-row {
+      flex-direction: column;
+      gap: 16px;
+      padding: 16px 0;
+    }
+
+    .metric-divider {
+      display: none;
+    }
+
+    .metric-item {
+      width: 100%;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .metric-label {
+      font-size: 14px;
+    }
+
+    .metric-value {
+      text-align: right;
+    }
+  }
+
+  /* Update all other font-family declarations */
+  .stock-ticker,
+  .stock-company-name,
+  .stock-quantity,
+  .current-price,
+  .price-change,
+  .metric-label,
+  .metric-value,
+  .btn,
+  .modal-title,
+  .modal-body p,
+  .modal-footer p,
+  .quantity-label,
+  .quantity-input {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+
+  /* Adjust column widths in modal */
+  .modal-body .col-sm-8 {
+    width: 60%;
+  }
+
+  .modal-body .col-sm-4 {
+    width: 40%;
+  }
+
+  .modal-body .col-sm-9 {
+    width: 65%;
+  }
+
+  .modal-body .col-sm-3 {
+    width: 35%;
+  }

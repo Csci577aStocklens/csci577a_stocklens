@@ -1,186 +1,212 @@
-<div *ngIf="added_s==1"  style="padding-left:20%">
-    <div class="alert alert-success d-flex" role="alert" style="width: 80%;">
-      <p style="width:80%;text-align: center;">{{ticker}} bought succesfully.</p>
-      <button type="button" style="margin-left: auto;"  (click)="cloing_cardB()" class="btn-close" aria-label="Close"></button>
-     </div>
+<div class="alert-container">
+  <div *ngIf="added_s==1" class="alert alert-success d-flex" role="alert">
+    <p style="width:80%;text-align: center;">{{ticker}} bought successfully.</p>
+    <button type="button" style="margin-left: auto;" (click)="cloing_cardB()" class="btn-close" aria-label="Close"></button>
   </div>
-  <div *ngIf="sold_s==1"  style="padding-left:20%">
-    <div class="alert alert-danger d-flex" role="alert" style="width: 80%;">
-      <p style="width:80%;text-align: center;">{{ticker}} sold succesfully.</p>
-      <button type="button" style="margin-left: auto;" (click)="cloing_cardS()" class="btn-close" aria-label="Close"></button>
-</div>  </div>  
+</div>
 
-<div [style.top.%]="sold_s === 1 || added_s===1 ? 25 : 10">
+<div class="alert-container">
+  <div *ngIf="sold_s==1" class="alert alert-danger d-flex" role="alert">
+    <p style="width:80%;text-align: center;">{{ticker}} sold successfully.</p>
+    <button type="button" style="margin-left: auto;" (click)="cloing_cardS()" class="btn-close" aria-label="Close"></button>
+  </div>
+</div>
 
 <div class="container">
-<div class="mt-0 pb-2" style="position:absolute; font-size: 25px;left:23%;font-weight: bold;">My Portfolio</div>
-<div class="container pt-2 mt-6"  *ngIf="protf">
-<div class="container pt-3 mt-4" style="position:absolute;left:22%;width:67%;padding-bottom:100px">
-    <p style="font-weight: bold;">Money in the Wallet : ${{balance.toFixed(2)}} </p> 
-    <div *ngIf="empty==1">
-      <div class="alert alert-warning" role="alert" style="width: 70%; text-align:center">
-        Currently you don't have any stocks.
-       </div>
-      </div>
-<!--source : https://getbootstrap.com/docs/4.0/components/card/ -->  
-      <div class="card mt-4" *ngFor="let item of protf;let i=index" style="width: 100%;"> <!--source : https://getbootstrap.com/docs/4.3/layout/grid/ -->  
-        <div class="card-header" (click)="setStock(item.ticker)">
-            <h4 class="d-inline">{{ item.ticker }} </h4>
-            <h5 class="text-secondary d-inline">{{ item.name  }}</h5>
-        </div>
-        <div class="card-body"> <!--source : https://getbootstrap.com/docs/4.0/components/card/ -->  
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="row">
-                        <div class="col"> <!--Source :https://getbootstrap.com/docs/5.0/utilities/text/-->
-                            <p class="mb-0" style="font-weight: bold;" >Quantity:</p>
-                        </div>
-                        <div class="col">
-                            <p class="mb-0 " style="font-weight: bold;" >{{ item.qnt  }}</p><!--Source :https://getbootstrap.com/docs/5.0/utilities/text/-->
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p class="mb-0 " style="font-weight: bold;" >Avg. Cost/Share:</p><!--Source :https://getbootstrap.com/docs/5.0/utilities/text/-->
-                        </div>
-                        <div class="col">
-                            <p class="mb-0 " style="font-weight: bold;" >{{ item.avg.toFixed(2) }}</p><!--Source :https://getbootstrap.com/docs/5.0/utilities/text/-->
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p class="mb-0 " style="font-weight: bold;" >Total Cost:</p>
-                        </div>
-                        <div class="col">
-                            <p class="mb-0 " style="font-weight: bold;" >{{  (item.total).toFixed(2) }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="row">
-                        <div class="col">
-                            <p class="mb-0 " style="font-weight: bold;" >Change:</p>
-                        </div>
-                        <div class="col"> <!--Source : https://getbootstrap.com/docs/5.0/utilities/colors/ -->
-                            <p class="mb-0 " style="font-weight: bold;"  [ngClass]="item.change > 0 ? 'text-success' : item.change < 0 ? 'text-danger' : ''">
-                              {{ item.change.toFixed(2) }}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p class="mb-0 " style="font-weight: bold;" >Current Price</p>
-                        </div>
-                        <div class="col"> <!--Source : https://getbootstrap.com/docs/5.0/utilities/colors/ -->
-                            <p class="mb-0 " style="font-weight: bold;"  [ngClass]="item.change > 0 ? 'text-success' : item.change < 0 ? 'text-danger' : ''">
-                                {{ item.c .toFixed(2) }}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p class="mb-0 " style="font-weight: bold;" >Market Value:</p>
-                        </div>
-                        <div class="col">
-                            <p class="mb-0" style="font-weight: bold;" [ngClass]="item.change > 0 ? 'text-success' : item.change < 0 ? 'text-danger' : ''">
-                              {{ (item.qnt *  item.c).toFixed(2) }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>        
-        <div class="card-footer pb-2 pt-1"> <!--Source : https://stackoverflow.com/questions/5119711/whats-the-easiest-way-to-put-space-between-2-side-by-side-buttons-in-asp-net-->
-            <button class="btn btn-primary"  (click)="open(content1,item)">Buy</button><span style="width:25px;"></span>&nbsp;
-            <button class="btn btn-danger" (click)="open(content2,item)">Sell</button>
-        </div>
+  <div class="content-wrapper">
+    <h1 class="portfolio-header">{{userName}}'s Portfolio</h1>
+    <div class="wallet-balance">
+      <span>Available Balance:</span>
+      <span class="balance-amount">${{balance.toFixed(2)}}</span>
     </div>
+    
+    <div class="container pt-2 mt-6" *ngIf="protf">
+      <div *ngIf="empty==1">
+        <div class="alert alert-warning" role="alert">
+          Currently you don't have any stocks.
+        </div>
+      </div>
 
-</div>
-</div>
-</div>
-</div>
-<br/>
-<br/><br/><br/>
-<div *ngIf="!protf">
-  <div class="text-center d-flex justify-content-center mt-5"style="position:absolute;left:50%">
-      <mat-spinner diameter="38"></mat-spinner>
+      <div class="stocks-list-container">
+        <div *ngFor="let item of protf" 
+             class="stock-row"
+             [class.expanded]="expandedStock === item.ticker"
+             (click)="toggleStockExpansion(item.ticker)">
+          
+          <!-- Basic Row View -->
+          <div class="stock-row-content">
+            <div class="stock-logo">
+              <img *ngIf="companyProfilesMap[item.ticker]?.logo" 
+                   [src]="companyProfilesMap[item.ticker]?.logo" 
+                   [alt]="item.ticker + ' logo'" 
+                   class="company-logo">
+              <div *ngIf="!companyProfilesMap[item.ticker]?.logo" 
+                   class="company-logo-placeholder">
+                {{item.ticker[0]}}
+              </div>
+            </div>
+            <div class="stock-basic-info">
+              <div class="stock-name">
+                <span class="stock-ticker">{{item.ticker}}</span>
+                <span class="stock-company-name">{{item.name}}</span>
+              </div>
+              <div class="stock-quantity">
+                {{item.qnt}} shares
+              </div>
+            </div>
+            <div class="stock-price-info">
+              <div class="current-price">${{(item.c || 0).toFixed(2)}}</div>
+              <div class="price-change" [ngClass]="(item.d || 0) > 0 ? 'positive' : (item.d || 0) < 0 ? 'negative' : ''">
+                <i *ngIf="(item.dp || 0) < 0" class="bi bi-caret-down-fill"></i>
+                <i *ngIf="(item.dp || 0) > 0" class="bi bi-caret-up-fill"></i>
+                {{(item.d || 0).toFixed(2)}} ({{(item.dp || 0).toFixed(2)}}%)
+              </div>
+            </div>
+          </div>
+
+          <!-- Expanded View -->
+          <div class="stock-details">
+            <div class="details-grid">
+              <div class="metrics-row">
+                <div class="metric-item">
+                  <span class="metric-label">Avg Cost</span>
+                  <span class="metric-value">${{(item.avg || 0).toFixed(2)}}</span>
+                </div>
+                <div class="metric-divider">•</div>
+                <div class="metric-item">
+                  <span class="metric-label">Total Cost</span>
+                  <span class="metric-value">${{(item.total || 0).toFixed(2)}}</span>
+                </div>
+                <div class="metric-divider">•</div>
+                <div class="metric-item">
+                  <span class="metric-label">Market Value</span>
+                  <span class="metric-value">${{((item.qnt || 0) * (item.c || 0)).toFixed(2)}}</span>
+                </div>
+                <div class="metric-divider">•</div>
+                <div class="metric-item">
+                  <span class="metric-label">Total Return</span>
+                  <span class="metric-value" [ngClass]="(((item.qnt || 0) * (item.c || 0)) - (item.total || 0)) > 0 ? 'positive' : (((item.qnt || 0) * (item.c || 0)) - (item.total || 0)) < 0 ? 'negative' : ''">
+                    ${{(((item.qnt || 0) * (item.c || 0)) - (item.total || 0)).toFixed(2)}} 
+                    ({{(((item.c || 0) - (item.avg || 0)) / (item.avg || 1) * 100).toFixed(2)}}%)
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="stock-actions">
+              <button class="btn btn-primary" (click)="open(content1,item)">Buy More</button>
+              <button class="btn btn-danger" (click)="open(content2,item)">Sell</button>
+              <button class="btn btn-outline-secondary" (click)="$event.stopPropagation(); setStock(item.ticker)">More Details</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
+<div *ngIf="!protf" class="spinner-container">
+  <mat-spinner diameter="38"></mat-spinner>
+</div>
 
 <ng-template #content1 let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">{{ticker}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closing(); modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-sm-9">
+        <p class="modal-label">Current Price:</p>
+      </div>
+      <div class="col-sm-3">
+        <p class="modal-value">${{ c.toFixed(2) }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-9">
+        <p class="modal-label">Money in Wallet:</p>
+      </div>
+      <div class="col-sm-3">
+        <p class="modal-value">${{balance.toFixed(2)}}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-9">
+        <p class="modal-label">Quantity:</p>
+      </div>
+      <div class="col-sm-3">
+        <input type="number" 
+               class="quantity-input form-control" 
+               [(ngModel)]="quantity" 
+               (input)="changeBuy(c)" 
+               name="quantity">
+      </div>
+    </div>
+    <p *ngIf="warning==1" style="color:red">Not enough money in wallet!</p>
+  </div>
+  <div class="modal-footer">
+    <div class="container d-flex justify-content-between align-items-center">
+      <p>Total: ${{total.toFixed(2)}}</p>
+      <button type="button" 
+              class="btn btn-success" 
+              [disabled]="enable_buy==1" 
+              (click)="Add_portfolio(c); modal.dismiss('Cross click')">
+        Buy
+      </button>
+    </div>
+  </div>
+</ng-template>
 
-    <!-- Modal -->
-    
-    <div class="modal-header d-block" style="padding: 16px;">
-      <div class =  "d-flex">
-      <h4 id="modal-title">{{ticker}}</h4>
-      <button type="button" class="close"  aria-label="Close" (click)="closing()" (click)="modal.dismiss('Cross click')" style ="text-decoration:underline;margin-left: auto;color:blue;outline: none;border:none;background-color:transparent;">
-        <span aria-hidden="true">&times;</span>
-      </button><br/>
-      
-      </div> 
-    </div>
-    <div class="modal-body">
-    <p style="font-size: 13px;">Current Price :{{ c.toFixed(2) }}</p>
-    <p style="font-size: 13px;">Money in Wallet :{{this.balance.toFixed(2)}}</p> 
+<ng-template #content2 let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">{{ticker}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closing(); modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
     <div class="row">
-      <div class="col-sm-2">
-    <span style="font-size: 13px;">Quantity :</span>
-    </div>  <div class="col-sm-10">
-    
-      <input type="number" style="width:80%;" class="form-control"   [(ngModel)]="quantity" (input)="changeBuy( c )" name="sbar" >
+      <div class="col-sm-9">
+        <p class="modal-label">Current Price:</p>
+      </div>
+      <div class="col-sm-3">
+        <p class="modal-value">${{ c.toFixed(2) }}</p>
+      </div>
     </div>
-  </div>
-      <!-- <button style="height: 25px;width:25px;background-color:transparent;border: none;color: #131273;" (click)="search()" type="button"> <i class="bi bi-search"></i> </button>-->
-    <p style="font-size: 13px;color:red;font-weight:bold;" *ngIf="warning==1"> Not engough money in wallet! <p></p>
-  </div>
-    <div class="modal-footer " >
-      <div class = "container  d-flex justify-content-between " >
-        <p style="width:100%"> Total : {{total.toFixed(2)}}</p>      <button type="button" style="margin-left: auto; "  class="btn btn-success" [disabled]="enable_buy==1" (click)="Add_portfolio(c)" (click)="modal.dismiss('Cross click')">Buy</button> 
-    
-     </div>
-    </div>
-    
-    
-    </ng-template>
-  
-  
-    
-  <ng-template #content2 let-modal>
-  
-    <!-- Modal -->
-    
-    <div class="modal-header d-block" style="padding: 16px;">
-      <div class =  "d-flex">
-      <h4 id="modal-title">{{ticker}}</h4>
-      <button type="button" class="close"  aria-label="Close" (click)="closing()" (click)="modal.dismiss('Cross click')" style ="text-decoration:underline;margin-left: auto;color:blue;outline: none;border:none;background-color:transparent;">
-        <span aria-hidden="true">&times;</span>
-      </button><br/>
-      
-      </div> 
-    </div>
-    <div class="modal-body">
-    <p style="font-size: 13px;">Current Price : {{ c.toFixed(2) }}</p>
-    <p style="font-size: 13px;">Money in Wallet :  {{this.balance.toFixed(2)}}</p> 
     <div class="row">
-      <div class="col-sm-2">
-    <span style="font-size: 13px;">Quantity :</span>
-    </div>  <div class="col-sm-10">
-    <input type="number" style="width:80%;" class="form-control"   [(ngModel)]="quantity_s" (input)="changeSell( c )" name="sbar" ><!--style="border: none;width:80%;padding-left:0.04in;outline: none;font-size: 13px;"-->
-  </div>
-  </div>
-    <!-- <button style="height: 25px;width:25px;background-color:transparent;border: none;color: #131273;" (click)="search()" type="button"> <i class="bi bi-search"></i> </button>-->
-    <p style="font-size: 13px;color:red;font-weight:bold;" *ngIf="warning_s==1"> You cant sell the stocks that you  dont have! <p></p>
-  </div>
-    <div class="modal-footer " >
-      <div class = "container  d-flex justify-content-between " >
-        <p style="width:100%"> Total : {{total_s.toFixed(2)}}</p>
-      <button type="button" style="margin-left: auto; "   class="btn btn-success" [disabled]="enable_sell==1" (click)="sell_portfolio(c)" (click)="modal.dismiss('Cross click')">Sell</button> 
-        
-    
-    
-     </div>
+      <div class="col-sm-9">
+        <p class="modal-label">Money in Wallet:</p>
+      </div>
+      <div class="col-sm-3">
+        <p class="modal-value">${{balance.toFixed(2)}}</p>
+      </div>
     </div>
-    
-    
-    </ng-template>
+    <div class="row">
+      <div class="col-sm-9">
+        <p class="modal-label">Quantity:</p>
+      </div>
+      <div class="col-sm-3">
+        <input type="number" 
+               class="quantity-input form-control" 
+               [(ngModel)]="quantity_s" 
+               (input)="changeSell(c)" 
+               name="quantity">
+      </div>
+    </div>
+    <p *ngIf="warning_s==1" style="color:red">You can't sell more stocks than you own!</p>
+  </div>
+  <div class="modal-footer">
+    <div class="container d-flex justify-content-between align-items-center">
+      <p>Total: ${{total_s.toFixed(2)}}</p>
+      <button type="button" 
+              class="btn btn-success" 
+              [disabled]="enable_sell==1" 
+              (click)="sell_portfolio(c); modal.dismiss('Cross click')">
+        Sell
+      </button>
+    </div>
+  </div>
+</ng-template>
   

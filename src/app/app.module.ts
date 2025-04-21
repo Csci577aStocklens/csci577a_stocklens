@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { SearchComponent } from './search/search.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
@@ -21,6 +21,10 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ShareddataService } from './shareddata.service';
 import { ChatComponent } from './chat/chat.component';
 
+import { StockService } from './services/stock.service';
+import { RecommendationsComponent } from './recommendations/recommendations.component';
+import { SafeHtmlPipe } from './safe-html.pipe';
+
 
 const appRoutes: Routes = [
 
@@ -30,6 +34,8 @@ const appRoutes: Routes = [
   {path:'Watchlist', component: WatchlistComponent},
   {path:'Portfolio', component: PortfolioComponent},
   {path: 'details/:id', component: DetailsComponent},
+  {path: 'recommendations', component: RecommendationsComponent}, // Add this line for recommendations route
+  {path: 'recommendations/:id', component: RecommendationsComponent}, // Add this line for recommendations route with id
 
   ]
 
@@ -40,13 +46,16 @@ const appRoutes: Routes = [
     DetailsComponent,
     WatchlistComponent,
     PortfolioComponent,
-    ChatComponent
+    ChatComponent,
+    RecommendationsComponent,
+    SafeHtmlPipe
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    HttpClientModule,
     MatAutocompleteModule,
     MatInputModule,
     BrowserAnimationsModule,
@@ -54,12 +63,14 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     HighchartsChartModule,
     NgbModule,
-    HttpClientModule
+    HttpClientModule,
+
   ],
   providers: [    
     //provideClientHydration(),
     provideAnimationsAsync(),
-    ShareddataService
+    ShareddataService,
+    StockService
   ],
   bootstrap: [AppComponent]
 })

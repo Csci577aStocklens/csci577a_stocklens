@@ -1,7 +1,7 @@
 // Configuration file for the application
 const config = {
     // Current user ID - change this to switch users
-    currentUserId: "pu@nid.com"
+    currentUserId: "test@google.com"
 };
 
 module.exports = config;

@@ -11,6 +11,7 @@ import { error } from 'highcharts';
   styleUrl: './portfolio.component.css'
 })
 export class PortfolioComponent {
+  userName = ''; // Will be populated from cookie
   empty=0;
   balance=1500;
   protf:any;
@@ -26,6 +27,8 @@ export class PortfolioComponent {
   info_s_pnt=0;
   summaries: any[] = [];
   closeResult:any;
+  companyProfilesMap: { [key: string]: any } = {};  // Changed from array to map
+  expandedStock: string | null = null;
 
   quantity=0;
   total=0.00;
@@ -44,53 +47,28 @@ export class PortfolioComponent {
   name="";
   @Output() wtchlstcall = new EventEmitter();
 
+  // Utility function to get cookie value by name
+  getCookie(name: string): string | null {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    if (match) {
+      return decodeURIComponent(match[2]);
+    }
+    return null;
+  }
 
-  constructor( private modalService: NgbModal){/*
-   axios.get("http://localhost:5001/balance/").then(response=>{
-      this.balance=response.data[0].balance;
-      console.log("success",this.balance);
-  }).catch((err)=>{
-    console.log("err fail",err);
-    return;
-  });
-
-    axios.get("http://localhost:5001/portfolio/").then(response => {
-        this.summaries=[];
-        this.protf = response.data; //JSON.stringify(response.data);
-        console.log("protf ",this.protf);
-        if(this.protf.length==0){
-          this.empty=1;
-        }
-        else{
-          this.empty=0;
-        }
-        //this.protf.forEach( (tckr : any )=> {
-        for (let i = 0; i < this.protf.length; i++) {
-          let tckr=this.protf[i];
-          console.log("tkcr",tckr);
-        axios.get("http://localhost:5001/summary_info?name="+tckr.ticker).then(response => {
-            this.summary = response.data; //JSON.stringify(response.data);
-            const smr=response.data;
-            console.log("summa",tckr,this.summary);
-            this.summaries.push( smr); //this.summary)  //   response.data);
-            this.protf[i].avg= this.protf[i].total / this.protf[i].qnt
-            this.protf[i].change= smr.c- this.protf[i].avg;
-            this.protf[i].c=smr.c;
-            
-            this.info_pnt=1;
-
-            console.log("sumarries",this.summaries);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-      } ; //);
-
-      })
-      .catch(error => {
-        console.log(error);
-      });*/
-
+  constructor(private modalService: NgbModal) {
+    // Fetch username from userData cookie
+    const userDataCookie = this.getCookie('userData');
+    if (userDataCookie) {
+      try {
+        const userData = JSON.parse(userDataCookie);
+        this.userName = userData.name ? userData.name : 'Investor';
+      } catch (e) {
+        this.userName = 'Investor';
+      }
+    } else {
+      this.userName = 'Investor';
+    }
   }
 
   ngOnInit(){
@@ -104,7 +82,8 @@ export class PortfolioComponent {
 
     axios.get("http://localhost:5001/portfolio/").then(response => {
         this.summaries=[];
-        this.protf = response.data; //JSON.stringify(response.data);
+        this.protf = response.data;
+        this.companyProfilesMap = {};  // Reset the map
         console.log("protf ",this.protf);
         if(this.protf.length==0){
           this.empty=1;
@@ -112,32 +91,38 @@ export class PortfolioComponent {
         else{
           this.empty=0;
         }
-        //this.protf.forEach( (tckr : any )=> {
         for (let i = 0; i < this.protf.length; i++) {
           let tckr=this.protf[i];
           console.log("tkcr",tckr);
-        axios.get("http://localhost:5001/summary_info?name="+tckr.ticker).then(response => {
-            this.summary = response.data; //JSON.stringify(response.data);
+          
+          // Fetch company profile data
+          axios.get("http://localhost:5001/stockinfo?name="+tckr.ticker).then(response => {
+            const profile = response.data;
+            this.companyProfilesMap[tckr.ticker] = profile;  // Store by ticker instead of index
+            console.log("profile", profile);
+          }).catch(error => {
+            console.log(error);
+          });
+
+          // Fetch summary info
+          axios.get("http://localhost:5001/summary_info?name="+tckr.ticker).then(response => {
+            this.summary = response.data;
             const smr=response.data;
             console.log("summa",tckr,this.summary);
-            this.summaries.push( smr); //this.summary)  //   response.data);
-            this.protf[i].avg= this.protf[i].total / this.protf[i].qnt
-            this.protf[i].change= smr.c- this.protf[i].avg;
-            this.protf[i].c=smr.c;
-            
+            this.summaries.push(smr);
+            this.protf[i].avg = this.protf[i].total / this.protf[i].qnt;
+            this.protf[i].c = smr.c;
+            this.protf[i].d = smr.d;  // Daily change value
+            this.protf[i].dp = smr.dp;  // Daily change percentage
             this.info_pnt=1;
-
             console.log("sumarries",this.summaries);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-      } ; //);
-
-      })
-      .catch(error => {
-        console.log(error);
-      });
+          }).catch(error => {
+            console.log(error);
+          });
+        }
+    }).catch(error => {
+      console.log(error);
+    });
   
   }
 
@@ -227,164 +212,36 @@ Add_portfolio(p:any){
 }
 
 sell_portfolio(p:any){
-  this.balance=this.balance + (this.quantity_s*p);
-  this.sold_s=1;
-  this.added_s=0;
+  this.balance = this.balance + (this.quantity_s * p);
+  this.sold_s = 1;
+  this.added_s = 0;
   setTimeout(() => {
     this.sold_s = 0;
   }, 5001);
-  this.stocks_having-=this.quantity_s //-quantity_s 
-  console.log("this.stocks_having",this.stocks_having);
-  if (this.stocks_having>0){
-  // increase the sold 
-  axios.post("http://localhost:5001/balance/",{
-      "balance": this.quantity_s*p
-    }).then((res)=>{
-
-      console.log('bllsls',this.balance);
-
-      axios.post("http://localhost:5001/portfolio/sub",{
-        "ticker":this.ticker,
-        "name":this.name,
-        "qnt": this.quantity_s ,
-        "total":this.quantity_s*p  
-      }).then((res)=>{
-      console.log("success");
-
-
-      axios.get("http://localhost:5001/portfolio/").then(response => {
-        this.summaries=[];
-        this.protf = response.data; //JSON.stringify(response.data);
-        console.log("protf ",this.protf);
-        //this.protf.forEach( (tckr : any )=> {
-
-        for (let i = 0; i < this.protf.length; i++) {
-          let tckr=this.protf[i];
-          console.log("tkcr",tckr);
-          axios.get("http://localhost:5001/summary_info?name="+tckr.ticker).then(response => {
-              this.summary = response.data; //JSON.stringify(response.data);
-              console.log("summa",this.summary);
-              
-              const smr=response.data;
-              this.protf[i].c=smr.c;
-              this.protf[i].avg= this.protf[i].total / this.protf[i].qnt;
-              this.protf[i].change= smr.c- this.protf[i].avg;
-              this.info_pnt=1;
-              this.summaries.push(response.data);
-
-              this.info_pnt=1;
-              console.log("sumarries",this.summaries);
-              axios.get("http://localhost:5001/balance/").then(response=>{
-                this.balance=response.data.balance;
-                console.log("success lower",this.balance);
-                this.quantity_s=0;
-                this.total_s=0.00;
-                console.log("bala",this.balance);
-              
-              }).catch((err)=>{
-                console.log("err fail",err);
-                return;
-              });
-        })
-        .catch(error => {
-          console.log(error);
-        });
-      };
-
-      })
-      .catch(error => {
-        console.log(error);
-      });
-      
-  }).catch((err)=>{
-    console.log("err fail",err);
-    return;
-  });
-      console.log("success");
-  }).catch((err)=>{
-    console.log("err fail",err);
-    return;
-  });
-  }
-  else{
-     // increase the sold 
-  axios.post("http://localhost:5001/balance/",{
-    "balance": this.quantity_s*p
-  }).then((res)=>{
-
-    console.log('bllsls',this.balance);
-
-    axios.delete("http://localhost:5001/portfolio/"+this.ticker).then(response => {
-        console.log("deleted",this.ticker);
-
-        axios.get("http://localhost:5001/portfolio/").then(response => {
-          this.protf = response.data; //JSON.stringify(response.data);
-          console.log("protf ",this.protf);
-          if(this.protf.length==0){
-            this.empty=1;
-          }
-          else{
-            this.empty=0;
-          }
-          //this.protf.forEach( (tckr : any )=> {
-            this.summaries=[];
-        for (let i = 0; i < this.protf.length; i++) {
-          let tckr=this.protf[i];
-            console.log("tkcr",tckr);
-            axios.get("http://localhost:5001/summary_info?name="+tckr.ticker).then(response => {
-                this.summary = response.data; //JSON.stringify(response.data);
-                console.log("summa",this.summary);
-                const smr=response.data;
-              this.protf[i].c=smr.c;
-              this.protf[i].avg= this.protf[i].total / this.protf[i].qnt;
-              this.protf[i].change= smr.c- this.protf[i].avg;
-              this.info_pnt=1;
-              this.summaries.push(response.data);
-                this.info_pnt=1;
-                console.log("sumarries",this.summaries);
-                axios.get("http://localhost:5001/balance/").then(response=>{
-                  this.balance=response.data.balance;
-                  console.log("success lower",this.balance);
-                  this.quantity_s=0;
-                  this.total_s=0.00;
-                  console.log("bala",this.balance);
-                
-                }).catch((err)=>{
-                  console.log("err fail",err);
-                  return;
-                });
-          })
-          .catch(error => {
-            console.log(error);
-          });
-        };
+  this.stocks_having -= this.quantity_s;
   
-        })
-        .catch(error => {
-          console.log(error);
+  const sellStock = () => {
+    axios.post("http://localhost:5001/balance/", {
+      "balance": this.quantity_s * p
+    }).then((res) => {
+      if (this.stocks_having > 0) {
+        return axios.post("http://localhost:5001/portfolio/sub", {
+          "ticker": this.ticker,
+          "name": this.name,
+          "qnt": this.quantity_s,
+          "total": this.quantity_s * p
         });
-      }).catch((err)=>{
-        console.log("err fail",err);
-        return;
-      });
-        
-      
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
+      } else {
+        return axios.delete("http://localhost:5001/portfolio/" + this.ticker);
+      }
+    }).then(() => {
+      return this.refreshPortfolioData();
+    }).catch((err) => {
+      console.error("Error during sell operation:", err);
+    });
+  };
 
-  //add to DB
-  // subract from DB and stor it in DB
-  //modal.close('Save');
-  //this.sold_s=1;
-  //this.added_s=0;
-
-
-  
-      console.log("sold");
-
+  sellStock();
 }
 
 closing(){
@@ -470,6 +327,49 @@ changeBuy(p:any){
     this.warning=0;
   }
 }
+}
+
+// Add this new method to handle portfolio refresh
+refreshPortfolioData() {
+  return axios.get("http://localhost:5001/portfolio/").then(response => {
+    this.protf = response.data;
+    this.empty = this.protf.length === 0 ? 1 : 0;
+    
+    if (this.protf.length > 0) {
+      const promises = this.protf.map((tckr: any, index: number) => {
+        return axios.get("http://localhost:5001/summary_info?name=" + tckr.ticker)
+          .then(response => {
+            const smr = response.data;
+            this.protf[index] = {
+              ...this.protf[index],
+              c: smr.c || 0,
+              d: smr.d || 0,
+              dp: smr.dp || 0,
+              avg: this.protf[index].total / this.protf[index].qnt || 0,
+              change: (smr.c || 0) - (this.protf[index].total / this.protf[index].qnt || 0)
+            };
+          });
+      });
+
+      return Promise.all(promises).then(() => {
+        return axios.get("http://localhost:5001/balance/");
+      }).then(response => {
+        this.balance = response.data.balance;
+        this.quantity_s = 0;
+        this.total_s = 0.00;
+        this.info_pnt = 1;
+      });
+    }
+    return Promise.resolve();
+  });
+}
+
+toggleStockExpansion(ticker: string) {
+  if (this.expandedStock === ticker) {
+    this.expandedStock = null;
+  } else {
+    this.expandedStock = ticker;
+  }
 }
 
 }

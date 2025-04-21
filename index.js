@@ -13,7 +13,7 @@ const cors = require('cors');
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-mongoose.connect("mongodb+srv://mihirsr10:mongodbatlas@cluster0.gstbdyf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
+mongoose.connect("mongodb+srv://adityasi:adityasinha@cluster0.3qhwgvc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
     useNewUrlParser: true,
 });
 
@@ -42,9 +42,17 @@ app.use("/portfolio",portfolioRouter);
 const usersRouter = require('./routers/users');
 app.use('/api', usersRouter);
 
+const recommendationsRouter = require('./routers/recommendations');
+app.use('', recommendationsRouter);
+
+const chatRouter = require('./routers/chat');
+app.use('/api', chatRouter);
+
+
 app.get("/hrs_stk",(req,res)=>{
 
 url="https://api.polygon.io/v2/aggs/ticker/"+req.query.name.toUpperCase() +"/range/1/hour/"+req.query.dt1+"/"+req.query.dt2+"?adjusted=true&sort=asc&apiKey=25co1PGn9EK901ClTpj87TticB9GbSKH"
+
 
 axios.get(url)
         .then(response => {
@@ -240,7 +248,7 @@ const checkAuth = async (req, res, next) => {
 
 // Protected root route
 app.get('/', checkAuth, (req, res) => {
-    res.sendFile(path.resolve(__dirname, './dist/stock-lens-ui/browser', 'index.html'));
+    res.sendFile(path.resolve(__dirname, './public', 'index.html'));
 });
 
 // Serve static files (after auth check)
@@ -425,7 +433,6 @@ module.exports = config;`;
     }
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-});
-
+  app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`);
+  });

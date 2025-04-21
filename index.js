@@ -51,7 +51,7 @@ app.use('/api', chatRouter);
 
 app.get("/hrs_stk",(req,res)=>{
 
-url="https://api.polygon.io/v2/aggs/ticker/"+req.query.name.toUpperCase() +"/range/1/hour/"+req.query.dt1+"/"+req.query.dt2+"?adjusted=true&sort=asc&apiKey=25co1PGn9EK901ClTpj87TticB9GbSKH"
+url="https://api.polygon.io/v2/aggs/ticker/"+req.query.name.toUpperCase() +"/range/1/hour/"+'2025-04-16'+"/"+'2025-04-17'+"?adjusted=true&sort=asc&apiKey=25co1PGn9EK901ClTpj87TticB9GbSKH"
 
 
 axios.get(url)

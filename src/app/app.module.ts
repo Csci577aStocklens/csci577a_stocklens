@@ -20,6 +20,9 @@ import { PortfolioComponent } from './portfolio/portfolio.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ShareddataService } from './shareddata.service';
 import { ChatComponent } from './chat/chat.component';
+
+import { StockService } from './services/stock.service';
+import { RecommendationsComponent } from './recommendations/recommendations.component';
 import { SafeHtmlPipe } from './safe-html.pipe';
 
 
@@ -31,6 +34,8 @@ const appRoutes: Routes = [
   {path:'Watchlist', component: WatchlistComponent},
   {path:'Portfolio', component: PortfolioComponent},
   {path: 'details/:id', component: DetailsComponent},
+  {path: 'recommendations', component: RecommendationsComponent}, // Add this line for recommendations route
+  {path: 'recommendations/:id', component: RecommendationsComponent}, // Add this line for recommendations route with id
 
   ]
 
@@ -42,6 +47,7 @@ const appRoutes: Routes = [
     WatchlistComponent,
     PortfolioComponent,
     ChatComponent,
+    RecommendationsComponent,
     SafeHtmlPipe
   ],
   imports: [
@@ -57,12 +63,14 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     HighchartsChartModule,
     NgbModule,
-    HttpClientModule
+    HttpClientModule,
+
   ],
   providers: [    
     //provideClientHydration(),
     provideAnimationsAsync(),
-    ShareddataService
+    ShareddataService,
+    StockService
   ],
   bootstrap: [AppComponent]
 })

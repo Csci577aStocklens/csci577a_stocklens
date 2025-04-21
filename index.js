@@ -42,8 +42,12 @@ app.use("/portfolio",portfolioRouter);
 const usersRouter = require('./routers/users');
 app.use('/api', usersRouter);
 
+const recommendationsRouter = require('./routers/recommendations');
+app.use('', recommendationsRouter);
+
 const chatRouter = require('./routers/chat');
 app.use('/api', chatRouter);
+
 
 app.get("/hrs_stk",(req,res)=>{
 

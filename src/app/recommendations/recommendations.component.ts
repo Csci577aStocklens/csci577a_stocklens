@@ -15,10 +15,13 @@ interface StockRecommendation {
   selector: 'app-recommendations',
   template: `
     <div *ngIf="srched != 1" class="recommendations-container">
-      <div *ngIf="isLoading" class="loading-container">
-        <mat-spinner [diameter]="30"></mat-spinner>
-        <p class="loading-text">Grabbing the best stocks for you</p>
-      </div>
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-content">
+      <mat-spinner [diameter]="30"></mat-spinner>
+      <p class="loading-text">Grabbing the best stocks for you</p>
+    </div>
+  </div>
+
 
       <div *ngIf="!isLoading && recommendations">
         <h5 class="recommendations-title">Best Picks for You</h5>
@@ -144,7 +147,7 @@ interface StockRecommendation {
     
     .stock-info {
       display: flex;
-      flex-direction: column;
+      flex-direction: column;s
     }
     
     .stock-symbol {
@@ -248,30 +251,35 @@ interface StockRecommendation {
   color: red;
 }
 
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;         /* take full width */
-  padding: 32px 0;
-  gap: 12px;
-  text-align: center;
-}
 
-
-.loading-text {
-  font-size: 1rem;
-  color: #6c6f85;
-  font-family: 'GeistMono', ui-monospace, SFMono-Regular, Roboto Mono, Menlo, Monaco, Liberation Mono, DejaVu Sans Mono, Courier New, monospace !important;
-  margin: 0;
-}
 .recommendations-title {
   font-size: 1.25rem; /* smaller than before */
   margin: 32px 0 24px 0; /* more top margin to push it away from search */
   font-weight: 500;
   text-align: center;
   font-family: 'GeistMono', ui-monospace, SFMono-Regular, Roboto Mono, Menlo, Monaco, Liberation Mono, DejaVu Sans Mono, Courier New, monospace !important;
+}
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20vh; /* or 100vh if you want full viewport height */
+  width: 100%;
+}
+
+
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: right;
+  gap: 10px; /* space between spinner and text */
+}
+
+.loading-text {
+  margin: 0;
+  font-size: 16px;
+  color: #666;
 }
 
 

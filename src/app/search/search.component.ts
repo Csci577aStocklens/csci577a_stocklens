@@ -431,6 +431,53 @@ export class SearchComponent implements OnInit {
     }
   }
 
+
+
+  
+
+  get_holdings(){
+    console.log("start get_holds");
+    axios.get("http://localhost:5001/balance/").then(response=>{
+  
+      this.balance=response.data.balance;
+      console.log("success",this.balance);
+      axios.get("http://localhost:5001/portfolio/").then(response=>{
+      this.portf=response.data;
+      const isPresent = this.portf.some((obj:any) => obj.ticker == this.ticker);
+            console.log(isPresent,"isPresent");
+            if (isPresent){ 
+                this.has_portf =1;
+              }
+              else{
+                this.has_portf =0;
+
+              }
+      console.log("success",this.balance);
+      axios.get("http://localhost:5001/stocks_watch/").then(response => {
+        this.watch = response.data; //JSON.stringify(response.data);
+        const isPresent = this.watch.some((obj:any) => obj.ticker == this.ticker);
+            console.log(isPresent,"isPresent");
+            if (isPresent){ 
+                this.bookmarked =1;
+              }
+              else{
+                this.bookmarked =0;
+              }
+        console.log("bkgm",this.bookmarked,this.watch);
+
+    }).catch(error => {
+      console.log(error);
+    }); 
+  }).catch((err)=>{
+    console.log("err fail",err);
+    return;
+  });
+  }).catch((err)=>{
+    console.log("err fail",err);
+    return;
+  });
+  }
+
   closing() {
     this.quantity = 0;
     this.total = 0.00;

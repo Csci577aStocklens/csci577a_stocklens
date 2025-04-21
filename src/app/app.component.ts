@@ -69,6 +69,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.clickedbutton = str;
     if (str === 'srch') {
       this.showwhatcomp = 1;
+      this.searchComponent?.get_holdings();
     }
     else if (str === 'wchlst') {
       this.showwhatcomp = 2;

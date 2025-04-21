@@ -124,7 +124,7 @@ router.get('/recommendations/:userId', async (req, res) => {
   
     // Calculate total stocks and industry counts
     const total = Object.values(industryMap).reduce((acc, v) => acc + v.length, 0);
-    const recommendations = {};
+    let recommendations = {};
   
     // Function to get recommendations with inverse proportion based on user watchlist
     const getIndustryRecommendations = async (industry, symbols, useInverseProportion) => {
@@ -137,24 +137,38 @@ router.get('/recommendations/:userId', async (req, res) => {
       
       // If the user already has some stocks in this industry, limit new recommendations
       if (userCount > 0) {
-        const peers = await getPeers(symbols[0]); // Assuming at least one symbol exists
-        const topPeers = await getTopPerformers(peers.slice(0, 3));
-  
-        // Avoid duplicates by filtering out the symbols already in the user's watchlist
+        let allPeers = [];
+      
+        for (const symbol of symbols) {
+          const peers = await getPeers(symbol);
+          allPeers.push(...peers.slice(0, 5)); // get top 5 peers for each symbol
+        }
+      
+        // Remove duplicates by symbol
+        const uniquePeers = Array.from(new Map(allPeers.map(p => [p.symbol, p])).values());
+      
+        // Get top performers among all peers
+        const topPeers = await getTopPerformers(uniquePeers);
+      
+        // Filter out those already in the user's watchlist
         const filteredTopPeers = topPeers.filter(peer => !userWatchlist.includes(peer.symbol));
-        
-        recommendations[industry] = [...(recommendations[industry] || []), ...filteredTopPeers.slice(0, newRecommendationCount)];
+      
+        // Assign top N to recommendations
+        recommendations[industry] = [
+          ...(recommendations[industry] || []),
+          ...filteredTopPeers.slice(0, newRecommendationCount)
+        ];
       }
   
       // If there are still missing recommendations, get from other sources
-      if (newRecommendationCount > 0) {
+      /*if (newRecommendationCount > 0) {
         const topPerformers = await getTopPerformers(symbols.slice(0, 3));  // You can change the number of peers or symbols
   
         // Avoid duplicates by filtering out the symbols already in the user's watchlist
         const filteredTopPerformers = topPerformers.filter(peer => !userWatchlist.includes(peer.symbol));
         
         recommendations[industry] = [...(recommendations[industry] || []), ...filteredTopPerformers.slice(0, newRecommendationCount)];
-      }
+      }*/
   
       // Ensure no duplicates within the same industry
       recommendations[industry] = Array.from(new Set(recommendations[industry].map(item => item.symbol)))

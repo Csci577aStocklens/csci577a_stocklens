@@ -4,33 +4,35 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stocklens - Modern Investment App</title>
+  <link rel="stylesheet" href="styles.css" />
   <style>
     :root {
-      --bg: #fff;
+      --primary: #107b85;
+      --primary-dark: #1741a6;
+      --accent: #22c55e;
+      --bg: #f6f8fb;
       --white: #fff;
-      --black: #000;
-      --gray: #222;
-      --border: #222;
-      --shadow: 0 4px 24px rgba(0,0,0,0.06);
+      --text-main: #0a2540;
+      --text-muted: #6b7a90;
+      --border: #e3e8f0;
+      --shadow: 0 8px 32px rgba(37, 99, 235, 0.08);
+      --glass: rgba(255,255,255,0.7);
       --radius: 18px;
-      --transition: 0.2s cubic-bezier(.4,0,.2,1);
+      --transition: 0.25s cubic-bezier(.4,0,.2,1);
     }
     html, body {
       margin: 0;
       padding: 0;
-      font-family: Helvetica,Arial,sans-serif;
+      font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: var(--bg);
-      color: var(--black);
+      color: var(--text-main);
       line-height: 1.6;
       min-height: 100vh;
     }
     a {
       text-decoration: none;
-      color: var(--black);
+      color: inherit;
       transition: color var(--transition);
-    }
-    a:hover {
-      color: var(--gray);
     }
     header {
       display: flex;
@@ -38,7 +40,7 @@
       align-items: center;
       padding: 20px 64px;
       background: var(--white);
-      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 12px rgba(30, 41, 59, 0.06);
       border-radius: 0 0 var(--radius) var(--radius);
       position: sticky;
       top: 0;
@@ -53,13 +55,13 @@
       width: 44px;
       height: 44px;
       border-radius: 50%;
-      background: #fff;
-      border: 1.5px solid var(--black);
+      background: linear-gradient(135deg, #2563eb 60%, #22c55e 100%);
+      box-shadow: 0 2px 8px rgba(37,99,235,0.10);
     }
     .logo span {
       font-weight: 900;
       font-size: 24px;
-      color: var(--black);
+      color: var(--primary);
       letter-spacing: 1px;
     }
     nav {
@@ -71,27 +73,46 @@
       margin: 0 18px;
       font-weight: 500;
       font-size: 17px;
-      color: var(--black);
+      color: var(--text-main);
       padding: 6px 10px;
       border-radius: 8px;
       transition: background var(--transition), color var(--transition);
     }
-    nav a:hover, .login-signup-btn:hover {
-      background: var(--black);
+    nav a:hover {
+      background: var(--primary);
       color: var(--white);
     }
-    .login-signup-btn {
+    .login {
       font-weight: 700;
-      background: var(--white);
-      color: var(--black);
+      background: #f4f7fb;
+      color: var(--primary);
       padding: 8px 22px;
       border-radius: 10px;
       margin-left: 12px;
-      border: 1.5px solid var(--black);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      border: 1.5px solid var(--primary);
+      box-shadow: 0 2px 8px rgba(37,99,235,0.07);
       transition: background var(--transition), color var(--transition), border-color var(--transition);
       box-sizing: border-box;
-      cursor: pointer;
+    }
+    .login:hover {
+      background: var(--primary);
+      color: var(--white);
+      border-color: var(--primary-dark);
+    }
+    .signup-btn {
+      margin-left: 10px;
+      background: var(--primary);
+      color: #fff;
+      padding: 8px 22px;
+      border-radius: 10px;
+      font-weight: 700;
+      transition: background 0.2s;
+      border: none;
+      box-shadow: none;
+    }
+    .signup-btn:hover {
+      background: var(--primary-dark);
+      color: #fff;
     }
     main {
       margin-bottom: 40px;
@@ -117,13 +138,13 @@
       font-size: 3.2rem;
       font-weight: 900;
       margin-bottom: 18px;
-      color: var(--black);
+      color: var(--text-main);
       line-height: 1.1;
       letter-spacing: -1px;
     }
     .hero-text p {
       font-size: 1.22rem;
-      color: var(--gray);
+      color: var(--text-muted);
       margin-bottom: 32px;
       font-weight: 500;
     }
@@ -131,11 +152,12 @@
       display: flex;
       gap: 0;
       max-width: 100%;
-      background: var(--white);
+      background: var(--glass);
       border-radius: 12px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      box-shadow: 0 2px 12px rgba(37,99,235,0.07);
       overflow: hidden;
       border: 1.5px solid var(--border);
+      backdrop-filter: blur(6px);
     }
     .email-signup input {
       padding: 16px 20px;
@@ -144,16 +166,16 @@
       flex: 1;
       min-width: 220px;
       background: transparent;
-      color: var(--black);
+      color: var(--text-main);
       outline: none;
     }
     .email-signup input::placeholder {
-      color: #888;
+      color: #b0b8c9;
       font-weight: 500;
     }
     .email-signup button {
       padding: 0 32px;
-      background: var(--black);
+      background: var(--primary);
       border: none;
       color: var(--white);
       font-weight: 700;
@@ -161,11 +183,11 @@
       border-radius: 0 12px 12px 0;
       cursor: pointer;
       transition: background var(--transition);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+      box-shadow: 0 2px 8px rgba(37,99,235,0.10);
       letter-spacing: 0.5px;
     }
     .email-signup button:hover {
-      background: var(--gray);
+      background: var(--primary-dark);
     }
     .hero-image {
       z-index: 1;
@@ -179,164 +201,54 @@
       max-width: 1000px;
       width: 100%;
       border-radius: 18px;
+      /* box-shadow: 0 8px 32px rgb(255, 255, 255); */
       background: var(--bg);
-      /* filter: grayscale(100%); */ /* <-- This line removed */
+      /* border: 1.5px solid var(--border); */
+      /* margin-left: 24px; */
     }
-    .trending {
-      text-align: center;
-      padding: 64px 0 48px 0;
-      background: transparent;
-    }
-    .trending h2 {
-      font-size: 2.2rem;
-      font-weight: 800;
-      margin-bottom: 38px;
-      color: var(--black);
-      letter-spacing: -0.5px;
-    }
-    .stocks {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 36px;
-    }
-    .stock {
-      background: var(--white);
-      border: 1.5px solid var(--black);
-      border-radius: var(--radius);
-      width: 210px;
-      padding: 32px 18px 28px 18px;
-      box-shadow: var(--shadow);
-      transition: transform var(--transition), box-shadow var(--transition), border var(--transition);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-    }
-    .stock:hover {
-      transform: translateY(-8px) scale(1.03);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.13);
-      border: 1.5px solid var(--gray);
-    }
-    .stock img {
-      width: 54px;
-      height: 54px;
-      object-fit: contain;
-      margin-bottom: 10px;
-      /* Company logos are in color */
-      filter: none;
-    }
-    .stock h3 {
-      margin: 18px 0 8px;
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--black);
-    }
-    .stock p {
-      font-size: 20px;
-      font-weight: 700;
-      margin: 4px 0;
-      color: var(--black);
-    }
-    .stock .positive {
-      color: var(--gray);
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-top: 6px;
-    }
-    .features-section {
-      padding: 100px 40px 80px;
-      background: var(--white);
-      text-align: center;
-    }
-    .features-heading {
-      font-size: 2.6rem;
-      font-weight: 800;
-      color: var(--black);
-      margin-bottom: 60px;
-    }
-    .features-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 40px;
-    }
-    .feature-card {
-      background: var(--white);
-      border: 1.5px solid var(--black);
-      border-radius: var(--radius);
-      padding: 36px 28px;
-      width: 290px;
-      box-shadow: var(--shadow);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    .feature-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.18);
-    }
-    .feature-card h3 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--black);
-      margin: 16px 0 12px;
-    }
-    .feature-card p {
-      font-size: 1rem;
-      color: var(--gray);
-      line-height: 1.6;
-    }
-    .icon-circle {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: var(--white);
-      border: 1.5px solid var(--black);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0 auto 18px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-    .icon-circle img {
-      width: 32px;
-      height: 32px;
-      /* Feature images are in color */
-      filter: none;
-    }
-    /* Modal */
+    /* Signup Modal */
     .signup-modal-bg {
       display: none;
       position: fixed;
       z-index: 1000;
       left: 0; top: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.25);
+      background: rgba(30,41,59,0.25);
       justify-content: center;
       align-items: center;
+      animation: fadeIn 0.3s;
     }
     .signup-modal-bg.active {
       display: flex;
     }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
     .signup-modal {
-      background: var(--white);
+      background: var(--glass);
       border-radius: 24px;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+      box-shadow: 0 8px 40px rgba(37,99,235,0.18);
       padding: 40px 32px 32px 32px;
       min-width: 340px;
       max-width: 95vw;
-      border: 1.5px solid var(--black);
+      border: 1.5px solid var(--border);
+      backdrop-filter: blur(12px);
       position: relative;
+      animation: modalPop 0.3s;
+    }
+    @keyframes modalPop {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
     .signup-modal h2 {
       margin-top: 0;
       font-size: 2rem;
       font-weight: 800;
-      color: var(--black);
+      color: var(--primary);
       margin-bottom: 12px;
     }
     .signup-modal p {
-      color: var(--gray);
+      color: var(--text-muted);
       margin-bottom: 24px;
       font-size: 1.08rem;
     }
@@ -349,17 +261,15 @@
       font-size: 1.08rem;
       padding: 14px 16px;
       border-radius: 10px;
-      border: 1.5px solid var(--black);
+      border: 1.5px solid var(--border);
       outline: none;
       transition: border var(--transition);
-      background: var(--white);
-      color: var(--black);
     }
     .signup-modal input:focus {
-      border: 1.5px solid var(--gray);
+      border: 1.5px solid var(--primary);
     }
     .signup-modal button {
-      background: var(--black);
+      background: var(--primary);
       color: var(--white);
       font-weight: 700;
       border: none;
@@ -367,7 +277,7 @@
       transition: background var(--transition);
     }
     .signup-modal button:hover {
-      background: var(--gray);
+      background: var(--primary-dark);
     }
     .signup-modal .close-modal {
       position: absolute;
@@ -376,26 +286,88 @@
       background: none;
       border: none;
       font-size: 1.5rem;
-      color: var(--gray);
+      color: var(--text-muted);
       cursor: pointer;
       transition: color var(--transition);
     }
     .signup-modal .close-modal:hover {
-      color: var(--black);
+      color: var(--primary);
     }
     .signup-success {
-      color: var(--black);
+      color: var(--accent);
       font-weight: 700;
       margin-top: 12px;
       text-align: center;
       font-size: 1.1rem;
+    }
+    /* Trending Stocks Section */
+    .trending {
+      text-align: center;
+      padding: 64px 0 48px 0;
+      background: transparent;
+    }
+    .trending h2 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 38px;
+      color: var(--text-main);
+      letter-spacing: -0.5px;
+    }
+    .stocks {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 36px;
+    }
+    .stock {
+      background: var(--glass);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      width: 210px;
+      padding: 32px 18px 28px 18px;
+      box-shadow: var(--shadow);
+      transition: transform var(--transition), box-shadow var(--transition), border var(--transition);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      backdrop-filter: blur(8px);
+      position: relative;
+    }
+    .stock:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 12px 32px rgba(37,99,235,0.13);
+      border: 1.5px solid var(--primary);
+    }
+    .stock img {
+      width: 54px;
+      height: 54px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+    .stock h3 {
+      margin: 18px 0 8px;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .stock p {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 4px 0;
+      color: var(--primary);
+    }
+    .stock .positive {
+      color: var(--accent);
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: 6px;
     }
     footer {
       text-align: center;
       padding: 32px 0 18px 0;
       background: transparent;
       font-size: 15px;
-      color: var(--gray);
+      color: var(--text-muted);
       letter-spacing: 0.2px;
     }
     @media (max-width: 1100px) {
@@ -407,9 +379,10 @@
       .hero-image img {
         width: 100%;
         height: auto;
-        max-height: 400px;
+        max-height: 400px; /* Ensures it doesn't stretch too far */
         object-fit: cover;
       }
+
       header {
         padding: 16px 24px;
       }
@@ -452,17 +425,20 @@
 <body>
   <header>
     <div class="logo">
-      <!-- <img src="assets/stocklens-logo.png" alt="Stocklens Logo" /> -->
-      <span>StockLens</span>
+      <img src="assets/stocklens-logo.png" alt="Stocklens Logo" />
+      <span>STOCKLENS</span>
     </div>
     <nav>
-      <a href="#" id="nav-app">App</a>
-      <a href="#features-section" id="nav-features">Features</a>
-      <button class="login-signup-btn" id="loginSignupBtn">Login/Signup</button>
+      <a href="#">App</a>
+      <a href="#">Features</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <a href="#" class="login">Log in / Signup</a>
     </nav>
   </header>
+
   <main>
-    <section class="hero" id="home">
+    <section class="hero">
       <div class="hero-text">
         <h1>Investment App For The Modern Consumer</h1>
         <p>Stocklens is your smart gateway to market intelligence, analysis, and growth. Trusted globally.</p>
@@ -472,9 +448,10 @@
         </div>
       </div>
       <div class="hero-image">
-        <img src="assets/trading-bg9.png" alt="Trading graph on monitor" />
+        <img src="assets/trading-bg8.png" alt="Trading graph on monitor" />
       </div>
     </section>
+
     <section class="trending">
       <h2>Trending Stocks</h2>
       <div class="stocks">
@@ -498,65 +475,153 @@
         </div>
       </div>
     </section>
-    <section class="features-section" id="features-section">
-      <h2 class="features-heading">Explore Powerful Features of Stocklens</h2>
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="icon-circle">
-            <img src="assets/icons/search.png" alt="Search Icon" />
-          </div>
-          <h3>Stock Search with Autocomplete</h3>
-          <p>Quickly find stocks using smart autocomplete suggestions that adapt to your search history.</p>
-        </div>
-        <div class="feature-card">
-          <div class="icon-circle">
-            <img src="assets/icons/dashboard.png" alt="Dashboard Icon" />
-          </div>
-          <h3>Stock Details Dashboard</h3>
-          <p>Access a detailed overview of any stock including price trends, volume, news, and insights—all in one place.</p>
-        </div>
-        <div class="feature-card">
-          <div class="icon-circle">
-            <img src="assets/icons/star.png" alt="Favourites Icon" />
-          </div>
-          <h3>Favourites & Watchlist</h3>
-          <p>Keep track of your favorite stocks and get real-time updates through your personalized watchlist.</p>
-        </div>
-        <div class="feature-card">
-          <div class="icon-circle">
-            <img src="assets/icons/ai.png" alt="AI Icon" />
-          </div>
-          <h3>AI Recommendation Page</h3>
-          <p>Receive smart investment suggestions powered by advanced machine learning models and market trends.</p>
-        </div>
-        <div class="feature-card">
-          <div class="icon-circle">
-            <img src="assets/icons/chatbot.png" alt="Chatbot Icon" />
-          </div>
-          <h3>Chatbot Interface (LLM)</h3>
-          <p>Chat with our AI-powered assistant to get insights, portfolio tips, or understand stock terms instantly.</p>
-        </div>
+    <!-- Insert this in your main HTML (e.g., after <section class="trending">) -->
+  <!-- additional.html -->
+<section class="features-section">
+  <h2 class="features-heading">Explore Powerful Features of Stocklens</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="icon-circle">
+        <img src="assets/icons/search.png" alt="Search Icon" />
       </div>
-    </section>
-    <div class="signup-modal-bg" id="signupModalBg">
-      <div class="signup-modal">
-        <button class="close-modal" onclick="closeSignup()">&times;</button>
-        <h2>Login or Sign up for Stocklens</h2>
-        <p>Access your account or create a new one below.</p>
-        <form id="signupForm" onsubmit="return submitSignup(event)">
-          <input type="text" placeholder="Full Name (for signup)" autocomplete="name" />
-          <input type="email" placeholder="Email Address" required autocomplete="email" />
-          <input type="password" placeholder="Password" required minlength="6" autocomplete="current-password" />
-          <button type="submit">Continue</button>
-          <div class="signup-success" id="signupSuccess" style="display:none;">🎉 Success! Welcome to Stocklens.</div>
-        </form>
-      </div>
+      <h3>Stock Search with Autocomplete</h3>
+      <p>Quickly find stocks using smart autocomplete suggestions that adapt to your search history.</p>
     </div>
-  </main>
+    <div class="feature-card">
+      <div class="icon-circle">
+        <img src="assets/icons/dashboard.png" alt="Dashboard Icon" />
+      </div>
+      <h3>Stock Details Dashboard</h3>
+      <p>Access a detailed overview of any stock including price trends, volume, news, and insights—all in one place.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon-circle">
+        <img src="assets/icons/star.png" alt="Favourites Icon" />
+      </div>
+      <h3>Favourites & Watchlist</h3>
+      <p>Keep track of your favorite stocks and get real-time updates through your personalized watchlist.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon-circle">
+        <img src="assets/icons/ai.png" alt="AI Icon" />
+      </div>
+      <h3>AI Recommendation Page</h3>
+      <p>Receive smart investment suggestions powered by advanced machine learning models and market trends.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon-circle">
+        <img src="assets/icons/chatbot.png" alt="Chatbot Icon" />
+      </div>
+      <h3>Chatbot Interface (LLM)</h3>
+      <p>Chat with our AI-powered assistant to get insights, portfolio tips, or understand stock terms instantly.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .features-section {
+    padding: 100px 40px 80px;
+    background: linear-gradient(180deg, var(--white), var(--bg));
+    text-align: center;
+  }
+  .features-heading {
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 60px;
+    animation: fadeInUp 0.6s ease-in-out forwards;
+  }
+  .features-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    animation: fadeInUp 0.8s ease-in-out forwards;
+  }
+  .feature-card {
+    background: var(--glass);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px 28px;
+    width: 290px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    backdrop-filter: blur(12px);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.9s ease-in-out forwards;
+  }
+  .feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 16px 40px rgba(37,99,235,0.18);
+  }
+  .feature-card h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 16px 0 12px;
+  }
+  .feature-card p {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .icon-circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 18px;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+  }
+  .icon-circle img {
+    width: 32px;
+    height: 32px;
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (max-width: 768px) {
+    .features-grid {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>
+
+
+  <!-- Signup Modal -->
+  <div class="signup-modal-bg" id="signupModalBg">
+    <div class="signup-modal">
+      <button class="close-modal" onclick="closeSignup()">&times;</button>
+      <h2>Sign up for Stocklens</h2>
+      <p>Get started with the most modern investment platform. Create your free account below.</p>
+      <form id="signupForm" onsubmit="return submitSignup(event)">
+        <input type="text" placeholder="Full Name" required />
+        <input type="email" placeholder="Email Address" required />
+        <input type="password" placeholder="Password" required minlength="6" />
+        <button type="submit">Create Account</button>
+        <div class="signup-success" id="signupSuccess" style="display:none;">🎉 Signup successful! Welcome to Stocklens.</div>
+      </form>
+    </div>
+  </div>
+
   <footer>
     <p>&copy; 2025 Stocklens. All rights reserved.</p>
   </footer>
   <script>
+    document.querySelector('.login').addEventListener('click', function (e) {
+    e.preventDefault(); // Prevent default anchor behavior
+
+    window.location.href = '/login';
+    
+    }
+);
+
     function openSignup() {
       document.getElementById('signupModalBg').classList.add('active');
       document.getElementById('signupSuccess').style.display = 'none';
@@ -565,10 +630,12 @@
     function closeSignup() {
       document.getElementById('signupModalBg').classList.remove('active');
     }
-    // Open modal on Login/Signup button click
-    document.getElementById('loginSignupBtn').addEventListener('click', function(e) {
-      e.preventDefault();
-      openSignup();
+    // Open modal on "Sign up" button click
+    document.querySelectorAll('.signup-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        openSignup();
+      });
     });
     // Modal close on background click
     document.getElementById('signupModalBg').addEventListener('click', function(e) {
@@ -581,15 +648,8 @@
       setTimeout(closeSignup, 1800);
       return false;
     }
-    // Navigation behavior
-    document.getElementById('nav-app').addEventListener('click', function(e) {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-    document.getElementById('nav-features').addEventListener('click', function(e) {
-      e.preventDefault();
-      document.getElementById('features-section').scrollIntoView({ behavior: 'smooth' });
-    });
   </script>
 </body>
 </html>
+
+

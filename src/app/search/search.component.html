@@ -103,9 +103,13 @@
               <div class="action-buttons">
                 <button class="action-btn buy-btn" (click)="open(content1)">Buy</button>
                 <button *ngIf="has_portf==1" class="action-btn sell-btn" (click)="open(content2)">Sell</button>
-                <button class="action-btn watchlist-btn" (click)="bookmarked ? delete_bookmark(displayTicker) : add_data(displayTicker, comp_d.name)">
-                  {{bookmarked ? 'Remove from Watchlist' : 'Add to Watchlist'}}
-                </button>
+                <button  *ngIf="bookmarked==0" class="action-btn watchlist-btn" (click)="add_data(displayTicker, comp_d.name)">
+                  Add to Watchlist
+               </button>
+               
+               <button  *ngIf="bookmarked==1" class="action-btn watchlist-btn" (click)="delete_bookmark(displayTicker) ">
+                 Remove from Watchlist
+               </button>
               </div>
             </div>
             
